@@ -1,0 +1,31 @@
+.clearfix {
+  @include clearfix;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible-desktop { display: block; }
+.visible-mobile  { display: none; }
+
+@media (max-width: 480px) {
+  .visible-desktop { display: none; }
+  .visible-mobile  { display: block; }
+}

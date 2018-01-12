@@ -1,0 +1,32 @@
+#modal_tariffs.modal-default class=('hidden' if current_user.tariff_id?)
+  .modal-content = form_tag nil, id: :tariffs_form
+    h3 Choose your tariff
+    p Description, consectetur adipisicing elit. Distinctio ratione, reprehenderit aliquid nostrum vel in.
+
+    .tariffs
+      - tariffs.each do |tariff|
+        = radio_button_tag :tariff_id, tariff.id
+        = label_tag "tariff_id_#{tariff.id}", class: 'clearfix' do
+          span.name = tariff.name
+          span.price
+            - if tariff.price_per_month == 0
+              = tariff.description
+            - else
+              | #{number_to_currency tariff.price_per_month}/mo<br>(#{tariff.duration} mo)
+
+- content_for :javascript
+  coffee:
+    $ ->
+      $modalTariffs = $('#modal_tariffs')
+      
+      $modalTariffs.on 'change', 'input', ->
+        $.post '/ajax/setTariff', $('#tariffs_form').serialize()
+          .done -> window.location.reload()
+          .fail -> alert 'Something went wrong...'
+
+      $('.js-change-tariff').on 'click', (e) ->
+        e.preventDefault()
+        $modalTariffs.removeClass('hidden')
+
+      $modalTariffs.on 'click', (e) ->
+        $modalTariffs.toggleClass 'hidden', $(e.target).hasClass('modal-default')

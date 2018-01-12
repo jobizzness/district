@@ -1,0 +1,51 @@
+= form_for @team_member, url: [:admins, @team_member], multipart: true do |f|
+  - if @team_member.errors.any?
+    .alert.alert-danger.fade.in
+      span aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" &times;
+      h4 = "#{pluralize(@admin_project.errors.count, "error")} prohibited this admin_project from being saved:"
+      ul.list-unstyled
+        - @team_member.errors.full_messages.each do |message|
+          li = message
+
+  .panel.panel-default
+    .panel-heading: h3.panel-title About team member
+
+    .panel-body: fieldset
+      .form-group
+        = f.label :name, 'Full name'
+        = f.text_field :name, class: 'form-control'
+
+      .form-group
+        = f.label :post
+        = f.text_field :post, class: 'form-control'
+
+      .form-group
+        - if @team_member.photo.present?
+          = image_tag @team_member.photo(:medium), height: 60, class: 'pull-left', style: 'margin-right: 10px'
+
+        div style="overflow: hidden"
+          = f.label :photo
+          = f.file_field :photo, class: 'form-control input-sm'
+
+      .form-group
+        = f.label :about
+        = f.text_area :about, class: 'form-control', rows: 5
+
+  .panel.panel-default
+    .panel-heading: h3.panel-title Member social links
+
+    .panel-body: fieldset
+      .form-group
+        = f.text_field :link_fb, class: 'form-control input-sm', placeholder: 'Facebook'
+
+      .form-group
+        = f.text_field :link_li, class: 'form-control input-sm', placeholder: 'LinkedIn'
+
+      .form-group
+        = f.text_field :link_tw, class: 'form-control input-sm', placeholder: 'Twitter'
+
+      .form-group
+        = f.text_field :link_in, class: 'form-control input-sm', placeholder: 'Instagram'
+
+  .text-center = f.submit 'Submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }
+  br

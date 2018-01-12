@@ -1,0 +1,7 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= form_for @project, as: :form, url: managers_project_path, html: { id: :form, novalidate: true } do |f| %>
+      <%= f.submit 'Approve project', class: 'btn btn-primary btn-lg btn-block', data: { disable_with: 'Please wait...' } %>
+    <% end %>
+  </div>
+</div>

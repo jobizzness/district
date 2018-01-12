@@ -1,0 +1,92 @@
+// my functions 
+.animation (...) {
+  -webkit-animation: @arguments;
+  animation: @arguments;
+}
+
+.animation1() {
+  0% {background-position: 0 0;}
+  100% {background-position: 28px 0px;}
+}
+
+@-webkit-keyframes animation1 {.animation1;}
+@-o-keyframes animation1 {.animation1;}
+@keyframes animation1 {.animation1;}
+
+
+.animation2() {
+  0%{background-position: 0px 0;}
+  100% {background-position: -28px 0px;}
+}
+
+@-webkit-keyframes animation2 {.animation2;}
+@-o-keyframes animation2 {.animation2;}
+@keyframes animation2 {.animation2;}
+
+.animation3() {
+  0% {margin-top: -54px;}
+  50%{margin-top: -35px;}
+  100%{margin-top: -54px;}
+}
+
+@-webkit-keyframes animation3 {.animation3;}
+@-o-keyframes animation3 {.animation3;}
+@keyframes animation3 {.animation3;}
+
+.spin() {
+  0% {.transform(rotate(0deg))}
+  100% {.transform(rotate(360deg))}
+}
+
+@-webkit-keyframes spin {.spin;}
+@-o-keyframes spin {.spin;}
+@keyframes spin {.spin;}
+
+.spin_back() {
+  0% {.transform(rotate(0deg))}
+  100% {.transform(rotate(-360deg))}
+}
+
+@-webkit-keyframes spin_back {.spin_back;}
+@-o-keyframes spin_back {.spin_back;}
+@keyframes spin_back {.spin_back;}
+
+.animation4() {
+  0%{background-position: 0px 0;}
+  100% {background-position: 0px 64px;}
+}
+
+@-webkit-keyframes animation4 {.animation4;}
+@-o-keyframes animation4 {.animation4;}
+@keyframes animation4 {.animation4;}
+
+
+.animation5() {
+  0%{margin-top: 0px }
+  50% {margin-top: 10px;}
+  100% {margin-top: 0px; }
+}
+
+@-webkit-keyframes animation5 {.animation5;}
+@-o-keyframes animation5 {.animation5;}
+@keyframes animation5 {.animation5;}
+
+.animation6() {
+  0% {.transform(rotate(0deg))}
+  50% {.transform(rotate(-35deg))}
+  100% {.transform(rotate(0deg))}
+}
+
+@-webkit-keyframes animation6 {.animation6;}
+@-o-keyframes animation6 {.animation6;}
+@keyframes animation6 {.animation6;}
+
+.animation7() {
+  0%{margin-top: 0px }
+  50% {margin-top: -6px;}
+  100% {margin-top: 0px; }
+}
+
+@-webkit-keyframes animation7 {.animation7;}
+@-o-keyframes animation7 {.animation7;}
+@keyframes animation7 {.animation7;}

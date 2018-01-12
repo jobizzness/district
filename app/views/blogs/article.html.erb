@@ -1,0 +1,171 @@
+<%= javascript_include_tag 'article', 'jquery.event.move', 'jquery.event.swipe' %>
+
+<div class="c_body blog" itemscope itemtype="http://schema.org/Article">
+  <%= render '/shared/breadcrumbs' %>
+
+  <% if @article.present? %>
+    <!-- TITLE AND SOCIALS -->
+    <article class='full'>
+      <div class="wrap">
+        <h1 class="title" itemprop="name"><%= @article.title %></h1>
+        <div class="row">
+          <time><%= @article.date.strftime('%m %d, %Y AT %I:%M %p') %></time>
+          <div class="share">
+            <!-- FACEBOOK -->
+            <div class="btn-soc">
+              <a href="#" class="fb repost-fb" data-description="<%= strip_tags(@article.text_short) %>" data-id="<%= @article.id %>" data-text="" data-pic="<%= URI.join(request.url, @article.pic(:social)) %>"></a>
+              <span><ins></ins>
+              <div id="<%= @article.id %>-fb"><%= @article.fb_reposts %></div>
+              </span>
+            </div>
+
+            <!-- TWITTER -->
+            <div class="btn-soc">
+              <a href='https://twitter.com/intent/tweet' class="tw repost-tw" data-url="<%= root_url %>" data-id="<%= @article.id %>" data-text="<%= @article.title %>"></a>
+              <span><ins></ins>
+                <div id="<%= @article.id %>-tw"><%= @article.tw_reposts %></div>
+              </span>
+            </div>
+
+            <!-- GOOGLE PLUS -->
+            <div class="btn-soc">
+              <a href="https://plus.google.com/share?url=<%= root_url %>" data-id="<%= @article.id %>" class="gp repost-gp"></a>
+              <span><ins></ins>
+                <div id="<%= @article.id %>-gp"><%= @article.gp_reposts %></div>
+              </span>
+            </div>
+
+            <!-- LINKEDIN -->
+            <div class="btn-soc">
+              <a href="http://www.linkedin.com/shareArticle?mini=true&url=<%= root_url %>&title=<%= @article.title %>&summary=<%= strip_tags(@article.text_short)%>&source=District2" target="_blank" class="repost-in in" data-id="<%= @article.id %>"></a>
+              <span><ins></ins> <div id='<%= @article.id %>-in'><%= @article.in_reposts %></div> </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- GALLERY -->
+      <% if @article.pics.present? %>
+        <div class="gallery">
+          <div class="line">
+            <div class="holder">
+              <% @article.pics.each_with_index do |pic, index| %>
+                <div class="slide" id="slide-<%= index %>" data-id="<%= index %>">
+                  <span class="pic">
+                    <%= image_tag pic.path(:big), alt: pic.text %>
+                  </span>
+
+                  <% if pic.text.present? %>
+                    <div class="txt"><%= pic.text %></div>
+                  <% end %>
+                </div>
+              <% end %>  
+            </div>
+            <div class="overlay">
+              <div class="rgt dark"></div>
+              <div class="lft dark"></div>
+              <% if @article.pics.count > 1 %>
+                <div class="controls">
+                  <a class="prev"></a>
+                  <a class="next"></a>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- THUMBNAILS -->
+          <% if @article.pics.count > 1 %>
+            <div class="wrap">
+              <div class="row thumbs">
+                <% @article.pics.each_with_index do |pic, index| %>
+                  <a href="#" class="athumbs <%= index == 0 ? 'active' : '' %>" data-id="<%= index %>">
+                    <%= image_tag pic.path(:vsm), alt: pic.text %>
+                  </a>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <!-- END OF GALLERY -->
+
+      <div class="wrap">
+        <!-- MAIN TEXT AND TAGS -->
+        <div class="gen-txt l-lft" <%= "style=width:100%;" unless @related_companies.present? %>>
+          <!--<p class='sub_header'><strong>Canadians are known for their equanimity, but on this cool Saturday night, the air outside Toronto’s Princess of Wales Theatre carries a tinge of hysteria. Hundreds of fans, mostly women, line the road. They’re hoping to catch a glimpse of Matthew McConaughey, the star of Jean-Marc Vallée’s film Dallas Buyers Club, which is about to have its world premiere at the Toronto International Film Festival. </strong></p>
+          -->
+          <div class='first'>
+            <%= @article.text.html_safe %>
+          </div>
+          <% if @article.tags.present? %>
+            <div class="row tags">
+              <% @article.tags.each do |tag| %>
+                <a href="<%= blog_tag_path(u tag.name.downcase) %>"><%= tag.name %></a>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- RELATED COMPANIES -->
+        <% if @related_companies.present? %>
+          <div class="related l-rgt">
+            <h3>related companies</h3>
+            <div class="cards-cont">
+              <!-- LIST -->
+              <% @related_companies.each do |company| %>
+                <%= link_to root_url(subdomain: company.address), class: 'card' do %>
+                  <p class="info">
+                    <%= image_tag company.avatar(:small) %>
+                    <span class="title"><%= company.name %></span>
+                    <span class="location"><%= company.address %></span>
+                    <span class="txt"><%= company.brief %></span>
+                  </p>
+
+                  <span class="row cats">
+                    <% company.categories.each do |c| %>
+                      <%= image_tag 'cats/t' + c.pic.to_s.split('/')[-1] if c.pic.present? %>
+                    <% end %>
+                  </span>
+                <% end %>
+              <% end %>
+              <!-- END OF LIST -->
+            </div>
+          </div>
+        <% end %>
+        <!-- END OF RELATED COMPANIES -->
+
+      </div>
+    </article>
+  <% else %>
+    <div class="no-data">NO SUCH ARTICLE</div>
+  <% end %>
+    
+  <!-- RELATED ARTICLES -->
+  <% if @related_articles %>
+    <div class="wrap">
+      <section class="row news see_also">
+        <h2 class='title-lined'><span>See also</span></h2>
+        <div class="news-cont">
+          <% @related_articles.each do |article| %>
+            <article>
+
+              <%= link_to image_tag(article.pic(:small), alt: article.title, title: article.title),
+                            blog_section_article_path(article.article_cat, article.anchor),
+                            class: 'pic' %>
+                <time>
+                  <%= article.date.strftime('%m %d, %Y AT %I:%M %p') %>
+                </time>
+                <h4 class="title">
+                  <%= link_to article.title, blog_section_article_path(article.article_cat, article.anchor) %>
+                </h4>
+                <div class="txt">
+                  <%= article.text_short.html_safe %>
+                </div>
+            </article>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  <% end %>
+</div>

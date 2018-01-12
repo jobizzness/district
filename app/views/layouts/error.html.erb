@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>404</title>
+    <meta name="description" content="">
+
+    <%= stylesheet_link_tag 'common/normalize' %>
+    <%= javascript_include_tag 'vendor/modernizr.min', 'vendor/retina' %>
+
+    <style>
+      html {height: 100%; overflow: -moz-scrollbars-vertical; overflow-y: scroll;}
+      body {min-height: 100%;  height: 100%; text-transform: uppercase; position: relative;  background: #000; font-family: "Open Sans", "Helvetica Neue", Helvetica, Tahoma, "Arial Unicode MS", sans-serif;  overflow: hidden; background-image: url("<%= asset_path('404.jpg') %>"); -webkit-background-size: 100%;background-position: center center;
+      background-size: cover;}
+      .page-head {width: 100%; height: 76px; position: fixed; top: 0; left: 0; background-color: #000; z-index: 5; text-align: center;}
+      .page-head .logo {display: inline-block; margin-top: 11px; margin-right: 35px; width: 107px; height: 52px; }
+      .page-head .logo img {width: 107px; height: 52px; }
+      .txt {position: absolute; top: 50%; left: 50%; width: 600px; margin-left: -300px; margin-top: -100px;}
+      .txt h1 {font-size: 60px; font-style: italic; margin: 10px;}
+      .txt h2 { font-size: 35px; font-weight: normal; margin: 0;}
+      .txt span { display: inline-block; background-color: #fbfc59;  padding: 5px 10px; }
+    </style>
+  </head>
+
+  <body class="error-page">
+    <%= yield %>
+  </body>
+</html>

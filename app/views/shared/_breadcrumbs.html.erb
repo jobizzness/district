@@ -1,0 +1,16 @@
+<!-- stripe -->
+<div class="stripe-dotted">
+  <% unless user_signed_in? %>
+    <div class="bot">
+      <div class="wrap">
+        <div class="breadcrumbs">
+          <!-- TODO: add breadcrumbs -->
+          <!-- <?php echo set_breadcrumb(); ?> -->
+
+          <%= link_to 'Hey, you! Get listed in our directory <i>right now!</i>'.html_safe, join_us_path, class: 'l-rgt get_listed' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<!-- end of stripe -->

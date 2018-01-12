@@ -1,0 +1,187 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          app-district
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: app-district
+# Description:       app-district
+# chkconfig: - 85 14
+### END INIT INFO
+
+
+### Environment variables
+RAILS_ENV="production"
+
+app_user="district"
+app_root="/home/$app_user/www/"
+pid_path="$app_root/tmp/pids"
+socket_path="$app_root/tmp/sockets"
+puma_pid_path="$pid_path/puma.pid"
+wrapper_path="/home/$app_user/.rvm/wrappers/$app_user"
+
+if [ "$USER" != "$app_user" ]; then
+  eval su - "$app_user" -c $(echo \")$0 "$@"$(echo \"); exit;
+fi
+
+if ! cd "$app_root" ; then
+ echo "Failed to cd into $app_root, exiting!";  exit 1
+fi
+
+
+### Init Script functions
+
+check_pids(){
+  if ! mkdir -p "$pid_path"; then
+    echo "Could not create the path $pid_path needed to store the pids."
+    exit 1
+  fi
+  if [ -f "$puma_pid_path" ]; then
+    ppid=$(cat "$puma_pid_path")
+  else
+    ppid=0
+  fi
+}
+
+wait_for_pids(){
+  i=0;
+  while [ ! -f $puma_pid_path ]; do
+    sleep 0.1;
+    i=$((i+1))
+    if [ $((i%10)) = 0 ]; then
+      echo -n "."
+    elif [ $((i)) = 301 ]; then
+      echo "Waited 30s for the processes to write their pids, something probably went wrong."
+      exit 1;
+    fi
+  done
+  echo
+}
+
+check_pids
+
+check_status(){
+  check_pids
+  if [ $ppid -ne 0 ]; then
+    kill -0 "$ppid" 2>/dev/null
+    puma_status="$?"
+  else
+    puma_status="-1"
+  fi
+  if [ $puma_status = 0 ]; then
+    app_status=0
+  else
+    # code 3 means 'program is not running'
+    app_status=3
+  fi
+}
+
+check_stale_pids(){
+  check_status
+  if [ "$ppid" != "0" -a "$puma_status" != "0" ]; then
+    echo "Removing stale Puma web server pid. This is most likely caused by the web server crashing the last time it ran."
+    if ! rm "$puma_pid_path"; then
+      echo "Unable to remove stale pid, exiting."
+      exit 1
+    fi
+  fi
+}
+
+exit_if_not_running(){
+  check_stale_pids
+  if [ "$puma_status" != "0" ]; then
+    echo "App is not running."
+    exit
+  fi
+}
+
+start_app() {
+  check_stale_pids
+
+  if [ "$puma_status" = "0" ]; then
+    echo "The Puma web server already running with pid $ppid, not restarting."
+  else
+    echo -n "Starting Puma"
+    rm -f "$socket_path"/puma.socket 2>/dev/null
+    RAILS_ENV=$RAILS_ENV $wrapper_path/bundle exec pumactl -F config/puma.rb start
+  fi
+
+  wait_for_pids
+  print_status
+}
+
+stop_app() {
+  exit_if_not_running
+
+  if [ "$puma_status" = "0" ]; then
+     echo -n "Shutting down Puma"
+     RAILS_ENV=$RAILS_ENV $wrapper_path/bundle exec pumactl -F config/puma.rb stop
+  fi
+
+  while [ "$puma_status" = "0" ]; do
+    sleep 1
+    check_status
+    printf "."
+    if [ "$puma_status" != "0" ]; then
+      printf "\n"
+      break
+    fi
+  done
+
+  sleep 1
+  rm "$puma_pid_path" 2>/dev/null
+
+  print_status
+}
+
+print_status() {
+  check_status
+  if [ "$puma_status" != "0" ]; then
+    echo "App is not running."
+    return
+  fi
+  if [ "$puma_status" = "0" ]; then
+    printf "App is \033[32mup and running\033[0m.\n"
+  fi
+}
+
+restart_app(){
+  exit_if_not_running
+  if [ "$ppid" = "0" ];then
+    echo "The App Puma Web server is not running thus it can't be restarted."
+    exit 1
+  fi
+  printf "Phased restart of App Puma... "
+  RAILS_ENV=$RAILS_ENV $wrapper_path/bundle exec pumactl -F config/puma.rb phased-restart
+  echo "Done."
+
+  wait_for_pids
+  print_status
+}
+
+### Finally the input handling.
+
+case "$1" in
+  start)
+        start_app
+        ;;
+  stop)
+        stop_app
+        ;;
+  restart)
+        restart_app
+        ;;
+  status)
+        print_status
+        exit $app_status
+        ;;
+  *)
+        echo "Usage: service app_name {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+
+exit
+

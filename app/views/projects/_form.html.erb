@@ -1,0 +1,312 @@
+<div class="wrap clearfix">
+  <% form_url = (action == :edit ? project_path(@project) : projects_path) %>
+  <%= form_for @project, url: form_url, multipart: true, html: { id: :form, novalidate: true } do |step_form| %>
+    <div class="new-project">
+      <h1>Project <%= action == :edit ? 'Edit' : 'Post' %></h1>
+
+      <% if @empty_contacts.present? %>
+        <h2 class="title-lined"><span>CONTACT INFORMATION</span></h2>
+        <p class="cent">Looks like you forgot to fill in some of your contact information, please fill the missing information, so it will help us to process your project: <br> <b><%= @empty_contacts.join(', ') %></b></p>
+
+        <section>
+          <% @empty_contacts.each do |name| %>
+            <div class="form-group">
+              <%= label_tag "company[#{name}]", name + " *", class: 'label' %>
+              <% if name == 'country' %>
+                <%= select_tag "company[#{name}]", options_for_select(getCountries.pluck(:country, :code)), required: true %>
+              <% else %>
+                <%= text_field_tag "company[#{name}]", nil, required: true %>
+              <% end %>
+            </div>
+          <% end %>
+        </section>
+      <% end %>
+
+      <%= step_form.fields_for :step1 do |f| %>
+        <h2 class="title-lined"><span>Step 1: About your business</span></h2>
+
+        <section class="step-1">
+          <label class="label">Entire overall budget for this project:</label>
+          <div>
+            <%= f.radio_button :overall_of_budget, 1, checked: f.object.overall_of_budget.blank? %>
+            <%= f.label :overall_of_budget_1, '$2k - $4k' %>
+          </div>
+
+          <div>
+            <%= f.radio_button :overall_of_budget, 2 %>
+            <%= f.label :overall_of_budget_2, '$4k - $8k' %>
+          </div>
+
+          <div>
+            <%= f.radio_button :overall_of_budget, 3 %>
+            <%= f.label :overall_of_budget_3, '$8k - $15k' %>
+          </div>
+
+          <div>
+            <%= f.radio_button :overall_of_budget, 4 %>
+            <%= f.label :overall_of_budget_4, '$15k +' %>
+          </div>
+          </br>
+          <label class="label">Business Type:</label>
+
+          <div>          
+            <%= f.radio_button :business_type, 1, checked: true %>
+            <%= f.label :business_type_1, 'Individual' %>
+          </div>
+
+          <div>          
+            <%= f.radio_button :business_type, 2 %>
+            <%= f.label :business_type_2, 'Small - Mid Size' %>
+          </div>
+
+          <div>          
+            <%= f.radio_button :business_type, 3 %>
+            <%= f.label :business_type_3, 'Corporate' %>
+          </div>
+        </section>
+      <% end %>
+
+      <%= step_form.fields_for :step2 do |f| %>
+        <h2 class="title-lined"><span>Step 2: Desired Services</span></h2>
+
+        <section class="step-2">        
+          <div class="form-group form-group-textarea">
+            <%= f.label :type_of_product, class: 'label' do %>
+              Style of Product<br>
+              <small>(Please provide concepts/idea where possible)</small>
+            <% end %>
+            <%= f.text_area :type_of_product, cols: 30, rows: 5, maxlength: 250 %>
+            <small>Enter in a short description of your product.</small>
+          </div>
+
+          <h3>
+            Inspiration
+            <small>Upload files that inspired the product. Does not have to show exact product.</small>
+          </h3>
+
+          <% if action == :edit %>
+            <div class="attachments">
+              <%= step_form.fields_for :attachments do |attach, index| %>
+                <div class="attachment">
+                  <% if attach.object.attachment.present? %>
+                    <i class="img" style="background-image: url(<%= attach.object.attachment(:medium) %>);"></i>
+                    
+                    <%= attach.check_box :_destroy, class: 'hidden' %>
+                    <%= attach.label :_destroy, class: 'w_check' do %>
+                      <i></i> Delete
+                    <% end %>
+
+                    <span class="or">or change</span>
+                  <% end %>
+
+                  <div class="form-group">
+                    <%= attach.file_field :attachment, class: 'field-file' %>
+                    <small>Max file size 3Mb</small>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <% (1..3).each do %>
+              <div class="form-group">
+                <%= step_form.fields_for :attachments do |attach| %>
+                  <%= attach.file_field :attachment, class: 'field-file' %>
+                <% end %>
+                <small>Max file size 3Mb</small>
+              </div>
+            <% end %>
+          <% end %>
+
+          <div class="form-group form-group-textarea">
+            <%= f.label :fabrics, 'Fabrics', class: 'label' %>
+            <%= f.text_area :fabrics, cols: 30, rows: 8, placeholder: 'Be as specific as possible with fabric content.' %>
+          </div>
+
+          <div class="form-group form-group-textarea">
+            <%= f.label :artwork, 'Artwork', class: 'label' %>
+            <%= f.text_area :artwork, cols: 30, rows: 8, placeholder: 'Small embroidery on chest, Screenprinting on all t-shirts, all-over custom print. (all are additional costs)' %>
+          </div>
+
+          <% has_samples = (f.object.samples_number.present? || f.object.samples_date.present?) %>
+
+          <div class="form-checkbox">
+            <%= check_box_tag :samples, nil, has_samples %>
+            <label for="samples">Samples</label>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :samples_number, 'Number of Samples/Styles', class: 'label' %>
+            <%= f.text_field :samples_number, class: 'field-sample', disabled: !has_samples %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :samples_date, class: 'label' do %>
+              Sample Desired Completion Date<br>
+              <small>(Give 10-25 days from design approval)</small>
+            <% end %>
+            <%= f.text_field :samples_date, class: 'field-sample datepicker', disabled: !has_samples %>
+          </div>
+
+          <% if action == :edit %>  
+            <% has_production = (f.object.how_many_styles.present? || f.object.units_per_style.present?) %>
+          <% else %>
+            <% has_production = true %>
+          <% end %>
+
+          <div class="form-checkbox">
+            <%= check_box_tag :production, nil, has_production, disabled: !has_samples %>
+            <label for="production">Production</label>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :how_many_styles, 'Number of Styles for Production <span>*</span>'.html_safe, class: 'label' %>
+            <%= f.text_field :how_many_styles, class: 'field-production', required: true, disabled: !has_production %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :units_per_style, 'Number of Units per Style <span>*</span>'.html_safe, class: 'label' %>
+            <%= f.text_field :units_per_style, class: 'field-production', required: true, disabled: !has_production %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :number_of_color_ways, 'Number of Color-ways Per Style', class: 'label' %>
+            <%= f.text_field :number_of_color_ways %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :size_range, 'Size Range', class: 'label' %>
+            <%= f.text_field :size_range, placeholder: 'For Example: womens-S,M,L... Juniors 0-14... Mens XS-XXL' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :desired_trims, 'Desired Trims', class: 'label' %>
+            <%= f.text_field :desired_trims, placeholder: 'Rhinestones, studs, appliqués, etc' %>
+          </div>
+
+          <div class="form-checkboxs">
+            <label class="label">Production</label>
+
+            <div class="form-checkbox">
+              <%= f.radio_button :made_production, 'us', checked: true %>
+              <%= f.label :made_production_us, 'Made in the US (higher production costs)' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.radio_button :made_production, 'abroad' %>
+              <%= f.label :made_production_abroad, 'Made abroad (most cost effective)' %>
+            </div>
+          </div>
+
+          <div class="form-checkbox">
+            <%= check_box_tag :distribution, nil, f.object.distribution.present? %>
+            <label for="distribution"><b>DISTRIBUTION</b></label>
+          </div>
+
+          <div class="form-group">
+            <%= f.text_field :distribution, placeholder: 'Do you have distribution channels in place? Please Explain.', id: :distribution_field, disabled: f.object.distribution.blank? %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :completion_date, 'Desired completion date (give 30-60 days) <span>*</span>'.html_safe %>
+            <%= f.text_field :completion_date, class: 'field-production datepicker', required: true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :made_in_country, 'Made in specific country? (If so, where?) <span>*</span>'.html_safe %>
+            <%= f.text_field :made_in_country, class: 'field-production', required: true %>
+          </div>
+        </section>
+      <% end %>
+        
+      <%= step_form.fields_for :step3 do |f| %>
+        <h2 class="title-lined"><span>Step 3: What you need</span></h2>
+
+        <section class="step-3">
+          <div class="form-checkboxs">
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_branding, checked: true, class: 'one-cb' %>
+              <%= f.label :check_type_branding, 'BRANDING (LOGO, BRAND IDENTITY, DEMOGRAPHIC, GRAPHICS)' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_creative_direction, class: 'one-cb' %>
+              <%= f.label :check_type_creative_direction, 'CREATIVE DIRECTION (FABRICS, THEME, MERCHANDISING)' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_design, class: 'one-cb' %>
+              <%= f.label :check_type_design, 'DESIGN (SILHOUETTES, HAND-SKETCHING, GRAPHICS)' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_technical_design, class: 'one-cb' %>
+              <%= f.label :check_type_technical_design, 'TECHNICAL DESIGN (ILLUSTRATOR, CAD FILES, TECH PACKS, CONSTRUCTION DETAILS)' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_sampling, class: 'one-cb' %>
+              <%= f.label :check_type_sampling, 'SAMPLING (PATTERNS, CUTTING, SEND OUTS, SEWING)' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_production, class: 'one-cb' %>
+              <%= f.label :check_type_production, 'PRODUCTION (WORKFLOW MANAGEMENT, GRADING, FITTINGS)' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_website, class: 'one-cb' %>
+              <%= f.label :check_type_website, 'Website' %>
+            </div>
+
+            <div class="form-checkbox">
+              <%= f.check_box :check_type_social, class: 'one-cb' %>
+              <%= f.label :check_type_social, 'Social Media Marketing' %>
+            </div>
+          </div>
+
+          <div class="form-group form-group-textarea">
+            <%= f.label :additional_info, class: 'label' do %>
+              Additional Info
+              <small>(Where you are in the process, your experience, etc.)</small>
+            <% end %>
+            <%= f.text_area :additional_info, cols: 30, rows: 7 %>
+          </div>
+        </section>
+      <% end %>
+
+
+      <% if @company[:city].present? || @company[:state].present? || @company[:zip].present? %>
+        <%= step_form.fields_for :step4 do |f| %>
+          <h2 class="title-lined"><span>Step 4: Contact and shipping information</span></h2>
+
+          <section class="step-4">
+            <% if @company[:city].present? %>
+              <div class="form-group">
+                <%= f.label :contact_city, 'City', class: 'label' %>
+                <%= f.text_field :contact_city, value: @company[:city], required: true %>
+              </div>
+            <% end %>
+
+            <% if @company[:state].present? %>
+              <div class="form-group">
+                <%= f.label :contact_state, 'State', class: 'label' %>
+                <%= f.text_field :contact_state, value: @company[:state], required: true %>
+              </div>
+            <% end %>
+
+            <% if @company[:zip].present? %>
+              <div class="form-group">
+                <%= f.label :contact_zip, 'Zip', class: 'label' %>
+                <%= f.text_field :contact_zip, value: @company[:zip], required: true %>
+              </div>
+            <% end %>
+          </section>
+        <% end %>
+      <% end %>
+
+      <div class="cent">
+        <%= step_form.submit 'Submit', class: 'btn-yellow big', data: { disable_with: 'Please wait...' } %>
+      </div>
+    </div>
+  <% end %>
+</div>

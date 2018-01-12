@@ -1,0 +1,10 @@
+= render 'navbar'
+= render 'header'
+= render 'login' unless user_signed_in?
+= render 'post'
+= render 'bid'
+= render 'search'
+= render 'about'
+= link_to 'Get listed in our directory!', join_us_path, class: 'main-get-listed' unless current_user or current_manager 
+= render '/shared/mailchimp'
+= render 'footer'

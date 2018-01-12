@@ -1,0 +1,58 @@
+<!-- login -->
+<div class="popup login" style='display: none;'>
+  <div class="pad">
+    <form id="login">
+      <div class="inputs">
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="text" id="email" name="email">
+          <div class="ierror" id="email-error"></div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password">
+          <div class="ierror" id="password-error"></div>
+        </div>
+        <div class="row remember">
+          <input type="checkbox" checked="true" value="1" name="remember" id="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <div style="margin-bottom:15px;">
+          <div class="ierror" id="global-error"></div>
+        </div>
+        <div class="buts">
+          <input type="hidden" id="fid" name="fid" value="">
+          <input type="hidden" id="lid" name="lid" value="">
+
+          <button class="btn-yellow signin" type="submit">Sign in</button>
+          <a class="btn-black cancel">Cancel</a>
+        </div>
+        <div class="row">
+          <a href="" class="to_restore">Forgot a password?</a>
+        </div>
+        <hr>
+        <h3 style='text-align: left;'>Sign in with</h3>
+        <div class="social_login">
+          <div class="buts">
+            <a href="" class="btn-social" id="fb"><%= image_tag 'social/fb.jpg' %>Facebook</a>
+            <a href="" class="btn-social" id="li"><%= image_tag 'social/in.jpg' %>LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="reset-message" style="display: none;">
+        <p>
+          Hi :)
+          <br>
+          To make sure you have a properly secured account it is time to change your password. We just sent you an email with further instructions.
+          <br>
+          If you don't receive the link within 5 minutes, check your spam.
+          <br>
+          Have a good day!
+        </p>
+        <a class="btn-black cancel">Close</a>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- //login -->

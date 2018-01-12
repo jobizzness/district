@@ -1,0 +1,27 @@
+<% if @companies.present? %>
+  <% @companies.each do |c| %>
+    <%= link_to root_url(subdomain: c.address), class: 'company hint' do %>
+      <span class="pic">
+        <% if c.avatar.present? %>
+          <%= image_tag c.avatar(:small), style: 'width:34px; height:34px;' %>
+        <% else %>
+          <%= image_tag 'dummy.png', style: 'width:34px; height:34px;' %>
+        <% end %>
+      </span>
+      <span class="name hint-name">
+        <%= highlight_phrase(c.name, params[:text]) %>
+      </span>
+
+      <% if c.cats %>
+        <% c.cats.split(',').each do |cat| %>
+          <span class="cats"><%= image_tag 'cats/hint/' + cat.downcase.sub(' ', '-') + '.png' %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <a href="#" class="more">See more</a>
+<% else %>
+  <span class="hint">
+    No suggestions
+  </span>
+<% end %>

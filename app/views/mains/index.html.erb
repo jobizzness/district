@@ -1,0 +1,232 @@
+<!-- MAIN PAGE -->
+<script>
+  var count = <%= @count %>;
+  var all   = <%= @all %>;
+  var max   = <%= @max %>;
+</script>
+
+<div class="c_body mainpage">
+  <section class="screen hero long <%= 'logined' if current_user.present? %>">
+    <%= render '/shared/stripe' %>
+    
+    <div class="title">
+      <h1>
+        <em><span>Designers</span></em>
+        <span>Get factory bids fast!</span>
+      </h1>
+        <% if current_user.present? %>
+          <%= link_to 'Post project now', new_project_path, class: 'btn-yellow big sign_up' %>
+        <% else %>
+          <%= link_to 'Post project now', new_user_registration_path, class: 'btn-yellow big sign_up' %>
+        <% end %>
+
+        <h1>
+          <em><span>Factories</span></em>
+          <span>See projects</span>
+        </h1>
+        <% if current_user.present? %>
+          <%= link_to 'Bid now', projects_path, class: 'btn-yellow big bid_now' %>
+        <% else %>
+          <%= link_to 'Bid now', new_user_registration_path, class: 'btn-yellow big bid_now' %>
+        <% end %>
+    </div>
+  </section>
+
+  <!-- SEARCH INPUT -->
+  <section id="search" class="stripe-yellow">
+    <h2>Who are you looking for?</h2>
+    <div class="keyword-search">
+      <form id="search-form">
+        <input type="text" id="search-input" placeholder="sample maker, screen printer, etc..." autocomplete="off">
+        <i id="search-button"></i>
+
+        <div class="search-hint hidden">
+          <div class="hints"></div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- WHOLE SEARCH SECTION -->
+  <section class="search">
+    <div class="wrap">
+
+      <!-- SEARCH CATS -->
+      <div class="search-cats">
+        <% getCategories.each do |c| %>
+          <div class="cat <%= 'active' if params[:cats] =~ /#{c[:id]}/i %>" data-id="<%= c.id %>">
+            <i><%= image_tag c.pic %></i>
+            <span><%= c.name %> <div class="tooltip">
+              <div class="tooltip-icon">?</div>
+
+              <div class="tooltip-text">
+                <% case c.name.to_s.downcase %>
+                <% when 'send outs' %>
+                  <p>
+                    These are companies that specialize solely in one or two services. <br>
+                    They can be contractors for manufacturers such as wash, dye & embroidery houses. They may just specialize in one portion of the manufacturing process, such as sewers, graders or cutters. They are “finishers” installing snap buttons, making hang tag labels, piping or pleating.
+                  </p>
+                  <small>**See the Directory for our complete list of  Service Providers.</small>
+                <% when 'resource centers' %>
+                  <p>
+                    These are organizations that benefit the fashion industry as a whole. Fashion Institutes and Schools for design fall into this category. Non-Profit organizations, trade publications, trade shows, directories such as this one and Unions also fall into this category.
+                  </p>
+                  <small>**See the Directory for our complete list of Resource Centers.</small>
+                <% when 'manufacturers' %>
+                  <p>
+                    Production is the key word here. These are apparel manufacturing companies, large or small who can completely develop your apparel or accessory line from A to Z. They are also textile and trim manufacturers.
+                  </p>
+                  <small>**See the Directory for our complete list of Manufacturers.</small>
+                <% when 'brands' %>
+                  <p>
+                    This category is all about people. You could be an individual specializing in one skill or many. You could be a one-man show designing and producing custom clothing and everything in between.These are companies representing talent such as a staffing agency, or a marketing, trend forecasting, product development firm hired out to evolve a business to the next level. These are consultants, your sales force and your staff members.
+                  </p>
+                  <small>**See the Directory for our complete list of Talent.</small>
+                <% when 'talent' %>
+                  <p>
+                    This is what fashion is all about. Your brand is what differentiates your line from the next. These are your wholesalers, retailers, licensors & licensees.
+                  </p>
+                  <small>**See the Directory for our complete list of  Brands.</small>
+                <% end %>
+              </div>
+            </div></span>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="search-subcats-container <%= 'hidden' unless params[:cats] %>">
+        <div class="search-subcats">
+          <div class="pad">
+            <div class="subcats short">
+              <div class="row services">
+                <h3>Services</h3>
+                <% @subcats_services.each do |sub| %>
+                  <a class="hidden w_check <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                    <i></i>
+                    <%= sub[:name] %>
+                  </a>
+                <% end %>
+              </div>
+              
+              <div class="row service-agencies">
+                <h3>Service-Agencies</h3>
+                <% @subcats_agencies.each do |sub| %>
+                  <a class="hidden w_check <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                    <i></i>
+                    <%= sub[:name] %>
+                  </a>
+                <% end %>
+              </div>
+
+              <div class="row type">
+                <h3>Type</h3>
+                <% @subcats_type.each do |sub| %>
+                  <a class="hidden w_check <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                    <i></i>
+                    <%= sub[:name] %>
+                  </a>
+                <% end %>
+              </div>
+
+              <div class="row products">
+                <h3>Products</h3>
+                <% @subcats_products.each do |sub| %>
+                  <a class="hidden w_check <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                    <i></i>
+                    <%= sub[:name] %>
+                  </a>
+                <% end %>
+              </div>
+
+              <div class="row fabrics">
+                <h3>Fabrics</h3>
+                <% @subcats_fabrics.each do |sub| %>
+                  <a class="hidden w_check <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                    <i></i>
+                    <%= sub[:name] %>
+                  </a>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="row actions">
+              <div class="l-lft">
+                <a href="#" class="select_all">Select all</a>
+                <a href="#" class="clear_all">Clear all</a>
+                <span class="find_cat">
+                  Can’t find your category? <a href="<?=base_url('contacts')?>">Click here</a>
+                </span>
+              </div>
+              
+              <div class="l-rgt">
+                <a href="#" data-action="1" data-class="type" class="show_hide">Show More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCH FILTERS -->
+      <div class="row results-filters">
+
+        <!-- LOCATION -->
+        <div class="location l-lft">
+          <label>Location</label>
+          <div class="select" id="location">
+            <span class="cur">
+              <% getLocations.each do |l| %>
+                <% if l.name == params[:state] %>
+                  <% @loc = params[:state] %>
+                  <%= l.name %>
+                <% end %>
+              <% end %>
+
+              <% unless @loc %>
+                All
+              <% end %>
+            </span>
+            <ins></ins>
+            <div class="options">
+              <a>All</a>
+              <% getLocations.each do |l| %>
+                <a><%= l.name %></a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- SORT BY -->
+        <div class="l-rgt sort_by">
+          <label>sort by</label>
+          <a data-order="date" class='csort <%= 'active' if params[:order]=='date' || params[:order]!='name' %>'>date</a>
+          <a data-order="name" class='csort <%= 'active' if params[:order]=='name' %>'>name</a>
+        </div>
+      </div>
+
+      <!-- SEARCH RESULTS, COMPANIES -->
+      <div class="search-results">
+        
+        <!-- LOADER -->
+        <div class="midloader hidden">
+          <%= image_tag 'loader.gif' %>
+        </div>
+
+        <div class="cards-cont clearfix">
+          <%= render partial: '/shared/companies', locals: { companies: @companies } %>
+        </div>
+
+        <!-- LOAD MORE BUTTON -->
+        <% if @all.to_i > @max.to_i && @all != @count %>
+          <div class="row">
+            <a href="#" class="load_more" id="companies" data-limit="<%= @max %>" data-link="moreCompanies">
+              <div class='content'>load more</div>
+              <div class='loader hidden'><%= image_tag 'loader.gif', class: 'loader' %></div>
+            </a>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </section>
+</div>
+<!-- END OF MAIN PAGE -->

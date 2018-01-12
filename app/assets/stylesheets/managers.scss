@@ -1,0 +1,167 @@
+@import "compass";
+@import "bootstrap-sprockets";
+@import "admins/variables";
+@import "bootstrap";
+@import "admins/bootswatch";
+@import "font-awesome";
+
+*:focus {
+  outline: none !important;
+}
+
+body {
+  padding-top: 70px;
+}
+
+table {
+  max-width: 100%;
+
+  &.table-vcenter > tbody > tr > td {
+    vertical-align: middle;
+  }
+}
+
+fieldset {
+  legend {
+    margin-bottom: 0;
+  }
+  
+  h4 {
+    margin-top: 0;
+  }
+}
+
+textarea {
+  resize: vertical;
+} 
+
+// Notices
+$notice-width: 400px;
+
+.notice {
+  width: $notice-width;
+  padding: 15px 40px 15px 15px;
+  position: fixed;
+  top: 70px;
+  right: 8px;
+  z-index: 100;
+  @include transition(0.2s);
+
+  &.hide-notice {
+    right: -$notice-width;
+  }
+
+  .times {
+    float: right;
+    cursor: pointer;
+    padding: 3px 10px;
+    margin: -4px -35px -4px 0;
+  }
+
+  @media (max-width: 480px) {
+    width: auto;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 10px 25px 10px 10px;
+    font-size: 16px;
+
+    &.hide-notice {
+      right: 15px;
+      top: -200px;
+      opacity: 0;
+    }
+
+    .times {
+      margin: -4px -25px -4px 0;
+    }
+  }
+}
+
+// Navbar
+.navbar-brand {
+  margin-top: -10px;
+}
+
+// Devise forms
+.devise {
+  > div {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .panel { margin: 0; }
+}
+
+// Form errors
+.field_with_errors {
+  @extend .has-error;
+}
+
+// Help block
+.help-block {
+  margin-top: 2px;
+}
+
+// Panel
+.panel-body {
+  ul, ol,
+  address,
+  .form-group,
+  .checkbox, 
+  .dl-horizontal,
+  .radio {
+    &:last-child { margin-bottom: 0; }
+  }
+
+  .project-img {
+    &,
+    img { width: 100%; }
+
+    + .project-img { margin-top: 15px; }
+  }
+
+  .img-circle.pull-left {
+    margin-right: 15px;
+  }
+
+  td {
+    vertical-align: center;
+  }
+
+  .dl-horizontal-bid h4 {
+    margin: 0;
+    line-height: 1;
+    font-weight: 800;
+  }
+
+  @media (min-width: 768px) {
+    .dl-horizontal {
+      dt, dd { line-height: 1.8; }
+    }
+
+    .dl-horizontal-production {
+      dt { width: 350px; }
+      dd { margin-left: 370px; }
+    }
+
+    .dl-horizontal-bid {
+      dt { width: 200px; }
+      dd { margin-left: 220px; }
+
+      dt, dd {
+        line-height: 1.2;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+
+    ul, ol { line-height: 2; }
+
+    .project-img {
+      width: auto;
+
+      + .project-img { margin: 0 0 0 15px; }
+    }
+  }
+}

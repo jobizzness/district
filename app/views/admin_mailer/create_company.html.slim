@@ -1,0 +1,13 @@
+| Hello #{@company[:name]},
+br
+br
+| Hope you are doing well.
+br
+| Just letting you know that we've created a profile for your company #{@company[:name]} in our database.
+br
+| This information is used for other fashion businesses to find you, and bring you more visibility.
+br
+| Please check if all info is accurate and complete your profile here: <a href="#{edit_user_password_url(reset_password_token: @token)}">#{edit_user_password_url(reset_password_token: @token)}</a>
+br
+br
+| Thank you.

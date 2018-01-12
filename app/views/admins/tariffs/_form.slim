@@ -1,0 +1,30 @@
+= form_for @tariff, url: [:admins, @tariff], html: { id: :form, novalidate: true } do |f|
+  - if @tariff.errors.any?
+    .alert.alert-danger.fade.in
+      span aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" &times;
+      h4 = "#{pluralize(@tariff.errors.count, "error")} prohibited this tariff from being saved:"
+      ul.list-unstyled
+        - @tariff.errors.full_messages.each do |message|
+          li = message
+
+  .panel.panel-default 
+    .panel-heading: h3.panel-title Tariff information
+
+    .panel-body: fieldset
+      .form-group
+        = f.label :name
+        = f.text_field :name, class: 'form-control'
+
+      .form-group
+        = f.label :description
+        = f.text_area :description, class: 'form-control', rows: 3
+
+      .form-group
+        = f.label :price_per_month
+        = f.text_field :price_per_month, class: 'form-control'
+
+      .form-group
+        = f.label :duration, 'Duration (month)'
+        = f.number_field :duration, class: 'form-control', min: 0
+
+  .text-center = f.submit 'Save', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }

@@ -1,0 +1,18 @@
+.export-btn {
+  margin-bottom: 10px;
+
+  i {
+    margin-right: 3px;
+  }
+}
+
+.export-table {
+  td {
+    vertical-align: middle !important;
+
+    &:nth-child(n+4) {
+      max-width: 200px;
+      @include text-overflow;
+    }
+  }
+}

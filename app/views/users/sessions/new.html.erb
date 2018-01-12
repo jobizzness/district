@@ -1,0 +1,56 @@
+<div class="c_body signin-container">
+  <%= render '/shared/breadcrumbs' %>
+
+  <div class="wrap clearfix">
+    <h1>Log in</h1>
+
+    <div class="social_login">
+      <h3>You can login via one of social networks</h3>
+      <div class="buts">
+        <a href="" class="btn-social" id="signin_fb"><%= image_tag 'social/fb.jpg' %>Sign in with Facebook</a>
+        <a href="" class="btn-social" id="signin_li"><%= image_tag 'social/in.jpg' %>Sign in with LinkedIn</a>
+      </div>
+    </div>
+
+    <form novalidate class="form-signin">
+      <h2 class='title-lined'><span>Log in</span></h2>
+
+      <div class="inputs-big">
+        <div class="field">
+          <label for="semail">Your e-mail</label>
+          <input type="text" name="email" id="semail" autofocus>
+          <div class="error" id="email-error"></div>
+        </div>
+
+        <div class="field">
+          <label for="password">Your password</label>
+          <input type="password" name="password" id="password" autocomplete="off">
+          <div class="error" id="password-error"></div>
+        </div>
+
+        <input type="hidden" id="fid" name="fid" value="">
+        <input type="hidden" id="lid" name="lid" value="">
+
+        <div class="error-massages"></div>
+
+        <div class="row cent">
+          <a href="#" class="btn-black big submit">Ok, let’s go</a>
+        </div>
+      </div>
+
+      <div class="reset-message">
+        <p>
+          Hi :)
+          <br>
+          To make sure you have a properly secured account it is time to change your password. We just sent you an email with further instructions.
+          <br>
+          If you don't receive the link within 5 minutes, check your spam
+          <br>
+          Have a good day!
+        </p>
+      </div>
+
+      <hr class="sep">
+    </form>
+  </div>  
+</div>

@@ -1,0 +1,17 @@
+#modal_maker_type.modal-default: .modal-content = form_tag nil, id: :maker_type_form
+  h3 Choose your type of maker
+  p Description, consectetur adipisicing elit. Distinctio ratione, reprehenderit aliquid nostrum vel in.
+
+  .buttons.clearfix
+    input#idea type="radio" name="maker_type" value="idea"
+    label for="idea" Idea
+
+    input#product type="radio" name="maker_type" value="product"
+    label for="product" Product
+
+coffee:
+  $ ->
+    $('.buttons input').on 'change', ->
+      $.post '/ajax/setMakerType', $('#maker_type_form').serialize()
+        .done -> window.location.reload()
+        .fail -> alert 'Something went wrong...'

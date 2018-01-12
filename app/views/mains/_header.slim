@@ -1,0 +1,7 @@
+header.main-header
+  - unless request.user_agent =~ /Mobile|webOS/
+    video(autoplay muted poster=asset_path('main/header-bg.jpg'))
+      source src="#{asset_path('main.mp4')}" type="video/mpeg"
+      source src="#{asset_path('main.webm')}" type="video/webm"
+
+    .volume-btn = fa_icon 'volume-off'

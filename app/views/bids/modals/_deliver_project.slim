@@ -1,0 +1,21 @@
+#modal_deliver_project.modal-bid.modal-deliver-project
+  .modal-dialog: form#deliver_project_form
+    .modal-header Start your order
+
+    .modal-content
+      .modal-content-bg
+        .dropzone-container
+          p Upload a photo for the shipment: <small>(max 6 files, max file size 5MB)</small>
+          .dropzone
+
+          p Enter the tracking number:
+          input.tracking-number name="tracking_number" required=""
+
+    .modal-footer
+      a.btn-yellow.btn-gray href="#" data-close-bid-modal="" Cancel
+      button.btn-yellow data-dz-send="" Done
+
+script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"
+
+javascript:
+  new DeliverProject('#{deliver_project_project_bid_path(project, bid)}');

@@ -1,0 +1,8 @@
+.modal-bid.modal-bid-hire-finish id="modal_hire_finish_#{bid.id}": .modal-dialog
+  .modal-header Congratulations !
+
+  .modal-content
+    .info-sent You have sent $ <b>#{bid_price bid}</b> to <b>#{bid.user.company.name}</b>
+
+  .modal-footer
+    button.btn-yellow data-close-bid-modal="reload" Close

@@ -1,0 +1,116 @@
+- if @stripe_account_status.nil? && Stripe::Account.retrieve('self').country.in?(StripeManagedService::ALLOWED)
+  = form_tag payments_managed_path, method: 'POST', id: :create_account
+    - if flash[:managed].present?
+      .error-message = flash[:managed][:error]
+
+    .payment-field
+      label for="country" Create a Stripe account in:
+      select.country name="country"
+        - StripeManagedService::COUNTRIES.each do |country|
+          option value=(country[:code]) = country[:name]
+
+    .payment-field.tos
+      label
+        input type="checkbox" name="tos"
+        | I accept the
+        a href="https://stripe.com/us/terms" target="_blank" Stripe Terms of Service
+
+    button type="submit" class="btn-black big save_profile" data-disable-with="Please wait..." Create
+
+- if @stripe_account_status.present?
+  .bank-account-status
+    | Status
+    div class=('active' if @stripe_account_status['charges_enabled']) Charges
+    div class=('active' if @stripe_account_status['transfers_enabled']) Transfers
+
+  - if @stripe_account_status['fields_needed'].any?
+    = form_tag payments_account_path, id: :needed_information
+      h2 Needed Information
+
+      - if flash[:stripe].present?
+        .error-message = flash[:stripe][:error]
+
+      - if @stripe_account_status['due_by']
+        p
+          | Due by:
+          strong = Time.at( @stripe_account_status['due_by'] ).strftime("%Y-%m-%d")
+
+      / this account needs a bank account
+      - if @manager.needs? 'external_account'
+        h3 Bank Account
+        #bank-account-error.error-message
+
+        = hidden_field_tag :bank_account_token, nil, data: { publishable_key: current_user.stripe_publishable_key }
+
+        .payment-field
+          - countries = @manager.supported_bank_account_countries
+          label Country:
+
+          select data-stripe='country'
+            - countries.each do |country|
+              option value=country[:code] = country[:name]
+
+        .payment-field
+          label Account Number:
+          input type='text' data-stripe='account_number'
+
+        .payment-field
+          label Routing Number:
+          input type='text' data-stripe='routing_number'
+
+      / this account needs legal entity info
+      - if @manager.needs? 'legal_entity.'
+        - if @manager.needs?('legal_entity.personal_id_number') || @manager.needs?('legal_entity.ssn_last_4')
+          h3 Identity Verification
+
+        - if @manager.needs? 'legal_entity.personal_id_number'
+          .payment-field
+            label Personal ID Number:
+            input type='text' name='legal_entity[personal_id_number]'
+
+        - if @manager.needs? 'legal_entity.ssn_last_4'
+          .payment-field
+            label SSN Last 4:
+            input type='text' name='legal_entity[ssn_last_4]'
+
+        h3 Legal Entity
+
+        .payment-field
+          label First Name:
+          input type='text' name='legal_entity[first_name]' value="#{@manager.legal_entity.first_name}"
+
+        .payment-field
+          label Last Name:
+          input type='text' name='legal_entity[last_name]' value='#{@manager.legal_entity.last_name}'
+
+        .payment-field.payment-field-date-of-birth
+          label Date of Birth:
+          - dob = @manager.legal_entity.dob
+          - selected = Date.new( dob.year, dob.month, dob.day ) rescue nil
+          = date_select 'legal_entity', 'dob',
+              { selected: selected,
+                prompt: true,
+                start_year: 90.years.ago.year,
+                end_year: 13.years.ago.year }
+
+        .payment-field
+          label Address Line 1:
+          input type='text' name='legal_entity[address][line1]' value="#{@manager.legal_entity.address.line1}"
+
+        .payment-field
+          label Address Line 2:
+          input type='text' name='legal_entity[address][line2]' value="#{@manager.legal_entity.address.line2}"
+
+        .payment-field
+          label City:
+          input type='text' name='legal_entity[address][city]' value="#{@manager.legal_entity.address.city}"
+
+        .payment-field
+          label State/Province:
+          input type='text' name='legal_entity[address][state]' value="#{@manager.legal_entity.address.state}"
+
+        .payment-field
+          label ZIP/Postal Code:
+          input type='text' name="legal_entity[address][postal_code]" value="#{@manager.legal_entity.address.postal_code}"
+
+      button type="submit" class="btn-black big save_profile" Save Info

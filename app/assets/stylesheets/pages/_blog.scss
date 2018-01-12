@@ -1,0 +1,21 @@
+.wysiwyg-float-right {
+  float: right !important;
+}
+
+.wysiwyg-float-left {
+  float: left !important;
+}
+
+.wysiwyg-float-inline {
+  display: inline-block !important;
+}
+
+img {
+  &.wysiwyg-float-right {
+    margin-left: 10px;
+  }
+
+  &.wysiwyg-float-left {
+    margin-right: 10px;
+  }
+}

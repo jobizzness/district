@@ -1,0 +1,58 @@
+@import "compass";
+@import "mixins";
+@import "font-awesome";
+
+*,
+*:before,
+*:after {
+  @include box-sizing(border-box);
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.main-get-listed {
+  width: 100%;
+  display: block;
+  height: 56px;
+  font-size: 15px;
+  line-height: 56px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  background-color: #1ab59a;
+}
+
+.btn-yellow {
+  font-style: normal;
+}
+
+.btn-light {
+  display: inline-block;
+  text-align: center;
+  height: 34px;
+  line-height: 34px;
+  padding: 0 20px;
+  color: #000;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
+  background: white;
+}
+
+.btn-yellow,
+.btn-light { font-family: 'Open Sans Condensed', sans-serif; }
+
+@media only screen and (max-width : 480px) {
+  body {
+    min-width: 320px;
+    width: auto;
+  }
+}

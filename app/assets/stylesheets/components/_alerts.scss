@@ -1,0 +1,45 @@
+$alert-width: 400px;
+
+.alert {
+  background: #fbfc5a;
+  width: $alert-width;
+  border: 3px solid black;
+  font-size: 18px;
+  padding: 15px 40px 15px 15px;
+  position: fixed;
+  top: 82px;
+  right: 5px;
+  z-index: 100;
+  @include box-sizing(border-box);
+  @include transition(0.2s);
+
+  &.hide-alert {
+    right: -$alert-width;
+  }
+
+  .times {
+    float: right;
+    cursor: pointer;
+    padding: 3px 10px;
+    margin: -4px -35px -4px 0;
+  }
+
+  @media (max-width: 480px) {
+    width: auto;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 10px 25px 10px 10px;
+    font-size: 16px;
+
+    &.hide-alert {
+      right: 15px;
+      top: -210px;
+      opacity: 0;
+    }
+
+    .times {
+      margin: -4px -25px -4px 0;
+    }
+  }
+}

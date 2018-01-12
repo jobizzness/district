@@ -1,0 +1,27 @@
+h3 Export 
+
+= form_tag admins_exports_path do
+
+  button.btn.btn-default.btn-xs.export-btn = fa_icon 'download', text: 'Export data'
+
+  .table-responsive: table.table.table-striped.table-condensed.table-hover.export-table data-table="checkbox"
+    thead
+      tr
+        th: input type="checkbox"
+        th Company name:
+        th Contact name:
+        th Company email:
+        th Contact email:
+        th Website:
+        th Phone:
+
+    tbody
+      - @companies.each do |company|
+        tr
+          td: input type="checkbox" name="companies_ids[]" value="#{company.id}"
+          td: b = company.name
+          td = company.user && company.user.name
+          td = company.email
+          td = company.user && company.user.email
+          td = link_to company.website, company.website, target: :blank
+          td = company.phone

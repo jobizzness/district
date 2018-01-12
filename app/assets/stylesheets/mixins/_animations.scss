@@ -1,0 +1,117 @@
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+
+  @for $i from 1 through $max {
+    $animations: #{$animations + nth($animate, $i)};
+
+    @if $i < $max {
+      $animations: #{$animations + ", "};
+    }
+  }
+
+  -webkit-animation: $animations;
+  -moz-animation:    $animations;
+  -o-animation:      $animations;
+  animation:         $animations;
+}
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
+
+@mixin animation1() {
+  0%   { background-position: 0 0; }
+  100% { background-position: 28px 0px; }
+}
+
+@include keyframes(animation1) {
+  @include animation1;
+}
+
+@mixin animation2() {
+  0%   { background-position: 0px 0; }
+  100% { background-position: -28px 0px; }
+}
+
+@include keyframes(animation2) {
+  @include animation2;
+}
+
+@mixin animation3() {
+  0%   { margin-top: -54px; }
+  50%  { margin-top: -35px; }
+  100% { margin-top: -54px; }
+}
+
+@include keyframes(animation3) {
+  @include animation3;
+}
+
+@mixin animation4() {
+  0%   { background-position: 0px 0; }
+  100% { background-position: 0px 64px; }
+}
+
+@include keyframes(animation4) {
+  @include animation4;
+}
+
+@mixin animation5() {
+  0%   { margin-top: 0px; }
+  50%  { margin-top: 10px; }
+  100% { margin-top: 0px; }
+}
+
+@include keyframes(animation5) {
+  @include animation5;
+}
+
+@mixin animation6() {
+  0%   { @include transform(rotate(0deg)); }
+  50%  { @include transform(rotate(-35deg)); }
+  100% { @include transform(rotate(0deg)); }
+}
+
+@include keyframes(animation6) {
+  @include animation6;
+}
+
+@mixin animation7() {
+  0%   { margin-top: 0px; }
+  50%  { margin-top: -6px; }
+  100% { margin-top: 0px; }
+}
+
+@include keyframes(animation7) {
+  @include animation7;
+}
+
+@mixin spin() {
+  0%   { @include transform(rotate(0deg)); }
+  100% { @include transform(rotate(360deg)); }
+}
+
+@include keyframes(spin) {
+  @include spin;
+}
+
+@mixin spin_back() {
+  0%   { @include transform(rotate(0deg)); }
+  100% { @include transform(rotate(-360deg)); }
+}
+
+@include keyframes(spin_back) {
+  @include spin_back;
+}

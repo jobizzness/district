@@ -1,0 +1,128 @@
+.main-navbar {
+  min-height: 72px;
+  background: black;
+
+  &, * {
+    @include box-sizing(border-box);
+  }
+
+  .app-navbar & {
+    min-height: 76px;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+  }
+
+  .logo {
+    height: 52px;
+    float: left;
+    margin-top: 10px;
+    padding: 11px 0 0 87px;
+    background-repeat: no-repeat;
+    color: white;
+    line-height: 1.1;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: 'Open Sans Condensed', sans-serif;
+    text-decoration: none;
+    text-transform: none;
+    @include img-retina-png('logo');
+
+    span { border-bottom: 1px solid white; }
+
+    &:hover span { border: none; }
+  }
+
+  .navigation {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    width: 400px;
+    margin: auto;
+    padding-top: 25px;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    li {
+      display: inline-block;
+      margin: 0 17px;
+    }
+
+    a {
+      color: white;
+      display: block;
+      font-size: 16px;
+      text-decoration: none;
+      padding-bottom: 6px;
+      font-family: 'Open Sans Condensed', sans-serif;
+      font-weight: 600;
+
+      &:hover {
+        color: #fbf239;
+        border-bottom: 5px solid #fbf239;
+      }
+    }
+  }
+
+  .btn-yellow {
+    font-style: normal;
+  }
+
+  .btn-light {
+    display: inline-block;
+    text-align: center;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 20px;
+    color: #000;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: bold;
+    background: white;
+  }
+
+  .btn-yellow,
+  .btn-light { font-family: 'Open Sans Condensed', sans-serif; }
+
+  .login-buttons {
+    float: right;
+    margin-top: 19px;
+
+    *:last-child:not(:first-child) { margin-left: 20px; }
+  }
+
+  @media only screen and (max-width : 480px) {
+    padding: 30px 0;
+    @include clearfix;
+
+    .app-navbar & {
+      position: relative;
+    }
+
+    .logo {
+      margin: auto;
+      float: none;
+      width: 213px;
+      display: block;
+      margin-bottom: 150px;
+    }
+
+    .navigation {
+      width: auto;
+      height: 90px;
+      padding-top: 31px;
+      border-top: 2px solid #333333;
+      border-bottom: 2px solid #333333;
+      position: absolute;
+      top: 115px;
+    }
+
+    .login-buttons {
+      float: none;
+      text-align: center;
+    }
+  }
+}

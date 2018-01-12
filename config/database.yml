@@ -1,0 +1,20 @@
+default: &defaults
+  username: district
+  password: 'aW4v8uHr4--wk323'
+  adapter: mysql2
+  host: '127.0.0.1'
+  encoding: utf8
+  pool: 5
+
+development:
+  <<: *defaults
+  database: district
+
+#test:
+#  <<: *defaults
+#  database: districtcomain_test
+
+production:
+  <<: *defaults
+  database: districtcomain_production
+

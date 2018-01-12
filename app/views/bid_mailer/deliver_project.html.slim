@@ -1,0 +1,8 @@
+| Deliver project #{link_to "##{@project.id}", project_url(@project)}
+br
+| Bid ##{@bid.resource_id}
+br
+| Tracking number: <b>#{@tracking_number}</b>
+br
+- @shipment_photos.each do |photo|
+  = link_to image_tag( asset_url(photo.file(:medium)) ), asset_url(photo.file), target: '_blank'

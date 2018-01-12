@@ -1,0 +1,64 @@
+<%= render '/shared/breadcrumbs' %>
+
+<script>
+  var PROJECT = {
+    max: <%= @max %>,
+    url: '<%= ajax_filterProjects_path %>'
+  }
+</script>
+
+<div class="projects-search">
+  <form id="projects-search-form">
+    <input type="text" id="project-search-input" placeholder="Search projects..." autocomplete="off">
+    <button type="submit"></button>
+  </form>
+</div>
+
+<div class="wrap wrap-small container-projects">
+  <div class="projects-options">
+    <div class="pull-left">
+      <span>Show</span>
+      <a data-show="all" class="btn <%= (params[:show]=='newest' || params[:show]!='opened' && params[:show]!='my' ? 'btn-green' : 'btn-white') %>">All projects</a>
+      <a data-show="opened" class="btn <%= (params[:show]=='opened' ? 'btn-green' : 'btn-white') %>">Open projects</a>
+      <% if user_signed_in? %>
+        <% if current_user.idea? %>
+          <a data-show="my" class="btn <%= (params[:show]=='my' ? 'btn-green' : 'btn-white') %>">My projects</a>
+        <% end %>
+      <% else %>
+        <%= link_to 'My projects', new_user_session_path, class: 'btn btn-white' %>
+      <% end %>
+    </div>
+
+    <div class="pull-right">
+      <span>Sort by</span>
+      <a data-order="newest" class="btn <%= (params[:order]=='newest' || params[:order]!='oldest' ? 'btn-green' : 'btn-white') %>">Newest first</a>
+      <a data-order="oldest" class="btn <%= (params[:order]=='oldest' ? 'btn-green' : 'btn-white') %>">Oldest first</a>
+    </div>
+  </div>
+
+  <div class="projects-loader hidden">
+    <%= image_tag 'loader.gif' %>
+  </div>
+
+  <div class="projects column-three clearfix">
+    <% if @projects.present? %>
+      <%= render partial: 'shared/project', collection: @projects %>
+    <% elsif current_user.idea? %>
+      <div class="no-projects">
+        <p>Haven’t posted any projects yet. To post your project press here:</p>
+        <%= link_to 'POST PROJECT NOW', new_project_url, class: 'btn-yellow' %>
+      </div>
+    <% else %>
+      <div class="no-projects">
+        <p>Haven’t posted any projects yet.</p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <a href="#" class="load_more" id="projects-load-more" data-limit="<%= @max %>" style="display:<%= @all.to_i > @max.to_i || @all != @count ? 'block' : 'none' %>;">
+      <div class='content'>load more</div>
+      <div class='loader hidden'><%= image_tag 'loader.gif', class: 'loader' %></div>
+    </a>
+  </div>
+</div>

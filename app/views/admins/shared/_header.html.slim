@@ -1,0 +1,49 @@
+nav.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar_collapse"
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+      = link_to admins_path, class: 'navbar-brand' do
+        = image_tag 'logo-beta.png', height: 40, class: 'pull-left'
+      
+    - if admin_signed_in?
+      #navbar_collapse.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          = navbar_link 'Projects', admins_projects_path
+          = navbar_link 'Bids', admins_bids_path
+
+          li
+            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+              | Blog 
+              span.caret
+
+            ul.dropdown-menu role="menu"
+              = navbar_sub_link 'Articles', admins_blog_articles_path
+              = navbar_sub_link 'Categories', admins_blog_articles_cats_path
+
+          = navbar_link 'Team Members', admins_team_members_path
+
+          li
+            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+              | Companies 
+              span.caret
+
+            ul.dropdown-menu role="menu"
+              = navbar_sub_link 'Exprot', admins_exports_path
+              = navbar_sub_link 'Import', admins_imports_path
+
+          = navbar_link 'Tariffs', admins_tariffs_path
+
+        ul.nav.navbar-nav.navbar-right
+          li.dropdown
+            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+              = current_admin.email
+              span.caret
+
+            ul.dropdown-menu role="menu"
+              / li.divider
+              li = link_to 'Sign out', destroy_admin_session_path, method: :delete

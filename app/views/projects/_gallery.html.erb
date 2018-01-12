@@ -1,0 +1,11 @@
+<% if @project.attachments.present? %>
+  <div class="panel panel-images project-gallery <%= visible %>" project-gallery>
+    <div big-image class="big-image" style="background-image: url(<%= @project.attachments.first.attachment(:medium) %>);"></div>
+
+    <div class="thumbs">
+      <% @project.attachments.each_with_index do |file, index| %>
+        <i class="<%= 'active' if index == 0 %>" style="background-image: url(<%= file.attachment(:medium) %>);"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>

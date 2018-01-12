@@ -1,0 +1,7 @@
+<tr>
+  <td><%= project.id %></td>
+  <td><%= project_status_name(project) %></td>
+  <td><%= project.created_at.strftime('%d %b %Y') %></td>
+  <td><%= truncate project.step2.type_of_product, length: 260 %></td>
+  <td><%= link_to 'Show project', managers_project_url(project.id), class: 'btn btn-default btn-xs' %></td>
+</tr>

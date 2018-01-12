@@ -1,0 +1,19 @@
+.modal-bid.modal-bid-dispute id="modal_dispute_#{bid.id}": .modal-dialog = form_tag dispute_project_bid_path(project, bid)
+  .modal-header Do you want to start dispute?
+
+  .modal-content
+    .field-group
+      label Project number:
+      input type="text" readonly="" value="#{project.id}" required=""
+
+    .field-group
+      label Subject:
+      input type="text" required="" name="subject"
+
+    .field-group
+      label Describe the problem:
+      textarea required="" name="body"
+
+  .modal-footer
+    button.btn-yellow.btn-gray data-close-bid-modal="" Cancel
+    button.btn-yellow Send

@@ -1,0 +1,115 @@
+<div class="new-bid clearfix">
+  <h2><span>your bid:</span></h2>
+
+  <% if current_user.company.available != '1111' %>
+    <div class="no-full-data">You must fill in your <%= link_to 'company info', settings_path %> before you can bid on pfojects</div>
+  <% elsif current_user.tariff.free? %>
+    <div class="no-full-data">You can't post because you have free <a href="#" class="js-change-tariff">tariff</a>.</div>
+  <% elsif current_user.tariff_expired? %>
+    <div class="no-full-data">You can't post because you <a href="#" class="js-pay-the-tariff">tariff</a> is expired.</div>
+  <% elsif !current_user.stipe_transfer? %>
+    <div class="no-full-data">You can't post because you don't have or not filled <a href="<%= payments_path(tab: :account) %>">Stripe account</a>.</div>
+  <% else %>
+    <%= form_for @bids, as: :form, url: project_bids_path(@project), html: { id: :form, novalidate: true } do |f| %>
+      <div class="pull-left">
+        <div class="form-group">
+          <%= f.label :moq_per_style, 'MOQ Per Style: <span>*</span>'.html_safe, class: 'label' %>
+          <%= f.text_field :moq_per_style, required: true %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :moq_per_order, 'MOQ Per Order: <span>*</span>'.html_safe, class: 'label' %>
+          <%= f.text_field :moq_per_order, required: true,  placeholder: 'for example, 500MOQ can do 5 diff styles 100 pcs each' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :max_amount_colors, 'Maximum amount of color ways per style: <span>*</span>'.html_safe, class: 'label' %>
+          <%= f.text_field :max_amount_colors, required: true %>
+        </div>
+
+        <% @project.attachments.each_with_index do |file, index| %>
+          <div class="form-group form-price">
+            <% if file.attachment_content_type == 'image/png' or file.attachment_content_type == 'image/jpeg' %>
+              <div class="form-attachment">
+                <a href="<%= file.attachment %>" target="_blank" class="image" style="background-image:url(<%= file.attachment(:thumb) %>);"></a>
+              </div>
+            <% else %>
+              <div class="form-attachment-link">
+                File: <a href="<%= file.attachment %>"><%= file.attachment_file_name %></a>
+              </div>
+            <% end %>
+            <label class="label">#<%= index + 1 %> Sample pricing:</label>
+            <span style="margin-left: -12px">$ </span>
+            <input name="form[total_sample_pricing][]" type="text" placeholder="0.00">
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= f.label :payment_term_production, 'PAYMENT TERMS OF SAMPLING & PRODUCTION: <span>*</span>'.html_safe, class: 'label' %>
+          <%= f.text_area :payment_term_production, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :total_price, 'Total bid $$ amount: <span>*</span>'.html_safe, class: 'label' %>
+          <input name="form[total_price]" type="text" required placeholder="ex. 100">
+        </div>
+      </div>
+
+      <div class="pull-right">
+        <div class="form-group">
+          <%= f.label :cost_sample_shipping, 'Cost Sample Shipping: <span>*</span>'.html_safe, class: 'label' %>
+          <span style="margin-left: -12px">$ </span>
+          <%= f.text_field :cost_sample_shipping, placeholder: '0.00', required: true %>
+        </div>
+        
+        <div class="form-group">
+          <label class="label">Production details & pricing: <span>*</span></label>
+          <div class="clearfix">
+            <span style="float: left;margin: 6px 0 0 -12px">$ </span>
+            <div class="field-price pull-left">
+              <input name="form[production_cost][][price]" type="text" placeholder="0.00 per pc" required>
+            </div>
+            <div class="field-price pull-left">
+              <input name="form[production_cost][][amount]" type="text" placeholder="for 100 pieces" required>
+            </div>
+          </div>
+          <button id="production" class="btn-yellow" type="button">Add new production</button>
+          <script id="template_production" type="text/template">
+            <div class="clearfix new-filed">
+              <span style="float: left;margin: 6px 0 0 -12px">$ </span>
+              <div class="field-price pull-left">
+                <input name="form[production_cost][][price]" type="text" placeholder="0.00 per pc" required>
+              </div>
+              <div class="field-price pull-left">
+                <input name="form[production_cost][][amount]" type="text" placeholder="for 100 pieces" required>
+              </div>
+            </div>
+          </script>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :production_shipping_cost, 'Production Shipping Cost: <span>*</span>'.html_safe, class: 'label' %>
+          <span style="margin-left: -12px">$ </span>
+          <%= f.text_field :production_shipping_cost, placeholder: '0.00', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :lead_time_samples, 'Lead time samples: <span>*</span>'.html_safe, class: 'label' %>
+          <%= f.text_field :lead_time_samples, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :lead_time_production, 'Lead time production: <span>*</span>'.html_safe, class: 'label' %>
+          <%= f.text_field :lead_time_production, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :additional_info, 'Additional info:', class: 'label' %>
+          <%= f.text_area :additional_info, placeholder: 'pricing, different qualities of fabric pricing, etc.' %>
+        </div>
+      </div>
+
+      <%= f.submit 'SUBMIT BID', class: 'btn-yellow big', data: { disable_with: 'Please wait...' } %>
+    <% end %>
+  <% end %>
+</div>

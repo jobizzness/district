@@ -1,0 +1,212 @@
+.new-project {
+  width: 100%;
+
+  h1 {
+    font-size: 60px;
+    line-height: 60px;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  h2 span {
+    font-size: 30px;
+    padding-bottom: 2px;
+  }
+
+  h3 {
+    small {
+      font-weight: normal;
+      line-height: 1.2;
+    }
+  }
+
+  small {
+    display: block;
+    color: #888;
+  }
+
+  select {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 42px;
+    border-radius: 0;
+    background: white;
+    position: relative;
+  }
+
+  [type=file],
+  [type=text],
+  select,
+  textarea {
+    border: 2px solid #434343;
+    font-size: 16px;
+    width: 100%;
+    padding: 7px;
+    @include transition(.2s);
+    @include box-sizing(border-box);
+
+    &[disabled],
+    &.disabled { background: #e5e5e5; }
+
+    &.error { border-color: red; }
+  }
+
+  [type=text] { height: 42px; }
+  [type=submit] { margin-top: 15px; }
+  textarea { resize: vertical; }
+
+  .attachments {
+    .attachment {
+      margin-bottom: 15px;
+      @include clearfix;
+
+      &:last-child { margin-bottom: 0; }
+    }
+
+    .img {
+      width: 165px;
+      height: 165px;
+      overflow: hidden;
+      float: left;
+      background-size: cover;
+      background-position: 50% 50%;
+      position: relative;
+      margin-right: 10px;
+    }
+
+    label {
+      font-size: 14px;
+      line-height: 1.1;
+    }
+
+    [type="checkbox"]:checked + label i {
+      background-position: left top;
+    }
+
+    .or {
+      display: block;
+      overflow: hidden;
+      margin: 5px 0 7px;
+    }
+
+    .form-group { overflow: hidden; }
+  }
+
+  .label {
+    padding-right: 15px;
+    display: block;
+    position: absolute;
+    right: 100%;
+    text-align: right;
+    width: 300px;
+    line-height: 1;
+
+    small {
+      font-size: 12px;
+      line-height: 12px;
+      padding-bottom: 5px;
+    }
+  }
+
+  label.error {
+    color: red;
+    font-size: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    .label { padding-top: 15px; }
+  }
+
+  .form-group-textarea {
+    small {
+      padding-top: 4px;
+      line-height: 1.2;
+    }
+
+    .label { padding-top: 3px; }
+  }
+
+  .form-checkbox {
+    margin-bottom: 10px;
+    padding-left: 25px;
+    position: relative;
+
+    input {
+      position: absolute;
+      left: 0;
+      top: 3px;
+    }
+  }
+
+  .form-checkboxs {
+    .label { padding-top: 3px; }
+  }
+
+  section {
+    width: 500px;
+    margin: auto;
+    position: relative;
+  }
+  
+  .step-1 {
+    div {
+      height: 25px;
+      line-height: 1;
+
+      &:last-child { height: auto; }
+    }
+
+    input {
+      float: left;
+      margin-right: 7px;
+    }
+  }
+  
+  .Zebra_DatePicker_Icon_Wrapper {
+    display: block !important;
+  }
+
+  @media (max-width: 480px) {
+    padding: 70px 0 35px;
+
+    h1 {
+      line-height: 1;
+      font-size: 40px;
+      margin: 0 0 10px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      line-height: 1.1;
+      span { font-size: 25px; }
+    }
+
+    section {
+      width: auto;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    [type="file"] { border-radius: 0; }
+
+    .label {
+      font-size: 14px;
+      position: relative;
+      right: auto;
+      text-align: left;
+      padding-bottom: 3px;
+    }
+
+    .form-group {
+      .label { padding-top: 0; }
+    }
+
+    .Zebra_DatePicker_Icon {
+      padding: 12px;
+      top: 2px !important;
+    }
+  }
+}

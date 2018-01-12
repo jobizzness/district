@@ -1,0 +1,86 @@
+= form_for @article, url: [:admins, :blog, @article], multipart: true, html: { id: :form, novalidate: true } do |f|
+  - if @article.errors.any?
+    .alert.alert-danger.fade.in
+      span aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" &times;
+      h4 = "#{pluralize(@article.errors.count, "error")} prohibited this article from being saved:"
+      ul.list-unstyled
+        - @article.errors.full_messages.each do |message|
+          li = message
+
+  .panel.panel-default 
+    .panel-heading: h3.panel-title Article information
+
+    .panel-body: fieldset
+      / h4 Entire overall budget for this project:
+
+      .form-group
+        = f.label :title, 'Title'
+        = f.text_field :title, class: 'form-control'
+
+      .form-group
+        = f.label :pic, 'Picture' 
+        = f.file_field :pic, class: 'form-control input-sm'
+        small.help-block Max file size 3Mb
+        - if @article.pic.present?
+          = image_tag @article.pic(:small), style: 'margin-right: 15px'
+          / TODO: add delete functionality
+          / .checkbox
+          /   = f.label :_destroy
+          /     = f.check_box :_destroy
+          /     | Delete
+
+      .form-group
+        = f.label :text_short, 'Text short'
+        = f.bootsy_area :text_short, class: 'form-control', rows: 3, editor_options: { color: false, html: true }
+
+      .form-group
+        = f.label :text, 'Text'
+        = f.bootsy_area :text, class: 'form-control', rows: 10, editor_options: { color: false, html: true }
+
+      .form-group
+        = f.label :parent, 'Category'
+        = f.select :parent, blog_categories, {}, class: 'form-control'
+
+      .form-group
+        = f.label :date, 'Date'
+        = f.text_field :date, class: 'form-control datepicker', value: (f.object.date.strftime('%d-%m-%Y') if f.object.date.present?)
+
+      .form-group
+        = f.label :priv, 'Privilege'
+        = f.number_field :priv, class: 'form-control', min: 0, value: f.object.priv || 0
+
+      .form-group
+        = f.label :anchor, 'Anchor'
+        = f.text_field :anchor, class: 'form-control'
+
+  .panel.panel-default 
+    .panel-heading: h3.panel-title Pictures article for gallery <small>(Max file size 3Mb)</small>
+
+    .panel-body: fieldset
+      = f.fields_for :pics do |pic, index|
+        .gallery-pic-form
+          = pic.hidden_field(:parent, value: f.object.id) if f.object.id.present?
+          - if pic.object.path.present? && action_name == 'edit'
+            .gallery-pic
+              = image_tag pic.object.path(:small)
+              
+              .checkbox
+                = pic.label :_destroy
+                  = pic.check_box :_destroy
+                  | Delete
+
+          .form-group = pic.file_field :path, class: 'form-control input-sm'
+          .form-group = pic.text_field :text, class: 'form-control input-sm', placeholder: 'Text'
+          .form-group = pic.number_field :priv, class: 'form-control input-sm', placeholder: 'Privilege', min: 0, value: pic.object.priv || 0
+
+      .btn.btn-info.btn-sm.btn-new-gallery-pic New pic
+
+  .text-center = f.submit 'Save', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }
+  br
+
+  template#new_gallery_pic
+    .gallery-pic-form
+      input type="hidden" name="article[pics_attributes][INDEX][parent]" value="#{f.object.id}"
+      .form-group: input.form-control.input-sm type="file" name="article[pics_attributes][INDEX][path]"
+      .form-group: input.form-control.input-sm type="text" name="article[pics_attributes][INDEX][text]" placeholder="Text"
+      .form-group: input.form-control.input-sm type="number" name="article[pics_attributes][INDEX][priv]" placeholder="Privilege" min="0" value="0"

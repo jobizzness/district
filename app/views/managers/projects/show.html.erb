@@ -1,0 +1,225 @@
+<div class="page-header">
+  <h2>
+    Projects #<%= @project.id %>
+    <small>Posted on: <%= @project.created_at.strftime('%d %b %Y') %></small>
+  </h2>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <dt>STATUS:</dt>
+      <dd><%= project_status_name(@project) %></dd>
+
+      <dt>BUSINESS TYPE:</dt>
+      <dd>
+        <% if @project.step1.business_type.to_i == 1 %>
+          Individual
+        <% elsif @project.step1.business_type.to_i == 2 %>
+          Small - Ьid size
+        <% elsif @project.step1.business_type.to_i == 3 %>
+          Corporate
+        <% end %>
+      </dd>
+
+      <dt>CITY:</dt>
+      <dd><%= @project.step4.contact_city %></dd>
+
+      <dt>ZIP:</dt>
+      <dd><%= @project.step4.contact_zip %></dd>
+
+      <dt>STYLE OF PRODUCT:</dt>
+      <dd><%= @project.step2.type_of_product %></dd>
+
+      <dt>STATE:</dt>
+      <dd><%= @project.step4.contact_state %></dd>
+
+      <dt>OVERALL BUDGET:</dt>
+      <dd>
+        <% if @project.step1.overall_of_budget.to_i == 1 %>
+          $2k - $4k
+        <% elsif @project.step1.overall_of_budget.to_i == 2 %>
+          $4k - $8k
+        <% elsif @project.step1.overall_of_budget.to_i == 3 %>
+          $8k - $15k
+        <% elsif @project.step1.overall_of_budget.to_i == 4 %>
+          $15k +
+        <% end %>
+      </dd>      
+    </dl>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Fabrics:</h3></div>
+
+  <div class="panel-body">
+    <%= @project.step2.fabrics %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Artwork:</h3></div>
+
+  <div class="panel-body">
+    <%= @project.step2.artwork %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Distribution:</h3></div>
+
+  <div class="panel-body">
+    <%= @project.step2.distribution %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Production:</h3></div>
+
+  <div class="panel-body">
+    <dl class="dl-horizontal dl-horizontal-production">
+      <% if @project.step2.samples_number.present? %>
+        <dt>NUMBER OF SAMPLES/STYLES:</dt>
+        <dd><%= @project.step2.samples_number %></dd>
+      <% end %>
+
+      <% if @project.step2.samples_date.present? %>
+        <dt>SAMPLE DESIRED COMPLITION DATE:</dt>
+        <dd><%= @project.step2.samples_date %></dd>
+      <% end %>
+
+      <% if @project.step2.how_many_styles.present? %>
+        <dt>NUMBER OF STYLES FOR PRODUCTION:</dt>
+        <dd><%= @project.step2.how_many_styles %></dd>
+      <% end %>
+
+      <% if @project.step2.units_per_style.present? %>
+        <dt>NUMBER OF UNITS PER STYLE:</dt>
+        <dd><%= @project.step2.units_per_style %></dd>
+      <% end %>
+
+      <% if @project.step2.number_of_color_ways.present? %>
+        <dt>NUMBER OF COLOR WAYS PER STYLE:</dt>
+        <dd><%= @project.step2.number_of_color_ways %></dd>
+      <% end %>
+
+      <% if @project.step2.size_range.present? %>
+        <dt>SIZE RANGE:</dt>
+        <dd><%= @project.step2.size_range %></dd>
+      <% end %>
+
+      <% if @project.step2.desired_trims.present? %>
+        <dt>DESIRED TRIMS:</dt>
+        <dd><%= @project.step2.desired_trims %></dd>
+      <% end %>
+
+      <% if @project.step2.made_production.present? %>
+        <dt>PRODUCTION LOCATION:</dt>
+        <dd><%= @project.step2.made_production %></dd>
+      <% end %>
+
+      <% if @project.step2.distribution.present? %>
+        <dt>DISTRIBUTION:</dt>
+        <dd><%= @project.step2.distribution %></dd>
+      <% end %>
+
+      <% if @project.step2.completion_date.present? %>
+        <dt>DESIRED COMPLITION DATE (GIVE 30-60 DAYS):</dt>
+        <dd><%= @project.step2.completion_date %></dd>
+      <% end %>
+
+      <% if @project.step2.made_in_country.present? %>
+        <dt>MADE IN SPECIFIC COUNTRY? (IF SO, WHERE?):</dt>
+        <dd><%= @project.step2.made_in_country %></dd>
+      <% end %>
+    </dl>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">We need:</h3></div>
+
+  <div class="panel-body">
+    <ul class="list-unstyled">
+      <% if @project.step3.check_type_branding %>
+        <li>BRANDING <small>(LOGO, BRAND IDENTITY, DEMOGRAPHIC, GRAPHICS)</small></li>
+      <% end %>
+
+      <% if @project.step3.check_type_creative_direction %>
+        <li>CREATIVE DIRECTION <small>(FABRICS, THEME, MERCHANDISING)</small></li>
+      <% end %>
+
+      <% if @project.step3.check_type_design %>
+        <li>DESIGN <small>(SILHOUETTES, HAND-SKETCHING, GRAPHICS)</small></li>
+      <% end %>
+
+      <% if @project.step3.check_type_technical_design %>
+        <li>TECHNICAL DESIGN <small>(ILLUSTRATOR, CAD FILES, TECH PACKS, CONSTRUCTION DETAILS)</small></li>
+      <% end %>
+
+      <% if @project.step3.check_type_sampling %>
+        <li>SAMPLING <small>(PATTERNS, CUTTING, SEND OUTS, SEWING)</small></li>
+      <% end %>
+
+      <% if @project.step3.check_type_production %>
+        <li>PRODUCTION <small>(WORKFLOW MANAGEMENT, GRADING, FITTINGS)</small></li>
+      <% end %>
+
+      <% if @project.step3.check_type_website %>
+        <li>Website</li>
+      <% end %>
+
+      <% if @project.step3.check_type_social %>
+        <li>Social Media Marketing</li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Images:</h3></div>
+
+  <div class="panel-body">
+    <% @project.attachments.each do |file| %>
+      <%= link_to image_tag(file.attachment(:thumb), class: 'img-rounded img-responsive'), file.attachment.url, target: '_blank', class: 'project-img pull-left' %>
+    <% end %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Additional info:</h3></div>
+
+  <div class="panel-body">
+    <%= @project.step3.additional_info %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Project owner:</h3></div>
+
+  <div class="panel-body">
+    <table>
+      <tr>
+        <td>
+          <%= link_to image_tag(@project.user.company.logo(:small), class: 'img-circle pull-left'), root_url(subdomain: @project.user.company.address), target: '_blank' %>
+        </td>
+        <td>
+          <address>
+            <strong><%= @project.user.company.name %></strong><br>
+            <%= address(@project.user.company) %><br>
+            <abbr title="Phone">P:</abbr> <%= @project.user.company.phone %><br>
+            <abbr title="Email">E:</abbr> <%= @project.user.company.email %>
+          </address>
+
+          <address>
+            <strong>Contact Name</strong><br>
+            <a href="mailto:<%= @project.user.company.email %>"><%= @project.user.name %></a>
+          </address>          
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<%= render "#{@partial}" if @partial.present? %>

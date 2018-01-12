@@ -1,0 +1,96 @@
+<% if bid = @project.bid %>
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Bidder:</h3></div>
+
+    <div class="panel-body">
+      <table>
+        <tr>
+          <td>
+            <%= link_to image_tag(bid.user.company.logo(:small), class: 'img-circle pull-left'), root_url(subdomain: bid.user.company.address), target: '_blank' %>
+          </td>
+          <td>
+            <address>
+              <strong><%= bid.user.company.name %></strong><br>
+              <%= address(bid.user.company) %><br>
+              <abbr title="Phone">P:</abbr> <%= bid.user.company.phone %><br>
+              <abbr title="Email">E:</abbr> <%= bid.user.company.email %>
+            </address>
+
+            <address>
+              <strong>Contact Name</strong><br>
+              <a href="mailto:<%= bid.user.company.email %>"><%= bid.user.name %></a>
+            </address>          
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Bid #<%= bid.resource_id %>
+        <span class="pull-right">Posted on: <%= bid.created_at.strftime('%d %b %Y') %></span>
+      </h3>
+    </div>
+
+    <div class="panel-body">
+      <dl class="dl-horizontal dl-horizontal-bid">
+        <dt>Contractors bid:</dt>
+        <dd><h4>$<%= bid.total_price %></h4></dd>
+        
+        <dt>Additional info:</dt>
+        <dd><%= bid.additional_info %></dd>
+        
+        <dt>Sample pricing:</dt>
+        <dd>
+          <% bid.total_sample_pricing.each_with_index do |price, index| %>
+            <%= link_to @project.attachments[index].attachment.url, target: '_blank', class: 'project-img pull-left' do %>
+
+              <%= image_tag(@project.attachments[index].attachment(:thumb), class: 'img-rounded img-responsive') %>
+              <div class="label label-info">$<%= price %></div>
+
+            <% end if @project.attachments[index].present? %>
+          <% end if bid.total_sample_pricing.present? %>
+        </dd>
+        
+        <dt>Cost sample shipping:</dt>
+        <dd><%= number_to_currency bid.cost_sample_shipping, delimiter: '', precision: 0, format: '%u%n' %></dd>
+        
+        <dt>Production details & pricing:</dt>
+        <dd>
+          <ul class="list-unstyled" style="width: 170px">
+            <li>price:<span class="pull-right">amount:</span></li>
+            <% bid.production_cost.each do |cost| %>
+              <li>
+                <%= cost.is_a?(String) ? cost : cost[:price] || 0 %>
+                <span class="pull-right"><%= cost.is_a?(String) ? cost : cost[:amount] || 0 %></span>
+              </li>
+            <% end %>
+          </ul>
+        </dd>
+
+        <dt>Production shipping cost:</dt>
+        <dd><%= number_to_currency bid.production_shipping_cost, delimiter: ' ', precision: 0, format: '%u%n' %></dd>
+
+        <dt>Lead time samples:</dt>
+        <dd><%= bid.lead_time_samples %></dd>
+
+        <dt>Lead time production:</dt>
+        <dd><%= bid.lead_time_production %></dd>
+
+        <dt>Moq per style:</dt>
+        <dd><%= bid.moq_per_style %></dd>
+
+        <dt>Moq per order:</dt>
+        <dd><%= bid.moq_per_order %></dd>
+
+        <dt>Maximum amount of<br>color ways per style:</dt>
+        <dd><%= bid.max_amount_colors %></dd>
+
+        <dt>Payment terms of<br>sampling & production:</dt>
+        <dd><%= bid.payment_term_production %></dd>
+      </dl>
+    </div>
+  </div>
+<% end %>

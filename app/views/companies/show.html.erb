@@ -1,0 +1,307 @@
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?sensor=false',
+                           'jquery.event.move',
+                           'jquery.event.swipe',
+                           'map',                           
+                           'company' %>
+
+<script>
+  $(document).ready(function(){
+    x = "<%= @company.x %>";
+    y = "<%= @company.y %>";
+    zoom = "<%= @company.zoom %>";
+  })
+</script>
+
+<!-- FOR GOOGLE -->
+<%= image_tag @company.logo, itemprop: 'image', class: 'hidden' %>
+<div itemprop="description" class="hidden"><%= @company.description ? @company.description : @company.brief %></div>
+<!-- ENDGOOGLE -->
+
+<div class="c_body">
+  <%= render '/shared/breadcrumbs' %>
+  
+  <article class='company'>
+    <div class="company-header">
+      <div class="wrap">
+        <% if @company.logo.present? %>
+          <%= image_tag @company.logo, class: 'c-logo' %>
+        <% else %> 
+          <%= image_tag 'dummy.png', class: 'c-logo' %>
+        <% end %>
+
+        <div class="l-lft">
+          <h1 class="title"><%= @company.name %></h1>
+
+          <span class="location">
+            <%= address @company %>
+          </span>
+
+          <div class="share">
+            <% @share_url = "http://"+@company.address + '.district2.co/' %>
+
+            <!-- FACEBOOK -->
+            <div class="btn-soc">
+              <a href="#" class="fb repost-fb" data-url="<%= @share_url %>" data-description="<%= strip_tags(@company.description) %>" data-id="<%= @company.id %>" data-text="<%= @company.name %>" data-pic="<%= URI.join(request.url, @company.logo.url).to_s %>"></a>
+
+              <span>
+                <ins></ins>
+                <div id="<%= @company.id %>-fb"><%= @company.fb_reposts %></div>
+              </span>
+            </div>
+
+            <!-- TWITTER -->
+            <div class="btn-soc">
+              <a href='https://twitter.com/intent/tweet' class="tw repost-tw" data-url="<%= @share_url %>" data-id="<%= @company.id %>" data-text="<%= @company.name %>"></a>
+
+              <span>
+                <ins></ins>
+                <div id="<%= @company.id %>-tw"><%= @company.tw_reposts %></div>
+              </span>
+            </div>
+
+            <!-- GOOGLE PLUS -->
+            <div class="btn-soc">
+              <a href="https://plus.google.com/share?url=<%= @share_url %>" data-id="<%= @company.id %>" class="gp repost-gp"></a>
+
+              <span>
+                <ins></ins>
+                <div id="<%= @company.id %>-gp"><%= @company.gp_reposts %></div>
+              </span>
+            </div>
+
+            <!-- LINKEDIN -->
+            <div class="btn-soc">
+              <a href="http://www.linkedin.com/shareArticle?mini=true&url=<%= @share_url %>&title=<%= @company.name %>&summary=<%= strip_tags(@company.description) %>&source=District2" target="_blank" class="repost-in in" data-id="<%= @company.id %>"></a>
+
+              <span>
+                <ins></ins>
+                <div id='<%= @company.id %>-in'><%= @company.in_reposts %></div>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <% if @company.categories.present? %>
+          <div class="l-rgt">
+            <span class="row cats">
+              <% @company.categories.each do |c| %>
+                <%= image_tag 'cats/t' + c.pic.to_s.split('/')[-1] if c.pic.present? %>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- GALLERY -->
+    <% if @company.companies_pics.present? %>
+      <div class="gallery">
+        <div class="line">
+          <div class="holder">
+            <% @company.companies_pics.each_with_index do |c, index| %>
+              <div class="slide" id="slide-<%= index %>" data-id="<%= index %>">
+                <%= image_tag c.pic %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="overlay">
+            <div class="rgt dark"></div>
+            <div class="lft dark"></div>
+            <% if @company.companies_pics.present? %>
+              <div class="controls">
+                <a class="prev"></a>
+                <a class="next"></a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- THUMBNAILS -->
+        <div class="wrap">
+          <div class="row thumbs">
+            <% @company.companies_pics.each_with_index do |c, index| %>
+              <a href="#" class="athumbs <%= index==0 ? 'active' : '' %>" data-id="<%= index %>">
+                <%= image_tag c.pic(:small) %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <!-- END OF GALLERY -->
+
+    <div class="wrap">
+      <div id="content" style="margin-top:-70px;position:absolute;"></div>
+      <div class="tab-cont">
+        <div class="tabs" data-tabs>
+          <a href="#general" class="pads <%= 'active' unless %w(projects bids).include? params[:tab] %>">general info</a>
+          <a href="#contacts" class="pads">contact</a>
+          <% if @company.user == current_user %>
+            <% if current_user.idea? %>
+              <a href="#projects" class="pads <%= 'active' if params[:tab] == 'projects' %>">my projects</a>
+            <% elsif current_user.product? %>
+              <a href="#bids" class="pads <%= 'active' if params[:tab] == 'bids' %>">my bids</a>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="pad clearfix" data-tabs-panes>
+          <% if @company.user == current_user %>
+            <% if current_user.product? %>
+              <div class="tab-inner <%= 'hidden' unless params[:tab] == 'bids' %>" id="bids">
+                <% if @bids.present? %>
+                  <div id="bid-projects" class="projects clearfix">
+                    <%= render partial: 'shared/bid_project', collection: @bids, as: :bid %>
+                  </div>
+                  <%= paginate @bids, 'data-container' => '#bid-projects' %>
+                <% else %>
+                  <div class="cent">
+                    <p>You haven’t bid on any projects yet. To bid on your first project press here:</p>
+                    <%= link_to 'BID NOW', new_project_url, class: 'btn-yellow' %>
+                  </div>
+                <% end %>
+              </div>
+            <% elsif current_user.idea? %>
+              <div class="tab-inner <%= 'hidden' unless params[:tab] == 'projects' %>" id="projects">
+                <% if @projects.present? %>
+                  <div id="projects-container" class="projects clearfix">
+                    <%= render partial: 'shared/project', collection: @projects %>
+                  </div>
+                  <%= paginate @projects, 'data-container' => '#projects-container' %>
+                <% else %>
+                  <div class="cent">
+                    <p>You haven’t posted any projects yet. To post your first project press here:</p>
+                    <%= link_to 'POST PROJECT NOW', new_project_url, class: 'btn-yellow' %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <div class="tab-inner hidden" id="contacts">
+            <div class="half info-lines">
+              <!-- COMPANY ADDRESS -->
+              <% if @company.address1.present? %>
+                <div class="row">
+                  <strong>Address:</strong>
+                  <span>
+                    <%= @company.address1 %><%= ', ' + @company.address2 if @company.address2.present? %><%= ', ' + @company.city if @company.city.present? %><%= ', ' + @company.state if @company.state.present? %><%= ', ' + @company.country %><%= ', ' + @company.zip %>
+                  </span>
+                </div>
+              <% end %>
+
+              <!-- COMPANY PHONE -->
+              <% if @company.phone.present? %>
+                <div class="row">
+                  <strong>Phone number:</strong><span><%= @company.phone %></span>
+                </div>
+              <% end %>
+  
+              <!-- COMPANY EMAIL -->
+              <% if @company.email.present? %>
+                <div class="row">
+                  <strong>E-mail:</strong><span><a href='mailto:<%= @company.email %>'><%= @company.email %></a></span>
+                </div>
+              <% end %>
+
+              <!-- COMPANY WEBSITE -->
+              <% if @company.website.present? %>
+                <div class="row">
+                  <strong>Website:</strong><span><%= @company.website %></span>
+                </div>
+              <% end %>
+
+              <!-- IF NO DATA -->
+              <% unless @company.website.present? && @company.phone.present? %>
+                <div class="row">
+                  <span>No contacts yet.</span>
+                </div>
+              <% end %>
+
+              <!-- SOCIALS -->
+              <% if @company.facebook.present? || @company.twitter.present? || @company.instagram.present? || @company.pinterest.present? %>
+                <hr>
+                <h3>Also, we’re in social networks:</h3>
+                <ul class="social-info">
+                    <!-- FB LINK -->
+                    <% if @company.facebook.present? %>
+                      <li>
+                        <i class='fb'></i>
+                        <a target="_blank" href="<?=getValidSocialLink($company['facebook'],'facebook')?>"><%= @company.facebook %></a>
+                      </li>
+                    <% end %>
+
+                    <!-- FB LINK -->
+                    <% if @company.twitter.present? %>
+                      <li>
+                        <i class='tw'></i>
+                        <a target="_blank" href="<?=getValidSocialLink($company['twitter'],'twitter')?>"><%= @company.twitter %></a>
+                      </li>
+                    <% end %>
+
+                    <!-- INST LINK -->
+                    <% if @company.instagram.present? %>
+                      <li>
+                        <i class='inst'></i>
+                        <a target="_blank" href="<?=getValidSocialLink($company['instagram'],'instagram')?>"><%= @company.instagram %></a>
+                      </li>
+                    <% end %>
+
+                    <!-- PINT LINK -->
+                    <% if @company.pinterest.present? %>
+                      <li>
+                        <i class='pint'></i>
+                        <a target="_blank" href="<?=getValidSocialLink($company['pinterest'],'pinterest')?>"><%= @company.pinterest %></a>
+                      </li>
+                    <% end %>
+                </ul>
+              <% end %>
+
+            </div>
+            <div class="half">
+              <div class="map">
+                <div id="map_canvas"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-inner <%= 'hidden' if %w(projects bids).include? params[:tab] %>" id="general">
+            <div class="gen-txt">
+              <% if @company.description.present? %>
+                <%= @company.description %>
+              <% elsif @company.brief.present? %>
+                <%= @company.brief %>
+              <% else %>
+                No description added yet.
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GOOD AT -->
+      <% if @company.subcategories.present? %>
+        <div class="good_at">
+          <h3>What We Do</h3>
+          <ul>
+            <% @company.subcategories.each do |s| %>
+              <li><%= s.name %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <!-- END OF GOOD AT -->
+
+      <div class="row tags">
+        <% @company.tags.each do |tag| %>
+          <%= link_to tag.name, root_url(text: tag.name, anchor: 'search') %>
+        <% end %>
+
+        <% @company.subcategories.each do |s| %>
+          <%= link_to s.name, root_url(text: s.name, anchor: 'search') %>
+        <% end if @company.subcategories.present? %>
+      </div>
+    </div>
+  </article>
+</div>

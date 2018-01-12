@@ -1,0 +1,22 @@
+h3 Listing Bids
+
+.table-responsive: table.table.table-striped
+  thead
+    tr
+      th width="40" ID:
+      th User bid:
+      th Project - Style of Product:
+      th.text-center width="100" Actions:
+
+  tbody
+    - @bids.each do |bid|
+      tr
+        td = bid.id
+        td = bid.user.name if bid.user.present?
+        td = bid.project.step2.type_of_product if bid.project.step2.type_of_product.present?
+        td.text-center: .btn-group
+          / = link_to 'Show', admins_bid_path(bid), class: 'btn btn-xs btn-default'
+          / = link_to 'Edit', edit_admins_bid_path(bid), class: 'btn btn-xs btn-primary'
+          = link_to 'Destroy', admins_bid_path(bid), class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
+
+/ = link_to 'New Bid', new_admins_bid_path, class: 'btn btn-primary'

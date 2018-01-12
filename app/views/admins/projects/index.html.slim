@@ -1,0 +1,31 @@
+h3 Listing Projects
+
+.table-responsive: table.table.table-striped
+  thead
+    tr
+      th width="35" ID:
+      th.text-center width="130" Attachments:
+      th Style of Product:
+      th User:
+      th.text-center width="120" Actions:
+
+  tbody
+    - @projects.each do |project|
+      tr
+        td: b = project.id
+
+        td.text-center
+          - if project.attachments.present?
+            = image_tag project.attachments.first.attachment(:thumb), height: 60
+
+        td = project.step2.type_of_product if project.step2.present? && project.step2.type_of_product.present?
+
+        td style="white-space: nowrap;"
+          = project.user.name if project.user.present? && project.user.name.present?
+
+        td.text-center: .btn-group
+          / = link_to 'Show', admins_project_path(project), class: 'btn btn-xs btn-default'
+          = link_to 'Edit', edit_admins_project_path(project), class: 'btn btn-xs btn-primary'
+          = link_to 'Destroy', admins_project_path(project), class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
+
+/ = link_to 'New Project', new_admins_project_path, class: 'btn btn-primary'

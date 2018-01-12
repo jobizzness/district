@@ -1,0 +1,13 @@
+<div class="message <%= 'sender' if message.user_id == current_user.id %>" time="<%= message.time %>">
+  <%= image_tag message.user.company.avatar(:small), class: 'avatar' %>
+
+  <% if message.shipment_photos.exists? %>
+    <div class="shipment-photos">
+      <% message.shipment_photos.each do |photo| %>
+        <%= link_to image_tag(photo.file(:small)), photo.file.url, target: '_blank' %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= message.body %>
+</div>

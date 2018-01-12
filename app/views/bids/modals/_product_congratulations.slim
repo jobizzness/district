@@ -1,0 +1,12 @@
+.modal-bid.modal-bid-hire.modal-show: .modal-dialog
+  .modal-header Congratulations
+
+  .modal-content: .payment-start-content
+    .won Your bid <b>##{bid.resource_id}</b> amount $$ <b>#{bid_price bid}</b> posted at <b>#{bid.created_at.strftime('%d %b %Y')}</b> won
+
+    p In case of problems, you can always maintain relationship with Idea Maker using chat in the project.
+
+    p If you can not resolve the dispute with the Idea Maker, you can open debate, which will be monitored by our managers. You can do this in the tab my projects, in your profile
+
+  .modal-footer
+    = link_to 'Accept', revise_project_bid_path(bid.project, bid), class: 'btn-yellow'

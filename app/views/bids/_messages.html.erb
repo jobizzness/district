@@ -1,0 +1,4 @@
+<% messages.group_by(&:date).each do |date, messages| %>
+  <span class="date"><%= date %></span>
+  <%= render partial: 'bids/message', collection: messages, as: :message %>
+<% end %>

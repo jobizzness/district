@@ -1,0 +1,395 @@
+.project-show {
+  clear: both;
+  @include clearfix;
+
+  &, * { @include box-sizing(border-box); }
+
+  header {
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+    top: 136px;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    height: 69px;
+    position: fixed;
+    z-index: 53;
+    @include transition(top .3s);
+
+    + .wrap { padding-top: 205px; }
+
+    &.affix {
+      top: 81px;
+    }
+
+    &.in {
+      top: 81px;
+
+      + .wrap { padding-top: 150px; }
+
+      &.company-no-available + .wrap { padding-top: 174px; }
+    }
+
+    h3 {
+      font-size: 36px;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    span {
+      position: absolute;
+      right: 40px;
+      bottom: 0;
+    }
+
+    .action-buttons {
+      position: absolute;
+      top: 0;
+      right: 40px;
+      font-weight: 800;      
+
+      a:last-child {
+        margin-left: 10px;
+        color: red;
+      }
+    }
+  }
+
+  .wrap {
+    position: relative;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  > .wrap {
+    margin-top: 40px;
+    padding-bottom: 40px;
+    background: #e1e1e1;
+  }
+
+  // Columns
+  .col-first {
+    margin-bottom: 40px;
+    margin-right: 40px;
+    width: 430px;
+    float: left;
+  }
+
+  .col-second {
+    margin-bottom: 40px;
+    width: 710px;
+    float: right;
+  }
+
+  // Icons
+  .icon {
+    float: left;
+    margin-right: 15px;
+    background: 50% 50% no-repeat;
+    background-size: contain;
+  }
+
+  .icon-product {
+    background-image: image-url('projects/icon-product.png');
+    width: 25px;
+    height: 31px;
+  }
+
+  .icon-fabrics {
+    background-image: image-url('projects/icon-fabrics.png');
+    width: 42px;
+    height: 31px;
+  }
+
+  .icon-artwork {
+    background-image: image-url('projects/icon-artwork.png');
+    width: 31px;
+    height: 31px;
+  }
+
+  .icon-distribution {
+    background-image: image-url('projects/icon-distribution.png');
+    width: 31px;
+    height: 31px;
+  }
+
+  .icon-samples {
+    background-image: image-url('projects/icon-samples.png');
+    width: 40px;
+    height: 30px;
+  }
+
+  .icon-we-need {
+    background-image: image-url('projects/icon-we-need.png');
+    width: 27px;
+    height: 31px;
+  }
+
+  .icon-info {
+    background-image: image-url('projects/icon-info.png');
+    width: 27px;
+    height: 31px;
+  }
+
+  .social-icon {
+    display: inline-block;
+    float: none;
+    width: 36px;
+    height: 36px;
+    margin: 0 15px;
+    @include background-size(contain);
+  }
+
+  .icon-fb { background-image: image-url('projects/icon-fb.png'); }
+  .icon-tw { background-image: image-url('projects/icon-tw.png'); }
+  .icon-in { background-image: image-url('projects/icon-in.png'); }
+
+  // Panel style
+  .panel {
+    background: white;
+    font-family: 'Open Sans Condensed', sans-serif;
+    word-spacing: 2px;
+    letter-spacing: 1px;
+
+    &:not(:first-child) { margin-top: 40px; }
+  }
+
+  .panel-header {
+    background: #b0b0b0;
+    padding: 8px 30px;
+    font-size: 23px;
+  }
+
+  .panel-content {
+    text-transform: none;
+    padding: 15px 25px;
+    font-size: 20px;
+    @include clearfix;
+  }
+
+  // Panel fo user action
+  .user-action {
+    background: #b0b0b0;
+
+    .action-buttons {
+      width: 100px;
+      float: left;
+
+      a {
+        text-transform: uppercase;
+        font-weight: 800;
+        font-size: 23px;
+        line-height: 1.6;
+
+        &:last-child { color: #fe493f; }
+      }
+    }
+
+    .share-buttons {
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .social-icon {
+      margin: 0 10px;
+    }
+
+    span {
+      display: block;
+      text-transform: uppercase;
+      padding-bottom: 5px;
+      font-size: 21px;
+    }
+  }
+
+  // Panel company
+  .company-info {
+    font-size: 18px;
+
+    .panel-header {
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    .location {
+      background: image-url('projects/icon-location.png') 0 0 no-repeat;
+      padding-left: 20px;
+      overflow: hidden;
+      @include background-size(15px);
+    }
+
+    .panel-content {
+      padding-left: 112px;
+      line-height: 1;
+
+      div {
+        margin-top: 6px;
+        padding-bottom: 2px;
+      }
+    }
+  }
+
+  .company-logo {
+    width: 85px;
+    height: 85px;
+    margin-left: -100px;
+    border-radius: 100%;
+    float: left;
+  }
+
+  // Panel product & we need
+  .product,
+  .we-need {
+    div { @include clearfix; }
+
+    span {
+      float: left;
+      width: 350px;
+      clear: left;
+    }
+
+    b {
+      font-size: 18px;
+      overflow: hidden;
+      display: block;
+      line-height: 1.2;
+      padding-top: 3px;
+    }
+
+    .panel-content > div:not(:first-child) { margin-top: 12px; }
+  }
+
+  .we-need span { width: 195px; }
+
+  .panel-images {
+    background: white;
+    border: 1px solid #b0adad;
+    height: 350px;
+    position: relative;
+
+    .big-image {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 160px;
+      bottom: 0;
+      background: 50% 50% no-repeat;
+      @include background-size(contain);
+      transition: background-image .2s;
+    }
+
+    .thumbs {
+      width: 160px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      border-left: 1px solid #b0adad;
+      overflow: auto;
+    }
+
+    i {
+      display: block;
+      width: 130px;
+      height: 100px;
+      margin: 11px auto;
+      border: 1px solid #e1e1e1;
+      cursor: pointer;
+      background: 50% 50% no-repeat;
+      @include background-size(contain);
+
+      &.active { border-color: #b0adad; }
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding: 0;
+      font-family: 'Open Sans Condensed', sans-serif;
+      background-position: 0 100%;
+
+      .wrap {
+        padding: 10px;
+        position: static;
+        background-position: 0 0;
+      }
+
+      &, .wrap {
+        background-repeat: repeat-x;
+        @include img-retina-png('dotted_line', 30px 4px);
+      }
+
+      h3 {
+        font-size: 30px;
+        text-align: left;
+        padding-top: 3px;
+      }
+
+      span {
+        font-size: 14px;
+        right: 10px;
+        bottom: 20px;
+      }
+
+      &.affix { top: 60px; }
+
+      &.in {
+        top: 60px;
+
+        + .wrap { padding-top: 105px; }
+
+        &.company-no-available + .wrap { padding-top: 100px; }
+      }
+    }
+
+    > .wrap { padding: 0 15px 15px; }
+
+    .col-first, .col-second { margin-bottom: 15px; }
+
+    .panel:not(:first-child) { margin-top: 15px; }
+    .panel-header { padding: 5px 15px; }
+    .panel-content { padding: 10px 15px; }
+
+    .share-buttons a { margin: 0 5px !important; }
+
+    .panel-images {
+      height: 280px;
+
+      .thumbs    { width: 106px; }
+      .big-image { right: 106px; }
+
+      i {
+        width: 98px;
+        height: 86px;
+        margin: 5px auto;
+
+        &.active { border-color: #e1e1e1; }
+        &:hover { border-color: #b0adad; }
+      }
+    }
+
+    .product,
+    .we-need {
+      span { 
+        width: 100%;
+        font-size: 18px;
+      }
+
+      b {
+        overflow: inherit;
+        display: block;
+      }
+    }
+  }
+
+  @media (max-width: 1260px) {
+    .col-first, .col-second {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+}

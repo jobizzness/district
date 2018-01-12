@@ -1,0 +1,435 @@
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?sensor=false', 'map' %>
+
+<script>
+  var markersArray = [],
+      id_company = <%= @company.id %>,
+      zoom = 14;
+
+  <% if @company.zoom != 0 %>
+    var zoom = "<%= @company.zoom %>";
+  <% end %>
+
+  <% if @company.x != '' && @company.y != '' %>
+    var x = "<%= @company.x %>";
+    var y = "<%= @company.y %>";
+  <% else %>
+    var x = "34.043805";
+    var y = "-118.254917";
+  <% end %>
+</script>
+<%= javascript_include_tag 'vendor/ajaxfileupload' %>
+
+<div class="c_body settings">
+  <%= render '/shared/breadcrumbs' %>
+
+  <div class="wrap">
+    <div class="tab-cont">
+      <div class="tabs">
+        <a href="#" id="company" class="pads <%= 'active' if params[:tab].blank? || params[:tab] == 'company' %>">company <span>settings</span></a>
+        <a href="#" id="profile" class="pads <%= 'active' if params[:tab] == 'profile' %>">profile <span>settings</span></a>
+      </div>
+
+      <div class="pad">
+        <div class="tab-inner <%= 'hidden' if params[:tab].present? && params[:tab] != 'company' %>" id="company_settings">
+          <form id="company_form">
+            <div class="half">
+              <h2>General info</h2>
+
+              <div class="inputs">
+                <div class="field">
+                  <label for="name">Company name</label>
+                  <input type="text" id="name" name="name" value="<%= @company.name %>">
+                  <div class="error" id="name-error"></div>
+                </div>
+
+                <div class="field url">
+                  <label for="address">District address</label>
+                  <input type="text" id="address" name="address" value="<%= @company.address %>">
+                  <label for="address" class='end'>.district2.co</label>
+                  <div class="error" id="address-error"></div>
+                </div>
+
+                <!-- COMPANY ADDRESS -->
+                <div class="field">
+                  <label for="address1">Company address line 1</label>
+                  <input type="text" id="address1" name="address1" value="<%= @company.address1 %>">
+                  <div class="error" id="address1-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="address2">Company address line 2</label>
+                  <input type="text" id="address2" name="address2" value="<%= @company.address2 %>">
+                  <div class="error" id="address2-error"></div>
+                </div>
+
+                <div class="row" style="position: relative;">
+                  <a href="#" class="on_map">show on a map</a>
+                  <a href="#" class="refresh update_map">update map</a> 
+
+                  <div class="map-pop hidden">
+                    <div class="row"><a class='act'>close</a></div>
+                    <div class="map"><div id="map_canvas"></div></div>
+                    <p class="hint">You can move the pointer on the map by clicking on different location on the map</p>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="city">City</label>
+                  <input type="text" id="city" name="city" value="<%= @company.city %>">
+                  <div class="error" id="city-error"></div>
+                </div>
+                
+                <div class="field state" <%= 'style="display:none";' if !@company.state && @company.country != 'US' %> >
+                  <label for="state">State</label>
+
+                  <div class="select state">
+                    <span class="cur">
+                      <span class="ss"><%= @company.state %></span>
+                    </span>
+
+                    <ins></ins>
+
+                    <div class="options">
+                      <% getLocations.each do |state|  %>
+                        <a href="#"><%= state.name %></a>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="zip">Zip code</label>
+                  <input type="text" id="zip" name="zip" value="<%= @company.zip %>">
+                  <div class="error" id="zip-error"></div>
+                </div>
+
+                <!-- COUNTRIES FIELD-->
+                <div class="field">
+                  <label for="country">Country</label>
+                  <div class="select country">
+                    <span class="cur">
+                      <% getCountries.each do |c| %>
+                        <% if c.code == @company.country %>
+                          <span class="cc" data-code="<%= c.code %>"><%= c.country %></span>
+                        <% end %>
+                      <% end %>
+                    </span>
+
+                    <ins></ins>
+
+                    <div class="options">
+                      <% getCountries.each do |c| %>
+                        <a href="#" data-code="<%= c.code %>"><%= c.country %></a>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="phone">Phone number</label>
+                  <input type="text" id="phone" name="phone" value="<%= @company.phone %>">
+                  <div class="error" id="phone-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="email">Company email</label>
+                  <input type="text" id="email" name="email" value="<%= @company.email %>">
+                  <div class="error" id="email-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="website">Company website</label>
+                  <input type="text" id="website" name="website" value="<%= @company.website %>">
+                  <div class="error" id="website-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="twitter"><i class='tw'></i>Twitter link</label>
+                  <input type="text" id="twitter" name="twitter" value="<%= @company.twitter %>">
+                  <div class="error" id="twitter-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="facebook"><i class='fb'></i>Facebook link</label>
+                  <input type="text" id="facebook" name="facebook" value="<%= @company.facebook %>">
+                  <div class="error" id="facebook-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="instagram"><i class='inst'></i>Instagram link</label>
+                  <input type="text" id="instagram" name="instagram" value="<%= @company.instagram %>">
+                  <div class="error" id="instagram-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="pinterest"><i class='pint'></i>Pinterest link</label>
+                  <input type="text" id="pinterest" name="pinterest" value="<%= @company.pinterest %>">
+                  <div class="error" id="pinterest-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="brief">Brief description (120 symbols)</label>
+                  <textarea name="brief" id="brief" cols="30" rows="10"><%= @company.brief %></textarea>
+                  <div class="error" id="brief-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="description">Description</label>
+                  <textarea name="description" id="description" cols="30" rows="10"><%= @company.description %></textarea>
+                  <div class="error" id="description-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="tags">Tags</label>
+                  <textarea name="tags" id="tags" cols="30" rows="10"><%= @tags %></textarea>
+                  <br/>
+                  <div class="small_hint">Only write keywords that apply to your services, and separate by comma.</div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="half">
+            <div class="notification red <%= 'hidden' if @company.available == '1111' %>">
+              <%= render partial: '/shared/availability', locals: { company: @company } %>
+            </div>
+          
+            <div class="row pics">
+              <div class="half ava">
+                <%= form_tag '/ajax/uploadCompany', multipart: true, target: "a_i", class: "avatar" do %>
+                  <input type="hidden" name="id" value="<%= @company.id %>">
+                  <input type="hidden" name="type" value="avatar">
+                  <span>Avatar</span>
+
+                  <% if @company.avatar.present? %>
+                    <%= image_tag @company.avatar(:medium), id: 'avatar' %>
+                  <% else %>
+                    <%= image_tag 'dummy.png', id: 'avatar' %>
+                  <% end %>
+
+                  <input type="file" name="avatar-file" id="avatar-file" class="hidden">
+                  <a class='act avatar' href="#">Change avatar</a>
+                <% end %>
+                <iframe id="a_i" name="a_i" width="1" height="1"></iframe>
+              </div>
+              <div class="half c-logo">
+                <%= form_tag '/ajax/uploadCompany', multipart: true, target: "a_i", class: "logo" do %>
+                  <input type="hidden" name="id" value="<%= @company.id %>">
+                  <input type="hidden" name="ajax" value="1">
+                  <input type="hidden" name="type" value="logo">
+                  <span>Logo</span>
+
+                  <% if @company.logo.present? %>
+                    <%= image_tag @company.logo(:medium), id: 'logo' %>
+                  <% else %>
+                    <%= image_tag 'dummy.png', id: 'logo' %>
+                  <% end %>
+
+                  <input type="file" name="logo-file" id="logo-file" class="hidden">
+                  <a class='act logo' href="#">Change logo</a>
+                <% end %>
+              </div>
+            </div>
+            <div class="row">
+              <h2>Gallery</h2>
+              <div class="photos-list">
+                <ul id="sortable">
+                  <% if @company.companies_pics.present? %>
+                    <% @company.companies_pics.order(:position).each do |c| %>
+                      <li class="pics-list" data-id="<%= c.id %>" id="pic_<%= c.id %>">
+                        <span>
+                          <i class="del"></i>
+                          <%= image_tag c.pic(:small), class: 'pics' %>
+                        </span>
+                      </li>
+                    <% end %>
+                  <% else %>
+                    <li id="dummy"><span><%= image_tag 'dummy.png', class: 'pics' %></span></li>
+                  <% end %>
+                </ul>
+              </div>
+
+              <%= form_tag '/ajax/uploadCompanyPic', multipart: true, target: "a_i", class: "pic" do %>
+                <input type="hidden" name="id" value="<%= @company.id %>">
+                <input type="hidden" name="ajax" value="1">
+
+                <input type="file" name="pic-file" id="pic-file" class="hidden">
+                <div class="act pic"><a class='act'>Load more photos to gallery</a></div>
+                <p class="hint">You can use drag and drop to change order of photos in the list</p>
+              <% end %>
+
+            </div>
+          </div>
+            
+          <!-- CATEGORIES AND SUBCATS LIST -->
+          <div class="row" style='margin-bottom: 0;'>
+            <h2>General info</h2>
+
+            <!-- CATEGORIES LIST -->
+            <div class="search-cats">
+              <% getCategories.each do |c| %>
+                <div class="cat <%= 'active' if @company.cats =~ /#{c[:name]}/i %>" data-id="<%= c.id %>">
+                  <i><%= image_tag c.pic %></i>
+                  <span><%= c.name %></span>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- SUBCATEGORIES LIST -->
+            <div class="search-subcats-container <%= 'hidden' unless @company.categories.present? %>">
+
+              <div class="search-subcats">
+                <div class="pad">
+
+                  <div class="row">
+                    <h3>Services</h3>
+                    <% @subcats_services.each do |sub| %>
+                      <a class="hidden w_check <%= sub[:in] && 'checked' %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                        <i></i>
+                        <%= sub[:name] %>
+                      </a>
+                    <% end %>
+                  </div>
+                  
+                  <div class="row">
+                    <h3>Service-Agencies</h3>
+                    <% @subcats_agencies.each do |sub| %>
+                      <a class="hidden w_check <%= sub[:in] && 'checked' %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                        <i></i>
+                        <%= sub[:name] %>
+                      </a>
+                    <% end %>
+                  </div>
+
+                  <div class="row">
+                    <h3>Type</h3>
+                    <% @subcats_type.each do |sub| %>
+                      <a class="hidden w_check <%= sub[:in] && 'checked' %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                        <i></i>
+                        <%= sub[:name] %>
+                      </a>
+                    <% end %>
+                  </div>
+
+                  <div class="row">
+                    <h3>Products</h3>
+                    <% @subcats_products.each do |sub| %>
+                      <a class="hidden w_check <%= sub[:in] && 'checked' %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                        <i></i>
+                        <%= sub[:name] %>
+                      </a>
+                    <% end %>
+                  </div>
+
+                  <div class="row">
+                    <h3>Fabrics</h3>
+                    <% @subcats_fabrics.each do |sub| %>
+                      <a class="hidden w_check <%= sub[:in] && 'checked' %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                        <i></i>
+                        <%= sub[:name] %>
+                      </a>
+                    <% end %>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <a href="" class="clearfix btn-black big save">Save</a>
+        </div>
+
+        <!-- PROFILE SETTINGS TAB -->
+        <form class="profile" name="profile">
+          <div class="tab-inner <%= 'hidden' if params[:tab] != 'profile' %>" id="profile_settings">
+            <div class="half">
+              <div class="inputs">
+                <div class="field">
+                  <label for="first_name">Your first name</label>
+                  <input type="text" id="first_name" name="first_name" value="<%= @user.first_name %>">
+                  <div class="error" id="first_name-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="last_name">Your last name</label>
+                  <input type="text" id="last_name" name="last_name" value="<%= @user.last_name %>">
+                  <div class="error" id="last_name-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="name">Your username</label>
+                  <input type="text" name="name" id="name" value="<%= @user.name %>">
+                  <div class="error" id="name-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="email">Your email</label>
+                  <input type="text" name="email" id="email" value="<%= @user.email %>">
+                  <div class="error" id="email-error"></div>
+                </div>
+
+                <h3>Fill in this info only if you want to change your password</h3>
+                <div class="field">
+                  <label for="current_password">Current password</label>
+                  <input type="password" id="current_password" name="current_password" class="passwords">
+                  <div class="error" id="current_password-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="password">New password</label>
+                  <input type="password" id="password" name="password" class="passwords">
+                  <div class="error" id="password-error"></div>
+                </div>
+
+                <div class="field">
+                  <label for="password_confirmation">Confirm password</label>
+                  <input type="password" id="password_confirmation" name="password_confirmation" class="passwords">
+                  <div class="error" id="password_confirmation-error"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SOCIALS BUTTONS -->
+            <% unless @user.facebook && @user.linkedin && @user.google %>
+              <div class="half">
+                <div class="social_login">
+                  <h3>You can connect the social networks for easy login.</h3>
+                  <div class="buts">
+                    
+                    <!-- FACEBOOK -->
+                    <% unless @user.facebook %>
+                      <a href="#" class="btn-social" id="fb">
+                        <%= image_tag 'social/fb.jpg', alt: 'facebook' %>
+                        <span class="inner">Add facebook account</span>
+                      </a>
+                    <% end %>
+
+                    <% unless @user.linkedin %>
+                      <a href="#" class="btn-social" id="li">
+                        <%= image_tag 'social/in.jpg', alt: 'linkedin' %>
+                        <span class="inner">Add LinkedIn account</span>
+                      </a>
+                    <% end %>
+
+                    <% unless @user.google %>
+                      <a href="#" class="btn-social" id="gg">
+                        <%= image_tag 'social/gg.jpg', alt: 'google' %>
+                        <span class="inner">Add Google+ account</span>
+                      </a>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            
+            <div class="row" style='margin-bottom: 0;'>
+              <button class="btn-black big save_profile">Save</button>
+            </div>
+          </div>
+        </form>
+        <!-- END OF PROFILE TAB -->
+      </div>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag 'settings' %>

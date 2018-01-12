@@ -1,0 +1,17 @@
+.modal-bid.modal-bid-hire id="modal_hire_#{bid.id}": .modal-dialog
+  .modal-header Congratulations
+
+  .modal-content: .payment-start-content
+    .title You hired:
+
+    .info-bid
+      span.date = bid.created_at.strftime('%d %b %Y')
+      span $ #{bid_price bid}
+
+    .info-company
+      span = bid.user.company.name
+      span.location = [bid.user.company.city, bid.user.company.state].compact.join ', '
+
+  .modal-footer
+    button.btn-yellow.btn-gray data-close-bid-modal="" Back
+    button.btn-yellow data-bid-modal-move-to="#modal_hire_payment_form_#{bid.id}" Next

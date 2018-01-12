@@ -1,0 +1,30 @@
+<% if @companies.present? %>
+  <% @companies.each do |c| %>
+    <%= link_to root_url(subdomain: c.address), class: 'card', data: { id: c.id } do %>
+      <p class="info">
+        <% if c.avatar.present? %>
+          <%= image_tag c.avatar(:small), class: "pic", title: c.name %>
+        <% else %>
+          <%= image_tag 'dummy.png', class: "pic", title: c.name %>
+        <% end %>
+
+        <span class="title"><%= c.name %></span>
+        <span class="location"><%= c.city %><%= ', ' + c.state if c.state %></span>
+        <span class="txt"><%= strip_tags(c.brief) %></span>
+      </p>
+
+      <!-- COMPANY CATS -->
+      <span class="row cats">
+        <% if c.categories.present? %>
+          <% c.categories.each do |cat| %>
+            <%= image_tag 'cats/t' + cat.pic.to_s.split('/')[-1] %>
+          <% end %>
+        <% end %>
+      </span>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="nocompanies">
+    No companies yet
+  </div>
+<% end %>

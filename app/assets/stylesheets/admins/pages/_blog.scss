@@ -1,0 +1,23 @@
+.table-articles {
+  td { vertical-align: middle !important; }
+}
+
+.gallery-pic-form {
+  &:not(:first-child) {
+    margin-top: 21px;
+    padding-top: 21px;
+    border-top: 1px solid #ecf0f1;
+  }
+
+  ~ .btn { margin-top: 15px; }
+}
+
+.gallery-pic {
+  float: left;
+  width: 150px;
+  margin-right: 10px;
+
+  img { width: 100%; }
+
+  ~ .form-group { overflow: hidden; }
+}

@@ -1,0 +1,29 @@
+<% if getLatestNews.present? %>
+  <section class="news">
+    <div class="news_bg"><div class="bg"></div></div>
+    <div class="wrap">
+      <h2 class='title-lined'><span>Latest NEWS</span></h2>
+      <div class="news-cont">
+
+        <% getLatestNews.each do |n| %>
+          <article>
+            <%= link_to image_tag(n.pic(:small), alt: n.title, title: n.title),
+                        blog_section_article_path(n.article_cat.anchor, n.anchor),
+                        class: 'pic' %>
+            <time>
+              <%= n.created_at.strftime('%m %d, %Y AT %I:%M %p') %>
+            </time>
+            <h4 class="title">
+              <%= link_to n.title, blog_section_article_path(n.article_cat.anchor, n.anchor) %>
+            </h4>
+            <div class="txt">
+              <%= n.text_short.html_safe %>
+            </div>
+          </article>
+        <% end %>
+
+      </div>
+      <div class="row cent"><%= link_to 'see more', blog_path, class: 'btn-yellow' %></div>
+    </div>
+  </section>
+<% end %>

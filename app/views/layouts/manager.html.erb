@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manager Panel | District2</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1" >
+  <link rel="icon" href="<%= image_path('favicon.ico') %>" type="image/x-icon" />
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'managers' %>
+</head>
+<body>
+  <% if flash[:notice].present? %>
+    <div class="notice alert alert-info">
+      <span class="times">&times;</span>
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <% if flash[:alert].present? %>
+    <div class="notice alert alert-danger">
+      <span class="times">&times;</span>
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <%= render 'managers/shared/header' %>
+  
+  <div class="container">
+    <%= yield %>
+  </div>
+
+  <%= javascript_include_tag 'managers' %>
+</body>
+</html>

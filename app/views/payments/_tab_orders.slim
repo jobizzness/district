@@ -1,0 +1,39 @@
+- if current_user.product?
+  h2 Tariff plan
+
+  ul
+    li Name: <b>#{current_user.tariff.name}</b>
+    li Aviable: <b>#{current_user.tariff_days_left} days</b>
+    li Expired: <b>#{current_user.tariff_expired?}</b>
+
+  - if current_user.tariff_expired?
+    br
+    a.js-change-tariff.btn-black href="#" Change tariff
+
+  br
+  br
+
+h2 Orders
+
+table
+  thead
+    tr
+      th ID
+      th Title
+      th Amount
+      - if current_user.idea?
+        th Bid
+      th Paid at
+
+  tbody
+    - if @orders.empty?
+      td colspan="#{current_user.idea? ? '5' : '4'}": h4 No orders yet
+    - else
+      - @orders.each do |order|
+        tr
+          td = order.id
+          td = order.title
+          td: b = payment_price order.amount
+          - if current_user.idea?
+            td = link_to "##{order.bid.resource_id}", project_path(order.bid.project, anchor: :bid) if order.bid_id.present?
+          td = order.created_at.strftime('%b %d, %Y')

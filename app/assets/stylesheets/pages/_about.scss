@@ -1,0 +1,878 @@
+.about-page {
+  position: relative;
+  min-height: 100%;
+  background: image-url("pattern-bg.png");
+
+  .wrap {
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+  }
+
+  .circle { border: rgba(0,0,0,0.4) 5px dotted; }
+
+  .post-name {
+    color: white;
+    font-size: 26px;
+    font-weight: 800;
+    font-style: italic;
+    text-shadow: 0 0 5px rgba(0,0,0,.5);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 70px;
+    height: 26px;
+    line-height: 1;
+    text-align: center;
+    margin: auto;
+  }
+
+  .sewing-block {
+    position: relative;
+    width: 100%;
+    min-height: 493px;
+    overflow: hidden;
+
+    > div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      @include transform(scale(.65));
+    }
+
+    &.hover {
+      background: #1f1f1f;
+
+      .circle {
+        border: #a4a387 5px dotted;
+        background: rgba(215,255,215,.1);
+      }
+
+      .machine { background-image: image-url("sewing_machine_hover.png"); }
+
+      .post-name { display: none; }
+    }
+  }
+
+  .machine {
+    position: absolute;
+    width: 1492px;
+    height: 745px;
+    background: image-url("sewing_machine.png") 0 0 no-repeat;
+    margin-left: 110px;
+    margin-top: 30px;
+    top: 50%;
+    @include transform(translateY(-50%));
+  }
+
+  .services {
+    display: inline-block;
+    margin-bottom: 50px;
+  }
+
+  .about-title {
+    text-align: center;
+    padding-top: 20px;
+
+    h2 {
+      font-size: 36px;
+      color: #fff;
+      background-color: #525252;
+      display: inline-block;
+      padding: 0 10px;
+      font-style: normal;
+      @include transform(skewX(-10deg));
+      margin: 0;
+    }
+  }
+
+  .service {
+    float: left;
+    width: 100%;
+    margin-top: 40px;
+
+
+    .title {
+      color: #6d6d6d;
+      font-size: 32px;
+      border: 2px solid #6d6d6d;
+      display: inline-block;
+      padding: 0 20px;
+    }
+
+    img {
+      float: left;
+      margin-right: 30px;
+    }
+
+    .txt {
+      width: 65%;
+      float: left;
+      margin-top: 30px;
+
+      p {
+        font-size: 13px;
+        text-transform: none;
+        color: #6d6d6d;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .overlay {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 745px;
+    width: 100%;
+    margin-top: auto;
+    @include transform(translateY(-50%));
+
+    .txt {
+      display: none;
+      overflow: hidden;
+      position: absolute;
+      z-index: 4;
+      padding: 15px;
+      border: 2px solid rgba(255,255,255,.4);
+      @include box-sizing(border-box);
+
+      * {
+        position: relative;
+        z-index: 2;
+      }
+
+      &:before {
+        content: '';
+        box-shadow: 0 0 0 1000px rgba(0,0,0,.8);
+        border-radius: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        z-index: 1;
+      }      
+
+      .pic {
+        float: left;
+        width: 200px;
+      }
+
+      img {
+        width: 100%;
+        margin-bottom: 7px;
+        @include filter(grayscale(100%));
+      }
+
+      h3 {
+        font-size: 16px;
+        font-style: italic;
+        color: white;
+        text-align: center;
+        line-height: 1.1;
+        margin: 3px 0 10px;
+
+        span {
+          display: block;
+          font-size: 11px;
+          color: #ddd;
+        }
+      }
+
+      .social-info {
+        text-align: center;
+        overflow: hidden;
+
+        a {
+          margin: 0 8px;
+          width: 24px;
+          height: 24px;
+          display: inline-block;
+        }
+      }
+
+      .desc {
+        width: 200px;
+        float: right;
+        color: white;
+
+        span {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+          font-size: 18px;
+          line-height: 1.1;
+        }
+
+        p {
+          font-size: 16px;
+          text-transform: none;
+          margin: 10px 0;
+          line-height: 1.35;
+
+          &:last-child { margin: 0; }
+        }
+      }
+    }
+
+    .circle {
+      width: 150px;
+      height: 150px;
+      display: block;
+      overflow: hidden;
+      position: relative;
+      z-index: 3;
+      @include border-radius(50%);
+
+      .animation {
+        display: none;
+        position: relative;
+      }
+    }
+
+    section {
+      position: absolute;
+
+      &:hover {
+        z-index: 15;
+
+        .txt { display: block; }
+
+        .circle {
+          cursor: pointer;
+          background: image-url('sewing_machine.png') -110px 0, image-url('pattern-bg.png');
+          .animation { display: block; }
+        }
+      }
+    }
+  }
+
+  #cto {
+    left: 465px;
+    top: 125px;
+
+    .circle {
+      width: 150px;
+      height: 150px;
+      background-position: -350px -100px;
+    }
+
+    .txt {
+      width: 615px;
+      height: 280px;
+      top: -60px;
+      left: -223px;
+
+      &:before {
+        width: 160px;
+        height: 160px;
+        right: 10px;
+      }
+
+      .pic { width: 190px; }
+    }
+
+    .social-info a { margin: 0 5px; }
+
+    .animation { margin-top: 65px; }
+
+    .item {
+      width: 90px;
+      height: 14px;
+      background-color: #fff;
+
+      .end {
+        height: 14px;
+        width: 30px;
+        float: right;
+        position: relative;
+        overflow: hidden;
+        @include background-image(linear-gradient(-45deg, #3a3a3a 25%, transparent 25%, transparent 50%, #3a3a3a 50%, #3a3a3a 75%, transparent 75%, transparent));
+        @include background-size(14px 14px);
+      }
+    }
+
+    .item.l-lft {
+      border-bottom: 1px solid #3a3a3a;
+
+      .end {
+        float: right;
+        @include animation(animation1 2s linear infinite);
+        border-left: 1px solid #3a3a3a;
+      }
+    }
+
+    .item.l-rgt .end {
+      float: left;
+      @include animation(animation2 2s linear infinite);
+      border-right: 1px solid #3a3a3a;
+    }
+
+    #circle2 {
+      position: absolute;
+      top: 407px;
+      left: 0;
+      height: 138px;
+      width: 138px;
+      background-color: #3a3a3a;
+      z-index: 2;
+
+      .animation { margin-top: 55px; }
+      .item { width: 84px; }
+    }
+  }
+
+  #cfo {
+    left: 220px;
+    top: 360px;
+
+    .circle {
+      height: 220px;
+      width: 220px;
+      background-position: -105px -335px;
+
+      .item {
+        width: 7px;
+        height: 200px;
+        margin-top: -54px;
+        background-color: #fff;
+        margin-left: 109px;
+        position: relative;
+        @include animation(animation3 0.5s linear infinite);
+
+        ins {
+          position: absolute;
+          top: 100%;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+          border-color: rgba(136, 183, 213, 0);
+          border-top-color: #fff;
+          border-width: 20px;
+          border-left-width: 4px;
+          border-right-width: 3px;
+        }
+      }
+    }
+
+    .txt {
+      width: 710px;
+      height: 290px;
+      top: -30px;
+      left: -240px;
+
+      &:before {
+        width: 230px;
+        height: 230px;
+      }
+
+      .desc { width: 210px; }
+    }
+  }
+
+  #director {
+    left: 705px;
+    top: 485px;
+
+    .circle {
+      height: 222px;
+      width: 222px;
+      background-position: -590px -460px;
+    }
+
+    .animation {
+      height: 73px;
+      width: 222px;
+      background: image-url("about-gears-bg.png") left top no-repeat;
+      margin-top: 50px;
+    }
+
+    #gear1,
+    #gear3 {
+      background: image-url("about-gear-2.png");
+      width: 48px;
+      height: 48px;
+      position: absolute;
+      left: 38px;
+      top: 38px;
+      @include animation(spin 3s linear infinite);
+    }
+
+    #gear3 {
+      right: 39px;
+      left: auto;
+    }
+
+    #gear2 {
+      background: image-url("about-gear-1.png");
+      width: 59px;
+      height: 59px;
+      position: absolute;
+      left: 81px;
+      top: 56px;
+      @include animation(spin_back 3s linear infinite);
+    }
+
+    .txt {
+      width: 740px;
+      height: 296px;
+      top: -32px;
+      left: -229px;
+
+      &:before {
+        width: 232px;
+        height: 232px;
+        right: 50px;
+      }
+
+      .desc { width: 250px; }
+    }
+  }
+
+  #advisor {
+    top: 95px;
+    left: 845px;
+
+    .circle {
+      width: 222px;
+      height: 222px;
+      overflow: hidden;
+      background-position: -730px -70px;
+
+      .animation {
+        @include border-radius(50%);
+        width: 222px;
+        height: 222px;
+        overflow: hidden;
+        background: image-url('about-categ-bg.png') left 81px no-repeat;
+      }
+
+      .item {
+        width: 13px;
+        height: 300px;
+        margin-top: -20px;
+        background: image-url("disc-pattern.png") left top repeat-y;
+        float: right;
+        margin-right: 33px;
+        @include animation(animation4 0.5s linear infinite);
+      }
+    }
+
+    .txt {
+      width: 700px;
+      height: 292px;
+      top: -30px;
+      left: -229px;
+
+      &:before {
+        width: 232px;
+        height: 232px;
+        right: 10px;
+      }
+
+      .desc {
+        width: 210px;
+
+        p { font-size: 15px; }
+      }
+    }
+  }
+
+  #ceo {
+    top: 25px;
+    left: 225px;
+
+    .circle {
+      width: 222px;
+      height: 222px;
+    }
+
+    .txt {
+      width: 720px;
+      height: 300px;
+      top: -34px;
+      left: -244px;
+
+      &:before {
+        width: 232px;
+        height: 232px;
+      }
+
+      .pic,
+      .desc { width: 210px; }
+    }
+
+    .item {
+      background-color: #fff;
+      width: 8px;
+      position: absolute;
+      @include border-radius(5px);
+
+      ins {
+        @include border-radius(50%);
+        width: 6px;
+        height: 6px;
+        background-color: #3a3a3a;
+        display: block;
+        margin: 1px;
+      }
+    }
+
+    #detail1 {
+      height: 145px;
+      top: 26px;
+      left: 97px;
+      @include animation(animation5 1s linear infinite);
+
+      ins { margin-top: 3px; }
+    }
+
+    #detail2 {
+      height: 8px;
+      width: 30px;
+      top: 165px;
+      left: 97px;
+      z-index: 2;
+      text-align: center;
+      line-height: 0;
+      @include animation(animation6 1s linear infinite);
+
+      ins {
+        display: inline-block;
+        margin-top: 1px;
+      }
+    }
+
+    #detail3 {
+      left: 119px;
+      height: 100px;
+      top: 165px;
+      z-index: 1;
+      @include animation(animation7 1s linear infinite);
+    }
+  }
+
+  #cco {
+    left: 465px;
+    top: 533px;
+
+    .circle {
+      height: 138px;
+      width: 138px;
+      background-position: -620px -500px;
+    }
+
+    .txt {
+      width: 630px;
+      height: 280px;
+      top: -66px;
+      left: -241px;
+
+      &:before {
+        width: 148px;
+        height: 148px;
+      }
+    }
+
+    .pic,
+    .desc { width: 210px; }
+
+    .animation { margin-top: 55px; }
+
+    .item {
+      width: 84px;
+      height: 14px;
+      background-color: #fff;
+
+      .end {
+        height: 14px;
+        width: 30px;
+        float: right;
+        position: relative;
+        overflow: hidden;
+        @include background-image(linear-gradient(-45deg, #3a3a3a 25%, transparent 25%, transparent 50%, #3a3a3a 50%, #3a3a3a 75%, transparent 75%, transparent));
+        @include background-size(14px 14px);
+      }
+    }
+
+    .item.l-lft {
+      border-bottom: 1px solid #3a3a3a;
+
+      .end {
+        float: right;
+        @include animation(animation1 2s linear infinite);
+        border-left: 1px solid #3a3a3a;
+      }
+    }
+
+    .item.l-rgt .end {
+      float: left;
+      @include animation(animation2 2s linear infinite);
+      border-right: 1px solid #3a3a3a;
+    }
+  }
+
+  .mobile-sewing-block { display: none; }
+
+  @media only screen and (min-width : 768px) and (max-width : 1024px) {
+    .sewing-block {
+      background: image-url("ipad-machine.jpg") left top no-repeat !important;      
+      background-size: cover !important;
+      width: 100%;
+      height: 750px !important;
+
+      > div {
+        @include transform(none !important);
+      }
+    }
+
+    .txt,
+    .post-name {
+      display: none !important;
+    }
+
+    .machine { background: none !important; }
+
+    section {
+      .circle,
+      &:hover .circle {
+        background: none !important;
+        cursor: default !important;
+        box-shadow: none !important;
+        border: rgba(0, 0, 0, 0.4) 5px dotted !important;
+      }
+    }
+
+    #cco .circle { background: #333 !important; }
+
+    .overlay {
+      left: -110px;
+      margin-top: 27px;
+
+      .circle {
+        display: block; 
+
+        .animation { display: block; }
+      }
+    }
+
+    .about-title { padding-left: 250px; }
+
+    #detail1,
+    #detail2,
+    #detail3,
+    #gear1,
+    #gear3,
+    #gear2,
+    .item.l-lft .end,
+    .item.l-rgt .end,
+    .circle .item { @include animation(none !important); }
+  }
+
+  @media (max-width: 480px) {
+    .sewing-block { display: none; }
+
+    .mobile-sewing-block {
+      display: block;
+      padding-top: 60px;
+
+      img { max-width: 100%; }
+    }
+  }  
+}
+
+.about-text {
+  background: white;
+  text-align: center;
+  padding-top: 10px;
+
+  h3 {
+    display: inline-block;
+    margin: 0 0 10px;
+    font-size: 32px;
+    font-style: italic;
+    color: white;
+    background: #000;
+    padding: 0 8px 1px;
+
+    span { color: #fbfc5a }
+  }
+
+  p {
+    background: #eee;
+    margin: 0;
+    padding: 10px;
+    font-size: 26px;
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  @media (max-width: 480px) {
+    h3 { display: none; }
+    p { font-size: 12px; }
+  }
+}
+
+#team {
+  position: relative;
+  background: white;
+  @include background-size(cover);
+  padding: 0 0 10px 0;
+
+  .managers-mobile { display: none; }
+
+  .person {
+    height: 260px;
+    padding: 10px;
+    background-color: #fff;
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+
+    .pic {
+      width: 240px;
+      height: 240px;
+      float: left;
+      margin-right: 10px;
+    }
+
+    .name {
+      overflow: hidden;
+
+      .social-info {
+        text-align: center;
+        // width: 240px;
+        margin-top: 20px;
+
+        a {
+          margin: 0 10px;
+          width: 24px;
+          height: 24px;
+          display: inline-block;
+        }
+      }
+    }
+
+    h2 {
+      color: #000;
+      font-size: 26px;
+      text-transform: uppercase;
+      text-align: center;
+      position: relative;
+      display: block;
+      font-style: normal;
+      font-weight: normal;
+      padding: 25px 0 20px;
+      margin: 0;
+
+      span {
+        position: absolute;
+        font-size: 12px;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        left: 0;
+        bottom: 10px;
+        font-style: italic;
+        color: #333;
+        font-weight: normal;
+     }
+
+      strong {
+        line-height: 30px;
+        display: block;
+        margin: 5px 0;
+      }
+
+      .top,
+      .bottom {
+        background: image-url("arrows.png") no-repeat;
+        display: block;
+        height: 25px;
+        width: 184px;
+        position: absolute;
+        left: 50%;
+        margin: 0 0 0 -92px;
+      }
+
+      .top {
+        background-position: 0 0;
+        top: 3px;
+      }
+
+      .bottom {
+        background-position: 0 -67px;
+        bottom: -5px;
+      }
+    }
+
+    .txt {
+      overflow: hidden;
+
+      p {
+        font-size: 12px;
+        line-height: 16px;
+        text-transform: none;
+        margin: 10px 0;
+        max-height: 98px;
+        overflow: hidden;
+      }
+    }
+
+    &:nth-child(3n-1) { background-color: #eee; }
+  }
+
+  .images {
+    background: white;
+    text-align: center;
+
+    a {
+      display: inline-block;
+      vertical-align: bottom;
+      margin: 10px;
+    }
+
+    img {
+      height: 100px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .managers-mobile { display: block; }
+
+    .person {
+      height: auto;
+      width: 100%;
+
+      &:nth-child(3n-1) { background-color: #fff; }
+
+      &:nth-child(even) { background-color: #eee; }
+
+      .pic { margin-bottom: 10px; }
+
+      .pic,
+      img {
+        width: 100% !important;
+        height: auto;
+        float: none;
+      }
+
+      .txt p { margin-bottom: 0; }
+    }
+
+    .images img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}

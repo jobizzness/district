@@ -1,0 +1,26 @@
+h3 Tariffs
+
+.table-responsive: table.table.table-striped
+  thead
+    tr
+      th width="35" ID:
+      th Name:
+      th Description:
+      th Price:
+      th Duration (month):
+      th.text-center width="120" Actions:
+
+  tbody
+    - @tariffs.each do |tariff|
+      tr
+        td: b = tariff.id
+        td = tariff.name
+        td = tariff.description
+        td: b = number_to_currency tariff.price_per_month
+        td = tariff.duration 
+
+        td.text-center: .btn-group
+          = link_to 'Edit', edit_admins_tariff_path(tariff), class: 'btn btn-xs btn-primary'
+          = link_to 'Destroy', admins_tariff_path(tariff), class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
+
+= link_to 'New Tariff', new_admins_tariff_path, class: 'btn btn-primary'

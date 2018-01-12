@@ -1,0 +1,32 @@
+<div class="c_body blog">
+  <%= render '/shared/breadcrumbs' %>
+
+  <div class="wrap">
+    <div class="blog-sections">
+      <% if @cats.present? %>
+        <% @cats.each do |cat| %>
+          <!-- TODO: <?=($tablet)?"hover":""?> -->
+          <div class="section">
+            <%= link_to image_tag(cat.pic, class: 'cat-pic'), blog_section_path(cat.anchor), class: 'post_sm' %>
+
+            <% if cat.articles.present? %>
+              <div class="hover-pan">
+                <span class="title">READ ABOUT</span>
+                <div class="pad clearfix">
+                  <% cat.articles.each do |artc| %>
+                    <%= link_to blog_section_article_path(cat.anchor, artc.anchor), class: 'post_sm' do %>
+                      <%= image_tag artc.pic, width: '92', height: '62' %>
+                      <span><%= artc.title %></span>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        NO CATS, SRY
+      <% end %>
+    </div>
+  </div>
+</div>

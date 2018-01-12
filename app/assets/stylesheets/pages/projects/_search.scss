@@ -1,0 +1,40 @@
+.projects-search {
+  background: #fbfc5a;
+  width: 100%;
+  padding: 20px 0;
+  margin-bottom: 30px;
+  text-align: center;
+  clear: both;
+
+  form {
+    display: inline-block;
+    position: relative;
+  }
+
+  input[type='text'] {
+    background: white image-url('search-ic.png') 98% 50% no-repeat;
+    width: 250px;
+    max-width: 100%;
+    font-size: 12px;
+    border: 6px solid black;
+    padding: 5px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+    width: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding-top: 80px;
+    margin-bottom: -15px;
+  }
+}

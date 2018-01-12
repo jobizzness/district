@@ -1,0 +1,51 @@
+<div class="footer">
+  <footer>
+    <!-- TODO: integration with backend -->
+    <? if(!isset($nogetlisted)): ?>
+      <% unless current_user or current_manager or controller_name == 'registrations' %>
+        <%= link_to 'Get listed in our directory!', join_us_path, class: 'get_listed' %>
+      <% end %>
+    <? endif ?>
+
+    <!-- TODO: if !isset($nosubscribe) && !isset($_SESSION['user'] -->
+    <% unless current_user or current_manager or controller_name == 'registrations' %>
+      <%= render '/shared/mailchimp' %>
+    <% end %>
+
+    <%= render '/shared/latest_news' unless controller_name == 'registrations' %>
+
+    <section class="partners">
+      <h1>In the press</h1>
+      <br>
+      <div style='display: inline-block;'>
+        <div class="cont"><%= getPress %></div>
+      </div>
+    </section>
+
+    <section class="foot_menu">
+      <div class="wrap">
+        <div class="l-lft">
+          <a href="/"></a>
+          <%= link_to 'Directory', root_url %>
+          <%= link_to 'Back us', 'http://www.crowdfunder.com/district2ptco', target: '_blank' %>
+          <%= link_to 'About us', about_url %>
+          <%= link_to 'Blog', blog_url %>
+        </div>
+        <div class="l-rgt">
+          <%= link_to 'Contact us', contacts_url %>
+          <%= link_to 'Terms of use', terms_url %>
+          <%= link_to 'Privacy', privacy_url %>
+          <%= link_to 'Work with us', work_url %>
+          <%= link_to 'For investors', investors_url %>
+        </div>
+      </div>
+    </section>
+
+    <section class="copyright">
+      <div class="wrap">
+        <div class="l-lft">© District2.co 2013-<%= Time.now.strftime('%Y') %></div>
+        <div class="l-rgt">Created by <a href="http://fresh-development.com" target='_blank'>FreshDevelopment</a></div>
+      </div>
+    </section>
+  </footer>
+</div>

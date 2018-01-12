@@ -1,0 +1,76 @@
+.modal-bid.modal-bid-hire-review id="modal_hire_review_#{bid.id}": .modal-dialog
+  .modal-header Review & Send
+
+  .modal-content
+    .payment-review-content
+      .bid-id # #{bid.resource_id}
+      .date = bid.created_at.strftime('%d %b %Y')
+
+      ul
+        li
+          span Cost sample shipping:
+          = number_to_currency bid.cost_sample_shipping, delimiter: ' ', precision: 0, format: '%u%n'
+
+        li
+          span Production details & pricing:
+          table
+            tr
+              td width="70px"  Price:
+              td Amount:
+
+            - bid.production_cost.each do |cost|
+              tr
+                td = cost.is_a?(String) ? cost : number_to_currency(cost[:price], precision: 0) || 0
+                td = cost.is_a?(String) ? cost : cost[:amount] || 0
+
+        li
+          span Production shipping cost:
+          = number_to_currency bid.production_shipping_cost, precision: 0
+
+        li
+          span Lead time samples:
+          = bid.lead_time_samples
+
+        li
+          span Lead time production:
+          = bid.lead_time_production
+
+        li
+          span Moq per style:
+          = bid.moq_per_style
+
+        li
+          span Moq per order:
+          = bid.moq_per_order
+
+        li
+          span Maximum amount of color ways per style:
+          = bid.max_amount_colors
+
+      ul
+        li
+          span Shipping Summary:
+          | $ 100.99
+        li
+          span Subtotal:
+          | $ 100.99
+        li
+          span Shipping:
+          | $ 100.99
+        li
+          span Tax:
+          | $ 100.99
+        li
+          span Total:
+          | $ 100.99
+        li
+          span Method:
+          b Economy Ground
+
+      h4 Payment terms of sampling & production:
+      p = bid.payment_term_production
+      .total-amount Total payment amount: <b>$ #{bid_price bid}</b>
+
+  .modal-footer
+    button.btn-yellow.btn-gray data-bid-modal-move-to="#modal_hire_payment_form_#{bid.id}" Back
+    button.btn-yellow data-bid-modal-move-to="#modal_hire_finish_#{bid.id}" data-remote="#{win_project_bid_path(project, bid)}" Send

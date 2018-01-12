@@ -1,0 +1,25 @@
+h3 Listing Blog Articles
+
+.table-responsive: table.table.table-striped.table-articles
+  thead
+    tr
+      th ID:
+      th Picture:
+      th Title:
+      th Category:
+      th Priv:
+      th.text-center width="150" Actions:
+
+  tbody
+    - @articles.each do |article|
+      tr
+        td: b = article.id
+        td = image_tag(article.pic(:small), height: 30) if article.pic.present?
+        td = link_to article.title, edit_admins_blog_article_path(article)
+        td = article.article_cat.title
+        td = article.priv
+        td.text-center: .btn-group
+          = link_to 'Edit', edit_admins_blog_article_path(article), class: 'btn btn-xs btn-primary'
+          = link_to 'Destroy', admins_blog_article_path(article), class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
+
+= link_to 'New article', new_admins_blog_article_path, class: 'btn btn-primary'

@@ -1,0 +1,22 @@
+.c_body.settings.payment-sttings
+  = render '/shared/breadcrumbs'
+
+  .wrap: .tab-cont
+    .tabs
+      a.pads data-toggle="tab" href="#payment_tab" class=('active' if params[:tab].blank? || params[:tab] == 'payment') Payment
+      - if current_user.product?
+        a.pads data-toggle="tab" href="#account_tab" class=('active' if params[:tab] == 'account') Stripe
+  
+    .pad
+      #payment_tab.tab-inner.clearfix data-tab="pane" class=('hidden' unless params[:tab].blank? || params[:tab] == 'payment')
+        = render 'tab_orders'
+
+      - if current_user.product?
+        #account_tab.tab-inner.clearfix data-tab="pane" class=('hidden' if params[:tab] != 'account')
+          = render 'tab_stripe'
+
+- content_for :javascript
+  script src="https://js.stripe.com/v2/"
+  coffee:
+    new PaymentStripe
+    new PaymentsTab

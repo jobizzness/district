@@ -1,0 +1,27 @@
+.main-login: .main-wrap
+  = form_tag user_session_path, id: 'main_signin'
+    button.btn-yellow.btn-sign-in type="submit" SIGN IN
+
+    label for="login_email" E-Mail Address
+    input#login_email type="email" name="email" required=""
+
+    label for="login_password" Password
+    input#login_password type="password" name="password" required=""
+
+    input#fid type="hidden" name="fid"
+    input#gid type="hidden" name="gid"
+
+    button.btn-yellow.btn-go type="submit" GO
+
+    .login-links
+      = link_to 'NOT A MEMBER? SIGN UP NOW.', join_us_url
+      = link_to 'FORGOT YOUR PASSWORD?', new_user_password_url
+
+    button.btn-yellow.btn-sign-in-second type="submit" SIGN IN
+
+  .signin-with
+    span Sign in with
+
+    .links
+      = link_to 'Facebook', nil, class: 'facebook', id: 'main_facebook_btn'
+      = link_to 'Google', nil, class: 'google', id: 'main_google_btn'

@@ -1,0 +1,20 @@
+.btn {
+  line-height: 1;
+  font-size: 12px;  
+  border: 2px solid;
+  padding: 9px 0;
+  width: 150px;
+  height: 34px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  @include box-sizing(border-box);
+}
+
+.btn-green { @include button-variants(#37d5b9, #14b89b, white); }
+
+.btn-white { @include button-variants(white, #e3e3e3, #616161); }
+
+.btn-black { @include button-variants(black, transparent, white); }
+
+.btn-gray { @include button-variants(#d7d7d7, transparent, black); }

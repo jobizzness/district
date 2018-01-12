@@ -1,0 +1,25 @@
+.well.clearfix = form_tag admins_imports_path, multipart: true do
+
+  .col-md-4.col-md-offset-4
+    = file_field_tag 'csv', class: 'form-control', accept: '.csv'
+    br
+    button.btn.btn-default.btn-block data-disable-with="<i class='fa fa-cog fa-spin'></i> Please wait..."
+      = fa_icon 'upload', text: 'Import data'
+
+- if @companies.present?
+  .table-responsive: table.table.table-striped
+    thead: tr
+      th Email
+      th Company Name
+      th Phone #
+      th Website
+      th Class
+
+    tbody
+      - @companies.each do |company|
+        tr(class=('danger' if company[:failed]))
+          td = company['Email']
+          td = company['Company Name']
+          td = company['Phone #']
+          td = company['Website']
+          td = company['Class']

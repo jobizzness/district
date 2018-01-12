@@ -1,0 +1,55 @@
+<div class="project <%= 'winner' if bid && bid.win? %>" data-id="<%= bid.project.id %>">
+  <div class="status">
+    <% if current_user.product? %>
+      <% if %w( completed disputed cancelled ).include?(bid.project.status) %>
+        <%= project_status_name(bid.project) %>
+      <% elsif bid.project.in_work? && bid && bid.win? %>
+        <%= project_status_name(bid.project) %>
+      <% end %>
+    <% elsif current_user.idea? %>
+      <%= project_status_name(bid.project) %>
+    <% end %>
+
+    <% if current_user.idea? %>
+      <% if %w( in_work completed cancelled ).include?(bid.project.status) && bid.project.win %>
+        <div class="pull-right">$ <%= bid_price(bid) %></div>
+      <% end %>
+    <% else %>
+      <% if bid.project.in_work? && bid.project.win %>
+        <div class="pull-right">$ <%= bid_price(bid) %></div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= link_to project_url(bid.project.id) do %>
+    <div class="bid-desc">
+      <h4>YOUR BID:</h4>
+      <div>#: <div class="pull-right"><%= bid.resource_id %></div></div>
+      <div>$$: <div class="pull-right"><%= bid.total_price %></div></div>
+      <div class="date">: <div class="pull-right"><%= bid.created_at.strftime('%d %b %Y') %></div></div>
+      <p><%= bid.additional_info %></p>
+    </div>
+
+    <span><% unless bid %>Posted on <% end %><%= bid.project.created_at.strftime('%d %b %Y') %></span>
+
+    <h3><%= bid.project.id %>. <%= bid.project.step2.type_of_product %></h3>
+
+    <% if bid.project.attachments.present? %>
+      <div class="images">
+        <% bid.project.attachments.each do |file| %>
+          <%= image_tag file.attachment(:thumb) %>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <p><%= truncate bid.project.step2.type_of_product, length: 260 %></p>
+  <% end %>
+
+  <% if false && bid.project.in_work? && [bid.project.user_id, bid.user_id].include?(current_user.id) %>
+    <div class="work-buttons">
+      <a href="#" class="btn btn-white" data-bid-modal="#modal_dispute_<%= project.bid.id %>">Dispute</a>
+    </div>
+
+    <%= render 'bids/modals/dispute', project: project, bid: bid %>
+  <% end %>
+</div>

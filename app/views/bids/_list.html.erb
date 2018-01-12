@@ -1,0 +1,15 @@
+<h2><span>bids:</span></h2>
+
+<div class="bids">
+  <% if @bids.present? %>
+    <% @bids.each_with_index do |bid, index| %>
+      <%= render 'bids/bid', bid: bid, project: @project, class_name: ['bid-in-list', ('opened' if bid.win_id)].join %>
+    <% end %>
+  <% else %>
+    <div class="no-bids">There is no bids yet.<br>Try to share your project:</div>
+
+    <div class="bid-social-icons">
+      <%= render '/projects/social_buttons' %>
+    </div>
+  <% end %>
+</div>

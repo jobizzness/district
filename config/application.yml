@@ -1,0 +1,14 @@
+development:
+  GMAIL_USERNAME: 'mako.dev.service'
+  GMAIL_PASSWORD: 'VovaUndVova'
+  STRIPE_SECRET_KEY: 'sk_test_TfQt4XNwWanhchm9JlIqujN3'
+  STRIPE_PUBLISHABLE_KEY: 'pk_test_CRSWsD3yE3rAV1cwx02sPLCA'
+  STRIPE_CLIENT_ID: 'ca_A2yRFdzkhCgD2rE7psm7JTH8hGOuICXA'
+
+production:
+  GMAIL_USERNAME: Your_Username2
+  GMAIL_PASSWORD: Your_Password2
+  STRIPE_SECRET_KEY: 'sk_live_7xRzOAMstpdGKhTJ6zRZxUfQ'
+  STRIPE_PUBLISHABLE_KEY: 'pk_live_v2xFKC69MpPGT2DJ1qyLO2ba'
+  STRIPE_CLIENT_ID: 'ca_A2yRjxsOxbV5pZAb4MmphoSO1fiv2Iga'
+

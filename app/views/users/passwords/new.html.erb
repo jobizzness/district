@@ -1,0 +1,25 @@
+<div class="c_body register new_pass">
+  <%= render '/shared/breadcrumbs' %>
+
+  <div class="wrap clearfix">
+    <h1>FORGOT YOUR PASSWORD?</h1>
+
+    <h2 class='title-lined'><span>Good day! Please, enter your email</span></h2>
+
+    <div class="inputs-big">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= devise_error_messages! %>
+
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.email_field :email, autofocus: true %>
+          <div class="error" id="email-error"></div>
+        </div>
+
+        <div class="row cent">
+          <%= f.submit "Send me instructions", class: "btn-black big save-password" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

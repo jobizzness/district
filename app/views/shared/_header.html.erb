@@ -1,0 +1,82 @@
+<div class="page-head">
+  <header>
+    <div class="row mobile_buts">
+      <a class="to_search" id="js-mobile-search"><i></i></a>
+      <a class="to_nav" id="js-mobile-menu"><i></i></a>
+    </div>
+    <div class="wrap">
+      <%= link_to image_tag('logo-beta.png', class: 'retina'), url_for(controller: '/mains'), class: 'logo' %>
+
+      <% if current_user %>
+        <div class="user-pan l-rgt">
+          <%= tariff_indicator %>
+
+          <div id="usermenu">
+            <span class="cur"><%= current_user.name %></span>
+            <ins></ins>
+            <div class="menu">
+              <%= link_to 'My projects', url_for(controller: :companies, action: :show, tab: :projects, anchor: :content), class: 'my-projects' if current_user.idea? %>
+              <%= link_to 'Post projects', url_for(controller: :projects, action: :new), class: 'post-projects' if current_user.idea? %>
+              <%= link_to 'My bids', url_for(controller: :companies, action: :show, tab: :bids, anchor: :content), class: 'my-bids' if current_user.product? %>
+              <%= link_to 'Profile', root_url(subdomain: current_user.company.address), class: 'profile' %>
+              <%= link_to 'Edit profile', url_for(controller: :settings), class: 'settings' %>
+              <%= link_to 'Payment', url_for(controller: :payments), class: 'my-bids' %>
+              <%= link_to 'Sign out', ajax_signout_url, method: :delete, class: 'signout' %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <%= link_to 'JOIN FREE', join_us_url, class: 'btn-yellow join' %>
+        <%= link_to 'Sign in', new_user_session_path, class: 'btn-user-signin' %>
+        <ul class="l-rgt btn-signin">
+          <li><a href="" class="signin">Sign in</a></li>
+        </ul>
+      <% end %>
+
+      <nav id="mainmenu" class='mainmenu'>
+        <ul class='l-lft'>
+          <li><%= nav_link 'HOME', url_for(controller: '/mains') %></li>
+          <li><%= nav_link 'DIRECTORY', url_for(controller: '/mains', anchor: 'search') %></li>
+          <li><%= nav_link 'ABOUT US', url_for(controller: '/pages', action: :about) %></li>
+          <li><%= nav_link 'BLOG', url_for(controller: '/blogs') %></li>
+          <li><%= nav_link 'PROJECTS', url_for(controller: '/projects') %></li>
+
+          <% if current_user %>
+            <li><%= nav_link 'POST PROJECT', url_for(controller: '/projects', action: :new) if current_user.idea? %></li>
+            <li class="menu-tariff-indicator"><%= tariff_indicator %></li>
+            <li class="profile-link separate-line"></li>
+            <li class="profile-link">
+              <% if current_user.idea? %>
+                <%= nav_link 'My projects', url_for(controller: :companies, action: :show, tab: :projects), 'my-projects-mobile' %>
+              <% elsif current_user.product? %>
+                <%= nav_link 'My bids', url_for(controller: :companies, action: :show, tab: :bids), 'my-bids-mobile' %>
+              <% end %>
+            </li>
+            <li class="profile-link">
+              <%= nav_link 'Profile', root_url(subdomain: current_user.company.address), 'profile-mobile' %>
+            </li>
+            <li class="profile-link">
+              <%= nav_link 'Edit profile', url_for(controller: :settings), 'settings-mobile' %>
+            </li>
+            <li class="profile-link">
+              <%= nav_link 'Payment', url_for(controller: :settings), 'my-bids-mobile' %>
+            </li>
+          <% end %>
+
+          <% if current_user %>
+            <li class="profile-link">
+              <%= link_to 'Sign out', ajax_signout_url, method: :delete, class: 'signout-mobile' %>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+
+      <%= render '/shared/popups/signin' %>
+      <%= render '/shared/popups/recover' %>
+ 
+      <% if request.user_agent =~ /Mobile|webOS/ %>
+        <%= render partial: '/shared/mobile_search' %>
+      <% end %>
+    </div>
+  </header>
+</div>

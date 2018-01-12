@@ -1,0 +1,26 @@
+nav.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar_collapse"
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+      = link_to root_path, class: 'navbar-brand' do
+        = image_tag 'logo-beta.png', height: 40, class: 'pull-left'
+      
+    - if manager_signed_in?
+      #navbar_collapse.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          = navbar_link 'Projects', managers_projects_path
+
+        ul.nav.navbar-nav.navbar-right
+          li.dropdown
+            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+              = current_manager.email
+              span.caret
+
+            ul.dropdown-menu role="menu"
+              / li.divider
+              li = link_to 'Sign out', destroy_manager_session_path, method: :delete

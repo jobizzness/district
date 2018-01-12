@@ -1,0 +1,24 @@
+h3 Listing Team Members
+
+.table-responsive: table.table.table-striped.table-vcenter
+  thead
+    tr
+      th width="35" ID:
+      th.text-center width="130" Photo:
+      th Name:
+      th About:
+      th.text-center width="120" Actions:
+
+  tbody
+    - @team_members.each do |member|
+      tr
+        td: b = member.id
+        td.text-center = image_tag member.photo(:medium), height: 50
+        td = member.name
+        td = member.about
+        td.text-center: .btn-group
+          / = link_to 'Show', admins_member_path(member), class: 'btn btn-xs btn-default'
+          = link_to 'Edit', edit_admins_team_member_path(member), class: 'btn btn-xs btn-primary'
+          = link_to 'Destroy', admins_team_member_path(member), class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
+
+= link_to 'New member', new_admins_team_member_path, class: 'btn btn-primary'

@@ -1,0 +1,11 @@
+.main-wrap {
+  max-width: 1170px;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+@import "main/navbar";
+@import "main/header";
+@import "main/login";
+@import "main/sections";
+@import "main/footer";

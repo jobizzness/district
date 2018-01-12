@@ -1,0 +1,244 @@
+<% @max = getTxt('category_articles').to_i %>
+
+<div class="c_body blog">
+  <script>
+    var anchor          = "<%= @category.anchor %>";
+    var articles_count  = <%= @count %>;
+    var articles_shown  = <%= @max %>;
+  </script>
+
+  <%= javascript_include_tag 'article' %>
+
+  <%= render '/shared/breadcrumbs' %>
+
+  <div class="wrap">
+    <% if @articles.present? && (@leaders_facebook.present? || @leaders_twitter.present?) %>
+      <section class="row news top_news">
+        <% if @leaders_facebook.present? %>
+          <div class="half">
+            <article class="shown leader" data-id="<%= @leaders_facebook.id %>">
+              <header>facebook super star</header>
+
+              <%= link_to blog_section_article_path(@category.anchor, @leaders_facebook.anchor), class: 'pic', style: "background-image: url(#{@leaders_facebook.pic(:medium)})" do %>
+                <%= image_tag @leaders_facebook.pic(:medium), alt: @leaders_facebook.title %>
+              <% end %>
+
+              <div class="pad">
+                <h4 class="title">
+                  <%= link_to @leaders_facebook.title, blog_section_article_path(@category.anchor, @leaders_facebook.anchor) %>
+                </h4>
+
+                <div class="row">
+                  <time><%= @leaders_facebook.date.strftime('%m %d, %Y AT %I:%M %p') %></time>
+                  <div class="share">
+
+                    <!-- FACEBOOK -->
+                    <div class="btn-soc">
+                      <%= link_to '', nil,
+                                       class: 'fb repost-fb',
+                                       data: { description: strip_tags(@leaders_facebook.text_short),
+                                               id: @leaders_facebook.id,
+                                               text: @leaders_facebook.title,
+                                               pic: URI.join(request.url, @leaders_facebook.pic(:medium)).to_s } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_facebook.id %>-fb"><%= @leaders_facebook.fb_reposts %></div>
+                      </span>
+                    </div>
+
+                    <!-- TWITTER -->
+                    <div class="btn-soc">
+                      <%= link_to '', 'https://twitter.com/intent/tweet',
+                                       class: 'tw repost-tw',
+                                       data: { url: blog_section_article_url(@category.anchor, @leaders_facebook.anchor),
+                                               id: @leaders_facebook.id,
+                                               text: @leaders_facebook.title } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_facebook.id %>-tw"><%= @leaders_facebook.tw_reposts %></div>
+                      </span>
+                    </div>
+
+                    <!-- GOOGLE PLUS -->
+                    <div class="btn-soc">
+                      <%= link_to '', "https://plus.google.com/share?url=#{blog_section_article_url(@category.anchor, @leaders_facebook.anchor)}",
+                                       class: 'gp repost-gp',
+                                       data: { id: @leaders_facebook.id } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_facebook.id %>-gp"><%= @leaders_facebook.gp_reposts %></div>
+                      </span>
+                    </div>
+
+                    <!-- LINKED IN -->
+                    <div class="btn-soc">
+                      <%= link_to '', "http://www.linkedin.com/shareArticle?mini=true&url=#{blog_section_article_url(@category.anchor, @leaders_facebook.anchor)}&title=#{@leaders_facebook.title}&summary=#{strip_tags(@leaders_facebook.text_short)}&source=District2",
+                                       class: 'repost-in in',
+                                       data: { id: @leaders_facebook.id } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_facebook.id %>-in"><%= @leaders_facebook.in_reposts %></div>
+                      </span>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="txt">
+                  <%= @leaders_facebook.text_short.html_safe %>
+                </div>
+                <%= link_to 'Read more', blog_section_article_path(@category.anchor, @leaders_facebook.anchor), class: 'read_more' %>
+              </div>
+            </article>
+          </div>
+        <% end %>
+
+        <% if @leaders_twitter.present? %>
+          <div class="half">
+            <article class="shown leader" data-id="<%= @leaders_twitter.id %>">
+              <header>twitter super star</header>
+
+              <%= link_to blog_section_article_path(@category.anchor, @leaders_twitter.anchor), class: 'pic', style: "background-image: url(#{@leaders_twitter.pic(:medium)})" do %>
+                <%= image_tag @leaders_twitter.pic(:medium), alt: @leaders_twitter.title %>
+              <% end %>
+
+              <div class="pad">
+                <h4 class="title">
+                  <%= link_to @leaders_twitter.title, blog_section_article_path(@category.anchor, @leaders_twitter.anchor) %>
+                </h4>
+
+                <div class="row">
+                  <time><%= @leaders_twitter.date.strftime('%m %d, %Y AT %I:%M %p') %></time>
+                  <div class="share">
+
+                    <!-- FACEBOOK -->
+                    <div class="btn-soc">
+                      <%= link_to '', nil,
+                                       class: 'fb repost-fb',
+                                       data: { description: strip_tags(@leaders_twitter.text_short),
+                                               id: @leaders_twitter.id,
+                                               text: @leaders_twitter.title,
+                                               pic: URI.join(request.url, @leaders_twitter.pic(:medium)).to_s } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_twitter.id %>-fb"><%= @leaders_twitter.fb_reposts %></div>
+                      </span>
+                    </div>
+
+                    <!-- TWITTER -->
+                    <div class="btn-soc">
+                      <%= link_to '', 'https://twitter.com/intent/tweet',
+                                       class: 'tw repost-tw',
+                                       data: { url: blog_section_article_url(@category.anchor, @leaders_twitter.anchor),
+                                               id: @leaders_twitter.id,
+                                               text: @leaders_twitter.title } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_twitter.id %>-tw"><%= @leaders_twitter.tw_reposts %></div>
+                      </span>
+                    </div>
+
+                    <!-- GOOGLE PLUS -->
+                    <div class="btn-soc">
+                      <%= link_to '', "https://plus.google.com/share?url=#{blog_section_article_url(@category.anchor, @leaders_twitter.anchor)}",
+                                       class: 'gp repost-gp',
+                                       data: { id: @leaders_twitter.id } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_twitter.id %>-gp"><%= @leaders_twitter.gp_reposts %></div>
+                      </span>
+                    </div>
+
+                    <!-- LINKED IN -->
+                    <div class="btn-soc">
+                      <%= link_to '', "http://www.linkedin.com/shareArticle?mini=true&url=#{blog_section_article_url(@category.anchor, @leaders_twitter.anchor)}&title=#{@leaders_twitter.title}&summary=#{strip_tags(@leaders_twitter.text_short)}&source=District2",
+                                       class: 'repost-in in',
+                                       data: { id: @leaders_twitter.id } %>
+                      <span>
+                        <ins></ins>
+                        <div id="<%= @leaders_twitter.id %>-in"><%= @leaders_twitter.in_reposts %></div>
+                      </span>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="txt">
+                  <%= @leaders_twitter.text_short.html_safe %>
+                </div>
+                <%= link_to 'Read more', blog_section_article_path(@category.anchor, @leaders_twitter.anchor), class: 'read_more' %>
+              </div>
+            </article>
+          </div>
+        <% end %>
+      </section>
+
+      <!-- TODO: integrate sort buttons (if @count > 1) -->
+      <% if nil %>
+        <div class="row">
+          <div class="l-rgt sort_by">
+            <!--<label>sort by</label>-->
+            <!-- <a data-order="recent" 
+               class='sort <?=($order=='recent' || $order=='date' )?'active':''?>'
+               href="<?=base_url('blog/'.$anchor.'/by/recent')?>">recently posted</a> -->
+            <!-- <a data-order="popular"
+               class='sort <?=($order=='popular')?'active':''?>'
+               href="<?=base_url('blog/'.$anchor.'/by/popular')?>">most popular</a> -->
+            
+            <%= link_to 'recently posted', '#', 
+                        class: "sort #{'active' if @order == 'recent' || $order == 'date'}",
+                        data: { order: 'recent' }  %>
+
+            <%= link_to 'most popular', '#', 
+                        class: "sort #{'active' if @order == 'popular'}",
+                        data: { order: 'popular' }  %>
+          </div>
+        </div>
+      <% end %>
+
+      <section class="news sm_news">
+        <div class="bigloader hidden">
+          <%= image_tag 'loader.gif' %>
+        </div>
+
+        <div class="news-cont">
+          <% if @count > 0 %>
+            <% @articles.first(@max).each do |article| %>
+              <article class="shown" data-id="<%= article.id %>">
+                <%= link_to image_tag(article.pic(:small), alt: article.title, title: article.title),
+                            blog_section_article_path(@category.anchor, article.anchor),
+                            class: 'pic' %>
+                <time>
+                  <%= article.date.strftime('%m %d, %Y AT %I:%M %p') %>
+                </time>
+                <h4 class="title">
+                  <%= link_to article.title, blog_section_article_path(@category.anchor, article.anchor) %>
+                </h4>
+                <div class="txt">
+                  <%= article.text_short.html_safe %>
+                </div>
+              </article>
+            <% end %>
+          <% else %>
+            <? if(!isset($leaders)): ?>
+              <div class="nonews">
+                NO ARTICLES
+              </div>
+            <? endif ?>
+          <% end %>
+        </div>
+
+        <% if @count > @max %>
+          <div class="row">
+            <a href="#" class="load_more" id="articles" data-limit="<%= @max %>" data-link="moreArticlesByCat">
+              <div class='content'>load more</div>
+              <div class='loader hidden'><%= image_tag 'loader.gif', class: 'loader' %></div>
+            </a>
+          </div>
+        <% end %>
+      </section>
+    <% else %>
+      <section class="no_articles">
+        No articles here yet.
+      </section>
+    <% end %>
+  </div>
+</div>

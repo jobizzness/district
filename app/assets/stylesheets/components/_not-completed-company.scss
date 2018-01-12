@@ -1,0 +1,57 @@
+.not-completed-company {
+  background: #fb4b46;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 76px;
+  color: white;
+  padding: 5px;
+  z-index: 50;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1;
+
+  + .not-completed-company {
+    top: 133px;
+  }
+
+  .fixed-breadcrumbs & {
+    top: 150px;
+
+    + .not-completed-company {
+      top: 207px;
+    }
+  }
+
+  ~ .projects-search {
+    padding-top: 44px;
+  }
+
+  div {
+    padding-top: 7px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    padding: 3px 10px;
+    top: 60px;
+    line-height: 1.2;
+
+    + .not-completed-company {
+      top: 127px;
+    }
+
+    div {
+      padding-top: 5px;
+    }
+
+    + .title {
+      padding-top: 33px !important;
+    }
+
+    .fixed-breadcrumbs & {
+      top: 129px;
+    }
+  }
+}

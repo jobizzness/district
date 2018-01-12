@@ -1,0 +1,30 @@
+.modal-bid.modal-bid-hire-payment-form id="modal_hire_payment_form_#{bid.id}": .modal-dialog
+  .modal-header Enter Your Payment Information
+
+  .modal-content
+    form.payment-form-content: .payment-form-inner
+      .form-group.form-group-card-number
+        label for="card_number" Card Number
+        = text_field_tag :card_number, nil, class: 'number', data: { mask: '0000 0000 0000 0000', stripe: 'number' }
+
+      .form-group.form-group-cvc
+        label for="card_verification" CVC
+        = text_field_tag :card_verification, nil, class: 'cvv', data: { mask: '0000', stripe: 'cvv' }
+
+      .form-group.form-group-card-expires
+        label Card Expires
+        - months = Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }
+        - years = (Date.today.year..(Date.today.year+10)).to_a
+        = select_tag :exp_month, options_for_select(months), include_blank: false, data: { stripe: 'exp-month' }
+        = select_tag :exp_year, options_for_select(years), include_blank: false, data: { stripe: 'exp-year' }
+
+      .payment-errors
+
+  .modal-footer
+    button.btn-yellow.btn-gray data-bid-modal-move-to="#modal_hire_#{bid.id}" Back
+    button.btn-yellow data-bid-modal-move-to="#modal_hire_review_#{bid.id}" data-payment-verification="" Next
+
+- content_for :javascript
+  script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"
+  script src="https://js.stripe.com/v2/"
+  script Stripe.setPublishableKey('#{Rails.configuration.stripe[:publishable_key]}');

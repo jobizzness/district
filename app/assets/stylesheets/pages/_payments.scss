@@ -1,0 +1,113 @@
+.payment-sttings {
+  table {
+    border: 1px solid #000;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #000;
+  }
+
+  th {
+    padding: 5px;
+  }
+
+  td {
+    padding: 7px;
+    text-transform: none;
+
+    &:not(:nth-child(2)) {
+      text-align: center;
+    }
+
+    a {
+      color: black;
+    }
+  }
+
+  .error-message {
+    color: red;
+    margin-bottom: 20px;
+  }
+
+  .payment-field {
+    font-size: 14px;
+    text-transform: none;
+    margin-bottom: 25px;
+    width: 250px;
+
+    label {
+      width: 100%;
+
+      a {
+        margin-left: 5px;
+        color: black;
+      }
+
+      input[type=checkbox] {
+        margin: 4px 5px 0 0;
+        float: left;
+      }
+    }
+
+    select,
+    input[type=text] {
+      background: white;
+      width: 100%;
+      font-size: 14px;
+      padding: 5px 10px;
+      margin-top: 5px;
+      border: 2px solid black;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      @include border-radius(0);
+      @include appearance(none);
+    }
+
+    select {
+      background: white image-url('select_arr.png') calc(100% - 5px) 50% no-repeat;
+      background-size: 10px;
+    }
+  }
+
+  .bank-account-status {
+    margin-bottom: 20px;
+    float: right;
+    text-align: right;
+
+    div {
+      font-size: 12px;
+      font-weight: 600;
+      color: red;
+
+      &.active {
+        color: green;
+      }
+    }
+  }
+
+  .payment-field-date-of-birth {
+    @include clearfix;
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    select {
+      float: right;
+      margin-left: 3%;
+
+      &[name="legal_entity[dob(1i)]"] { width: 29.3333%; }
+      &[name="legal_entity[dob(2i)]"] { width: 41.3333%; }
+      &[name="legal_entity[dob(3i)]"] { width: 23.3333%; margin-left: 0; }
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    .payment-field {
+      width: 100%;
+    }
+  }
+}

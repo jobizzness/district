@@ -1,0 +1,66 @@
+#modal_payment_stripe.modal-default.modal-stripe.hidden: form#stripe_form.modal-content
+  h3 Payment info
+  p Description, consectetur adipisicing elit. Distinctio ratione, reprehenderit aliquid nostrum vel in.
+
+  .payment-errors
+
+  .form-group.inline
+    label for="card_number" Card Number
+    = text_field_tag :card_number, nil, class: 'number', data: { mask: '0000 0000 0000 0000', stripe: 'number' }
+
+  .form-group.inline
+    label for="card_verification" CVC
+    = text_field_tag :card_verification, nil, class: 'cvv', data: { mask: '0000', stripe: 'cvv' }
+
+  .form-group
+    label Card Expires
+    - months = Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }
+    - year = (Date.today.year..(Date.today.year+10)).to_a
+    = select_tag :exp_month, options_for_select(months), include_blank: false, data: { stripe: 'exp-month' }
+    = select_tag :exp_year, options_for_select(year), include_blank: false, data: { stripe: 'exp-year' }
+
+  .actions: button.btn-yellow  Send
+
+  / = form_tag nil, id: 'modal_payment_stripe_form', class: 'hidden'
+
+- content_for :javascript
+  script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"
+  script src="https://js.stripe.com/v2/"
+  script Stripe.setPublishableKey('#{Rails.configuration.stripe[:publishable_key]}');
+
+  coffee:
+    $ ->
+      $modalPaymentStripe = $ '#modal_payment_stripe'
+      $stripeForm = $modalPaymentStripe.find 'form'
+
+      $('.js-pay-the-tariff').on 'click', (e) ->
+        e.preventDefault()
+        $modalPaymentStripe.removeClass('hidden')
+
+      $modalPaymentStripe.on 'click', (e) ->
+        e.preventDefault()
+        $modalPaymentStripe.toggleClass 'hidden', $(e.target).hasClass('modal-default')
+
+      toggleStripeButton = (is_disabled=false) ->
+        $stripeForm.find('button')
+          .prop 'disabled', is_disabled
+          .text if is_disabled then 'Wait...' else 'Send'
+
+      $modalPaymentStripe.find('button').on 'click', (e) ->
+        e.preventDefault()
+        toggleStripeButton(true)
+
+        Stripe.card.createToken $stripeForm, (status, response) ->
+          if response.error
+            $stripeForm.find('.payment-errors').text response.error.message
+            toggleStripeButton(false) # Re-enable submission
+          else
+            token = response.id # Get the token ID:
+            $form = $('<form />')
+            $form.append("<input type='hidden' name='stripe_token' value='#{token}'>")
+
+            $.post '/ajax/payTariff', $form.serialize()
+              .done -> window.location.reload()
+              .fail (data) ->
+                toggleStripeButton(false)
+                $stripeForm.find('.payment-errors').text data.responseJSON.message

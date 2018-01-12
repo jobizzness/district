@@ -1,0 +1,24 @@
+// Input Placeholder Text
+@mixin placeholder($color: $input-color-placeholder, $font-weight: $light, $font-size: $font-size-normal) {
+  // Firefox
+  &::-moz-placeholder {
+    color: $color;
+    font-weight: $font-weight;
+    font-size: $font-size;
+    opacity: 1;
+  }
+
+  // Internet Explorer 10+
+  &:-ms-input-placeholder {
+    color: $color;
+    font-weight: $font-weight;
+    font-size: $font-size;
+  }
+
+  // Safari and Chrome
+  &::-webkit-input-placeholder {
+    color: $color;
+    font-weight: $font-weight;
+    font-size: $font-size;
+  }
+}

@@ -1,0 +1,19 @@
+footer.main-footer
+  .nav: .main-wrap
+    ul
+      li = link_to 'Directory', root_url
+      li = link_to 'Back us', 'http://www.crowdfunder.com/district2ptco', target: '_blank'
+      li = link_to 'About us', about_url
+      li = link_to 'Blog', blog_url
+
+    ul
+      li = link_to 'Terms of use', terms_url
+      li = link_to 'Privacy', privacy_url
+      li = link_to 'Work with us', work_url
+      li = link_to 'For investors', investors_url
+    
+  .partners = getPress
+
+  .copy: .main-wrap
+    .pull-left &copy; DISTRICT2.CO 2013
+    .pull-right Created by FreshDevelopment

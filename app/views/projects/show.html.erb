@@ -1,0 +1,207 @@
+<div class="fixed-breadcrumbs">
+  <%= render '/shared/breadcrumbs' %>
+</div>
+
+<div class="project-show">
+  <header data-spy="affix" data-offset-top="0" class="<%= 'in' if user_signed_in?%> <%= 'company-no-available' if user_signed_in? && current_user.company.available != '1111'%> ">
+    <div class="wrap">
+      <h3>Project # <%= @project.id %></h3>
+      <span>Posted on: <%= @project.created_at.strftime('%d %b %Y') %></span>
+    </div>
+  </header>
+  
+  <div class="wrap">
+    <div class="col-first clearfix">
+      <% if @project.user == current_user %>
+        <div class="panel user-action">
+          <div class="panel-content">
+            <div class="action-buttons">
+              <%= link_to 'Edit', edit_project_path(@project) %>
+              <%= link_to 'Delete', project_path(@project), method: :delete, data: { confirm: 'You sure?' } %>
+            </div>
+
+            <div class="share-buttons">
+              <span>Share:</span>
+              <%= render 'social_buttons' %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="panel company-info">
+          <div class="panel-header"><%= @project.company.name %></div>
+          <div class="panel-content">
+            <%= image_tag @project.company.logo(:small), class: 'company-logo' %>
+            <div class="location">
+              <%= [@project.company.address1, @project.company.city, @project.company.state, @project.company.country].join ', ' %>
+            </div>
+
+            <div>
+              <b>Business type:</b>
+              <% if @project.step1.business_type.to_i == 1 %>
+                Individual
+              <% elsif @project.step1.business_type.to_i == 2 %>
+                Small - Mid Size
+              <% elsif @project.step1.business_type.to_i == 3 %>
+                Corporate
+              <% end %>
+            </div>
+
+            <div><b>Zip:</b> <%= @project.company.zip %></div>
+          </div>
+        </div>
+      <% end %>
+
+      <%= render 'gallery', visible: 'visible-mobile' %>
+
+      <div class="panel">
+        <div class="panel-header"><i class="icon icon-product"></i> STYLE OF PRODUCT:</div>
+        <div class="panel-content"><%= @project.step2.type_of_product %></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><i class="icon icon-fabrics"></i> FABRICS:</div>
+        <div class="panel-content"><%= @project.step2.fabrics %></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><i class="icon icon-artwork"></i> ARTWORK:</div>
+        <div class="panel-content"><%= @project.step2.artwork %></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><i class="icon icon-distribution"></i> DISTRIBUTION:</div>
+        <div class="panel-content"><%= @project.step2.distribution %></div>
+      </div>
+    </div><!-- /.col-first -->
+
+    <div class="col-second clearfix">
+      <%= render 'gallery', visible: 'visible-desktop' %>
+
+      <div class="panel product">
+        <div class="panel-header"><i class="icon icon-samples"></i> Samples & Production:</div>
+        <div class="panel-content">
+          <% if @project.step2.samples_number.present? %>
+            <div><span>Number of samples/styles:</span> <b><%= @project.step2.samples_number %></b></div>
+          <% end %>
+
+          <% if @project.step2.samples_date.present? %>
+            <div><span>Sample desired complition date:</span> <b><%= @project.step2.samples_date.strftime('%B %d, %Y %Z ') %></b></div>
+          <% end %>
+
+          <% if @project.step2.how_many_styles.present? %>
+            <div><span>Number of styles for production:</span> <b><%= @project.step2.how_many_styles %></b></div>
+          <% end %>
+
+          <% if @project.step2.units_per_style.present? %>
+            <div><span>Number of units per style:</span> <b><%= @project.step2.units_per_style %></b></div>
+          <% end %>
+
+          <% if @project.step2.number_of_color_ways.present? %>
+            <div><span>Number of color ways per style:</span> <b><%= @project.step2.number_of_color_ways %></b></div>
+          <% end %>
+
+          <% if @project.step2.size_range.present? %>
+            <div><span>Size range:</span> <b><%= @project.step2.size_range %></b></div>
+          <% end %>
+
+          <% if @project.step2.desired_trims.present? %>
+            <div><span>Desired trims:</span> <b><%= @project.step2.desired_trims %></b></div>
+          <% end %>
+
+          <% if @project.step2.made_production.present? %>
+            <div><span>Production location:</span> <b><%= @project.step2.made_production %></b></div>
+          <% end %>
+
+          <% if @project.step2.distribution.present? %>
+            <div><span>Distribution:</span> <b><%= @project.step2.distribution %></b></div>
+          <% end %>
+
+          <% if @project.step2.completion_date.present? %>
+            <div><span>Desired complition date (give 30-60 days):</span> <b><%= @project.step2.completion_date.strftime('%B %d, %Y %Z ') %></b></div>
+          <% end %>
+
+          <% if @project.step2.made_in_country.present? %>
+            <div><span>Made in specific country? (if so, where?):</span> <b><%= @project.step2.made_in_country %></b></div>
+          <% end %>
+        </div>
+      </div>
+      
+      <div class="panel we-need">
+        <div class="panel-header"><i class="icon icon-we-need"></i> WE NEED:</div>
+        <div class="panel-content">
+          <% if @project.step3.check_type_branding %>
+            <div><span>Branding</span> <b>(logo, brand identity, demographic, graphics)</b></div>
+          <% end %>
+
+          <% if @project.step3.check_type_creative_direction %>
+            <div><span>Creative Direction</span> <b>(fabrics, theme, merchandising)</b></div>
+          <% end %>
+
+          <% if @project.step3.check_type_design %>
+            <div><span>Design</span> <b>(silhouettes, hand-sketching, graphics)</b></div>
+          <% end %>
+
+          <% if @project.step3.check_type_technical_design %>
+            <div><span>Technical Design</span> <b>(illustrator, cad files, tech packs, construction details)</b></div>
+          <% end %>
+
+          <% if @project.step3.check_type_sampling %>
+            <div><span>Sampling</span> <b>(patterns, cutting, send outs, sewing)</b></div>
+          <% end %>
+
+          <% if @project.step3.check_type_production %>
+            <div><span>Production</span> <b>(workflow management, grading, fittings)</b></div>
+          <% end %>
+
+          <% if @project.step3.check_type_website %>
+            <div><span>Website</span></div>
+          <% end %>
+
+          <% if @project.step3.check_type_social %>
+            <div><span>Social Media Marketing</span></div>
+          <% end %>
+        </div>
+      </div>
+      
+      <div class="panel">
+        <div class="panel-header"><i class="icon icon-info"></i> ADDITIONAL INFO:</div>
+        <div class="panel-content"><%= @project.step3.additional_info %></div>
+      </div>      
+    </div><!-- /.col-second -->
+
+    <div class="clearfix"></div>
+
+    <% if @project.user == current_user %>
+      <div class="hide">
+        OVERALL BUDGET: 
+        <b>
+          <% if @project.step1.overall_of_budget.to_i == 1 %>
+            $2k - $4k
+          <% elsif @project.step1.overall_of_budget.to_i == 2 %>
+            $4k - $8k
+          <% elsif @project.step1.overall_of_budget.to_i == 3 %>
+            $8k - $15k
+          <% elsif @project.step1.overall_of_budget.to_i == 4 %>
+            $15k +
+          <% end %>
+        </b>
+      </div>
+    <% end %>
+
+    <% if current_user %>
+      <% if current_user.product? || current_user.projects.include?(@project) %>
+        <div class="bids-container">
+          <div id="bid" style="margin-top:-160px;position:absolute;"></div>
+          <% if current_user %>
+            <%= render "bids/#{@bids_partial}" %>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="bids-container">
+        <div id="bid" style="margin-top:-160px;position:absolute;"></div>
+        <div style="text-align: center; padding: 20px 0;"><%= link_to 'ADD BID', new_user_session_path, class: 'btn-yellow big' %></div>
+      </div>
+    <% end %>
+  </div>
+</div>

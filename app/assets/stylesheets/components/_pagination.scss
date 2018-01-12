@@ -1,0 +1,25 @@
+.pagination {
+  @include clearfix;
+  
+  li {
+    float: left;
+    margin-right: 5px;
+  }
+
+  a {
+    display: block;
+    background: #b7b7b7;
+    color: white;
+    font-size: 12px;
+    line-height: 1;
+    border: 3px solid #e1e1e1;
+    text-decoration: none;
+    padding: 6px 0;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    @include box-sizing(border-box);
+  }
+
+  .active a { border-color: #a3d39c; }
+}

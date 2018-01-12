@@ -1,0 +1,122 @@
+<%= javascript_include_tag "mobile" %>
+
+<div class="mobile-search">
+  <div class="search">
+    <div class="pad">
+      <div class="keyword-search">
+        <form id="search-form">
+          <input type="text" id="search-input" value="" placeholder="enter a keyword" autocomplete="off">
+          <i id="search-button"></i>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <div class="row cats">
+      <ul>
+        <% getCategories.each do |c| %>
+          <li class="cat <%= 'active' if params[:cats] && params[:cats] =~ /#{c.id}/ %>" data-id="<%= c.id %>">
+            <%= image_tag c.pic, class: "img-cat-#{c.id}" %>
+            <%= c.name %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="dk">
+      <div class="subcats-container <% unless params[:cats] %>hidden<% end %>">
+        <div class="row actions">
+          <a href="#" class="m-select-all">Select all</a>
+          <a href="#" class="m-clear-all">Clear all</a>
+        </div>
+
+        <div class='subcats'>
+          <div class="sub">
+            <h3>Services</h3>
+            <ul>
+              <% if @subcats_services.present? %>
+                <% @subcats_services.each do |sub| %>
+                  <li class="sli hidden">
+                    <a class="w_check white <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                      <i></i>
+                      <%= sub[:name] %>
+                    </a>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <h3>Service-Agencies</h3>
+            <ul>
+              <% if @subcats_agencies.present? %>
+                <% @subcats_agencies.each do |sub| %>
+                  <li class="sli hidden">
+                    <a class="w_check white <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                      <i></i>
+                      <%= sub[:name] %>
+                    </a>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <h3>Type</h3>
+            <ul>
+              <% if @subcats_type.present? %>
+                <% @subcats_type.each do |sub| %>
+                  <li class="sli hidden">
+                    <a class="w_check white <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                      <i></i>
+                      <%= sub[:name] %>
+                    </a>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <h3>Products</h3>
+            <ul>
+              <% if @subcats_products.present? %>
+                <% @subcats_products.each do |sub| %>
+                  <li class="sli hidden">
+                    <a class="w_check white <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                      <i></i>
+                      <%= sub[:name] %>
+                    </a>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <h3>Fabrics</h3>
+            <ul>
+              <% if @subcats_fabrics.present? %>
+                <% @subcats_fabrics.each do |sub| %>
+                  <li class="sli hidden">
+                    <a class="w_check white <%= 'checked' if params[:subcats] && params[:subcats] =~ /#{sub[:id]}/i %>" data-cats="<%= sub[:cats] %>" data-id="<%= sub[:id] %>">
+                      <i></i>
+                      <%= sub[:name] %>
+                    </a>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pad">
+    <a href="#" class="btn-yellow m-search">search</a>
+  </div>
+</div>

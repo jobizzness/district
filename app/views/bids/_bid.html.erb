@@ -1,0 +1,121 @@
+<div class="bid <%= class_name %>" bid>
+  <div class="price" btn-bid-expand>
+    <i class="open"></i>
+
+    <% if bid.present? && !bid.win? && bid.user_id == current_user.id  %>
+      <div class="bid-action-buttons">
+        <%= link_to 'Edit', edit_project_bid_path(project, bid) %>
+        <%= link_to 'Delete', project_bid_path(project, bid), method: :delete, data: { confirm: 'You sure?' } %>
+      </div>
+    <% end %>
+
+    <div class="resource-id"><%= bid.resource_id %></div>
+    <div class="time"><%= bid.created_at.strftime('%d %b %Y') %></div>
+    <div class="price-range"> <%= bid_price bid %></div>
+
+    <%= link_to 'hire', '#', class: 'btn-hire', data: { bid_modal: "#modal_hire_#{bid.id}" } if project.user_id == current_user.id && project.opened? %>
+  </div><!-- /.price -->
+
+  <div class="additional-info"><%= bid.additional_info %></div>
+
+  <% if bid.total_sample_pricing.present? && project.attachments.present? %>
+    <div class="bid-gallery" project-gallery>
+      <div big-image class="big-image" style="background-image: url(<%= project.attachments.first.attachment(:medium) %>);" price="<%= number_to_currency bid.total_sample_pricing.first, precision: 0 %>"></div>
+
+      <div class="thumbs">
+        <% bid.total_sample_pricing.each_with_index do |price, index| %>
+          <% file = project.attachments[index] %>
+          <% if project.attachments[index].present? %>
+            <i class="<%= 'active' if index == 0 %>" style="background-image: url(<%= file.attachment(:medium) %>);" price="<%= number_to_currency price, precision: 0 %>">
+            </i>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="info" bid-tabs-container>
+    <div class="tab-info tab-bid active" tab>
+      <ul>
+        <li>
+          <span>Cost sample shipping:</span>
+          <b><%= number_to_currency bid.cost_sample_shipping, delimiter: ' ', precision: 0, format: '%u%n' %></b>
+        </li>
+        <li>
+          <span>Production details & pricing:</span>
+          <table>
+            <tr>
+              <td width="70px">Price:</td>
+              <td>Amount:</td>
+            </tr>
+            <% bid.production_cost.each do |cost| %>
+              <tr>
+                <td><%= cost.is_a?(String) ? cost : number_to_currency(cost[:price], precision: 0) || 0 %></td>
+                <td><%= cost.is_a?(String) ? cost : cost[:amount] || 0 %></td>
+              </tr>
+            <% end %>
+          </table>
+        </li>
+        <li>
+          <span>Production shipping cost:</span>
+          <b><%= number_to_currency bid.production_shipping_cost, precision: 0 %></b>
+        </li>
+        <li>
+          <span>Lead time samples:</span>
+          <b><%= bid.lead_time_samples %></b>
+        </li>
+        <li>
+          <span>Lead time production:</span>
+          <b><%= bid.lead_time_production %></b>
+        </li>
+        <li>
+          <span>Moq per style:</span>
+          <b><%= bid.moq_per_style %></b>
+        </li>
+        <li>
+          <span>Moq per order:</span>
+          <b><%= bid.moq_per_order %></b>
+        </li>
+        <li>
+          <span>Maximum amount of color ways per style:</span>
+          <b><%= bid.max_amount_colors %></b>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-info tab-payment" tab>
+      <h4>Payment terms of sampling & production:</h4>
+      <ul><li><%= bid.payment_term_production %></li></ul>
+    </div>
+
+    <div class="info-buttons">
+      <a href="#" class="btn-bid-info active" data-tab=".tab-bid">Bid info</a>
+      <a href="#" class="btn-payment-info" data-tab=".tab-payment">Payment info</a>
+    </div>
+  </div><!-- /.info -->
+
+  <% if project.user_id == current_user.id %>
+    <% if project.opened? %>
+      <%= render 'bids/modals/hire', project: project, bid: bid %>
+      <%= render 'bids/modals/hire_review', project: project, bid: bid %>
+      <%= render 'bids/modals/hire_payment_form', project: project, bid: bid %>
+      <%= render 'bids/modals/hire_finish', project: project, bid: bid %>
+    <% elsif project.in_work? && bid.win? %>
+      <div class="bid-options">
+        <div class="pull-left">
+          <div class="time"><%= bid.created_at.strftime('%d %b %Y') %></div>
+          <div class="price-range">$ <%= bid_price bid %></div>
+        </div>
+
+        <div class="pull-right">
+          <a href="<%= complete_project_bid_path(project, bid) %>" class="btn btn-white" data-disable-with='Please wait...'>Complete</a>
+          <a href="#" class="btn btn-white" data-bid-modal="#modal_dispute_<%= bid.id %>">Dispute</a>
+        </div>
+      </div>
+
+      <%= render 'bids/modals/dispute', project: project, bid: bid %>
+    <% end %>    
+  <% end %>
+
+  <%= render 'bids/chat', bid: bid %>
+</div>

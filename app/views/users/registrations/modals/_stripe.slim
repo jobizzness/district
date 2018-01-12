@@ -1,0 +1,26 @@
+#modal_registraion_stripe.modal-default.modal-stripe.hide: form.modal-content
+  h3 Payment info
+  p Description, consectetur adipisicing elit. Distinctio ratione, reprehenderit aliquid nostrum vel in.
+
+  .payment-errors
+
+  .form-group.inline
+    label for="card_number" Card Number
+    = text_field_tag :card_number, nil, class: 'number', data: { mask: '0000 0000 0000 0000', stripe: 'number' }
+
+  .form-group.inline
+    label for="card_verification" CVC
+    = text_field_tag :card_verification, nil, class: 'cvv', data: { mask: '0000', stripe: 'cvv' }
+
+  .form-group
+    label Card Expires
+    - months = Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }
+    - year = (Date.today.year..(Date.today.year+10)).to_a
+    = select_tag :exp_month, options_for_select(months), include_blank: false, data: { stripe: 'exp-month' }
+    = select_tag :exp_year, options_for_select(year), include_blank: false, data: { stripe: 'exp-year' }
+
+  .actions: button.btn-yellow type="submit" Send
+
+script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"
+script src="https://js.stripe.com/v2/"
+script Stripe.setPublishableKey('#{Rails.configuration.stripe[:publishable_key]}');

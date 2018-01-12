@@ -1,0 +1,57 @@
+.c_body.register
+  = render '/shared/breadcrumbs'
+
+  .clearfix.register-body
+    .idea-maker
+      .info-text
+        h2 IDEA MAKER
+        ul
+          li YOUR MIND IS YOUR MOST POWERFUL TOOL
+          li YOU CANNOT LIVE WITHOUT CREATING
+          li YOU CANNOT BREATHE WITHOUT ART
+          li YOUR MONEY IS MADE FROM YOUR THOUGHTS
+
+      .form-section
+        = form_for :user, url: user_registration_path do |f|
+          = f.hidden_field :maker_type, value: :idea
+          = f.text_field :first_name, placeholder: 'FIRST NAME', class: 'sign-in-input-field'
+          = f.text_field :last_name, placeholder: 'LAST NAME', class: 'sign-in-input-field'
+          = f.text_field :name, placeholder: 'USERNAME', class: 'sign-in-input-field'
+          = f.password_field :password, placeholder: 'PASSWORD', class: 'sign-in-input-field'
+          = f.password_field :password_confirmation, placeholder: 'RE-TYPE PASSWORD', class: 'sign-in-input-field'
+          = f.email_field :email, placeholder: 'EMAIL', class: 'sign-in-input-field'
+          = f.submit 'SUBMIT', class: 'btn btn-black btn-sign-in', id: :product_idea_btn
+
+    .product-maker
+      .info-text
+        h2 PRODUCT MAKER
+        ul
+          li YOU MAKE THE GOODS THAT SELL
+          li YOU SEE THINGS THROUGH TO THE VERY END
+          li YOU TURN IDEAS INTO REAL-LIFE PRODUCTS
+          li YOU MAKE MONEY BIDDING ON & FINISHING PROJECTS
+
+      = form_for :user, url: user_registration_path do |f|
+        #product_maker_form.form-section
+          = f.hidden_field :maker_type, value: :product
+          = f.text_field :first_name, placeholder: 'FIRST NAME', class: 'sign-in-input-field'
+          = f.text_field :last_name, placeholder: 'LAST NAME', class: 'sign-in-input-field'
+          = f.text_field :name, placeholder: 'USERNAME', class: 'sign-in-input-field'
+          = f.password_field :password, placeholder: 'PASSWORD', class: 'sign-in-input-field'
+          = f.password_field :password_confirmation, placeholder: 'RE-TYPE PASSWORD', class: 'sign-in-input-field'
+          = f.email_field :email, placeholder: 'EMAIL', class: 'sign-in-input-field'
+          = f.submit 'SUBMIT', class: 'btn btn-black btn-sign-in', id: :product_maker_btn
+    
+        #product_maker_plans.hide.form-section: .plans-items
+          - tariffs.each do |tariff|
+            = label_tag '', class: 'plan-item' do
+              = f.radio_button :tariff_id, tariff.id, data: { price: tariff.price_per_month }
+              span.plan-item-background
+              span.plan-item-name = tariff.name
+              span.plan-item-description
+                - if tariff.price_per_month == 0
+                  = tariff.description
+                - else
+                  | #{number_to_currency tariff.price_per_month}/mo<br>(#{tariff.duration} mo)
+
+= render '/users/registrations/modals/stripe'

@@ -1,0 +1,14 @@
+.main-navbar: .main-wrap
+  = link_to url_for([:root]), class: 'logo', title: 'District2.co'
+    span #Thoughts2Threads
+  
+  - unless user_signed_in?
+    .login-buttons
+      = link_to 'Sign up', join_us_url, class: 'btn-light'
+      = link_to 'Sign in', new_user_session_url, class: 'btn-yellow'
+  
+  ul.navigation
+    li = nav_link 'Post', new_user_session_url
+    li = nav_link 'Bid', new_user_session_url
+    li = nav_link 'Search', new_user_session_url
+    li = nav_link 'About', about_url

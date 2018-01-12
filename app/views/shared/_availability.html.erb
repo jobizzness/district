@@ -1,0 +1,22 @@
+Your account is not available! <a href="#" class="whynot" data-info="<%= company.available %>">Find out why</a>
+<div class="reasons">
+  <div class="cont">
+    <ul class='list'>
+      <% if company.available[0] == '0' %>
+        <li>Chose at least one subcategory</li>
+      <% end %>
+
+      <% if company.available[1] == '0' %>
+        <li>Upload an avatar</li>
+      <% end %>
+
+      <% if company.available[2] == '0' %>
+        <li>Add brief description</li>
+      <% end %>
+
+      <% if company.available[3] == '0' %>
+        <li>Add website and phone number</li>
+      <% end %>
+    </ul>
+  </div>
+</div>

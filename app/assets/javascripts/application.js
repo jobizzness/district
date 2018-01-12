@@ -1,0 +1,20 @@
+//= require jquery
+//= require jquery-ui
+//= require jquery_ujs
+//= require vendor/modernizr.min
+//= require vendor/retina
+//= require vendor/jquery.validate.min
+//= require vendor/jquery.validate.file
+//= require vendor/ajaxfileupload
+//= require vendor/datepicker
+//= require_tree ./common
+//= require_tree ./devise
+//= require_tree ./projects
+//= require_tree ./payments
+//= require_tree ./bids
+//= require dev
+//= require search
+
+GG_CLIENT_ID = '1058300224035-6muo93enkv4o2kpoqa9al5vvoh6btrvr.apps.googleusercontent.com';
+GG_API_KEY = 'AIzaSyCZ0fTpwK8UckMwcgJAY5a0Dm64MM6peK8';
+GG_SCOPES = 'https://www.googleapis.com/auth/plus.profile.emails.read';

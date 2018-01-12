@@ -1,0 +1,43 @@
+= form_for @article_category, url: [:admins, :blog, @article_category], multipart: true, html: { id: :form, novalidate: true } do |f|
+  - if @article_category.errors.any?
+    .alert.alert-danger.fade.in
+      span aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" &times;
+      h4 = "#{pluralize(@article_category.errors.count, "error")} prohibited this article category from being saved:"
+      ul.list-unstyled
+        - @article_category.errors.full_messages.each do |message|
+          li = message
+
+  .panel.panel-default 
+    / .panel-heading: h3.panel-title Step 1: About your business
+
+    .panel-body: fieldset
+      .form-group
+        = f.label :title, 'Title'
+        = f.text_field :title, class: 'form-control'
+
+      .form-group
+        = f.label :pic, 'Picture' 
+        = f.file_field :pic, class: 'form-control input-sm'
+        small.help-block Max file size 3Mb
+        - if @article_category.pic.present?
+          = image_tag @article_category.pic(:small), style: 'margin-right: 15px'
+          / TODO: add delete functionality
+          / .checkbox
+          /   = f.label :_destroy
+          /     = f.check_box :_destroy
+          /     | Delete
+
+      .form-group
+        = f.label :text, 'Text'
+        = f.text_area :text, class: 'form-control', rows: 3
+
+      .form-group
+        = f.label :priv, 'Privilege'
+        = f.number_field :priv, class: 'form-control', min: 0, value: f.object.priv || 0
+
+      .form-group
+        = f.label :anchor, 'Anchor'
+        = f.text_field :anchor, class: 'form-control'
+
+  .text-center = f.submit 'Save', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }
+  br

@@ -1,0 +1,30 @@
+<div class="chat <%= 'with-modal-deliver' if current_user.product? && bid.project.in_work? %>" data-bid-id="<%= bid.id %>">
+  <div class="header">
+    <% if bid.user == current_user %>
+      <%= image_tag(@project.user.company.avatar(:small)) %>
+      <b><%= @project.user.company.name %></b>
+      <span><%= [@project.user.company.city, @project.user.company.state].compact.join ', ' %></span>
+    <% else %>
+      <%= image_tag(bid.user.company.avatar(:small)) %>
+      <b><%= bid.user.company.name %></b>
+      <span><%= [bid.user.company.city, bid.user.company.state].compact.join ', ' %></span>
+    <% end %>
+  </div>
+
+  <div class="messages">
+    <%= render 'bids/messages', messages: bid.chat_messages %>
+  </div>
+
+  <div class="footer">
+    <%= form_tag create_chat_message_path, class: 'chat-form', remote: true do %>
+      <%= hidden_field_tag :bid_id, bid.id %>
+      <%= hidden_field_tag :user_id, current_user.id %>
+      <%= text_field_tag :body, nil, placeholder: 'Write a message', autocomplete: 'off' %>
+      <%= button_tag image_tag('projects/btn-post-message.png', class: 'btn-post') %>
+    <% end %>
+  </div>
+
+  <a href="#" class="btn-deliver-project" data-bid-modal="#modal_deliver_project">DELIVER PROJECT</a>
+</div>
+
+<%= render 'bids/modals/deliver_project', project: @project, bid: bid if current_user.product? && bid.project.in_work? %>

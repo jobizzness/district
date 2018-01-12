@@ -1,0 +1,13 @@
+**Start sidekiq**
+```
+bundle exec sidekiq -C config/sidekiq.yml
+```
+
+***
+
+**Grants for admin**
+```
+email: admin@test.com
+password: 1qaz2wsx
+```
+

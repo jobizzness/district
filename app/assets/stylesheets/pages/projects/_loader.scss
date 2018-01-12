@@ -1,0 +1,10 @@
+.projects-loader {
+  width: 31px;
+  padding-top: 90px;
+  margin: auto;
+  @include clearfix;
+
+  @media (max-width: 480px) {
+    padding: 65px 0 50px;
+  }
+}

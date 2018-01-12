@@ -1,0 +1,15 @@
+<% if user_signed_in? %>
+  <% if flash[:notice].present? %>
+    <div class="alert alert-success">
+      <span class="times">&times;</span>
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <% if flash[:alert].present? %>
+    <div class="alert alert-warning">
+      <span class="times">&times;</span>
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+<% end %>

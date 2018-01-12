@@ -1,0 +1,5 @@
+<h2><span>your bid:</span></h2>
+
+<div class="bids">
+  <%= render 'bids/bid', bid: @bids, project: @project, class_name: 'opened' if @bids.present? %>
+</div>

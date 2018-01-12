@@ -1,0 +1,617 @@
+.bid {
+  border: 4px solid transparent;
+  margin: -4px;
+  position: relative;
+  @include clearfix;
+
+  + .bid { margin-top: 20px; }
+
+  .additional-info {
+    background: white;
+    overflow: hidden;
+    padding: 20px 30px;
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans Condensed', sans-serif;
+    line-height: 1.3;
+    word-spacing: 2px;
+    min-height: 119px;
+  }
+
+  .price {
+    background: #cdcdcd;
+    float: right;
+    width: 430px;
+    height: 119px;
+    padding: 12px 30px;
+    font-size: 25px;
+    line-height: 1;
+    font-family: 'Open Sans Condensed', sans-serif;
+    word-spacing: 2px;
+    position: relative;
+    cursor: pointer;
+    @include clearfix;
+
+    .btn-hire {
+      background: #fbfc5a;
+      color: black;
+      text-decoration: none;
+      line-height: 1;
+      font-size: 50px;
+      font-weight: bold;
+      font-style: italic;
+      padding: 5px 37px 5px 30px;
+      float: right;
+      margin-top: -60px;
+      margin-right: 18px;
+    }
+
+    .resource-id {
+      color: #606060;
+      font-weight: bold;
+      margin-bottom: 10px;
+      word-spacing: 3px;
+
+      &:before {
+        content: '#';
+        margin-right: 5px;
+      }
+    }
+
+    .time {
+      font-style: italic;
+      font-weight: bold;
+      margin-bottom: 10px;
+      padding-left: 30px;
+      background: image-url('projects/icon-clock.png') 0 50% no-repeat;
+    }
+
+    .price-range {
+      font-style: italic;
+      font-weight: bold;
+
+      &:before {
+        content: '$';
+        font-style: normal;
+      }
+    }
+
+    .open {
+      background: image-url('projects/arrows.png') 0 100% no-repeat;
+      width: 52px;
+      height: 16px;
+      position: absolute;
+      top: 55px;
+      right: 100px;
+    }
+  }
+
+  .bid-gallery {
+    background: white;
+    border: 1px solid #b0adad;
+    height: 346px;
+    position: relative;
+    width: calc(100% - 430px - 40px);
+    margin-bottom: 40px;
+
+    .big-image {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 160px;
+      bottom: 0;
+      background: 50% 50% no-repeat;
+      @include background-size(contain);
+      transition: background-image .2s;
+
+      &:before {
+        content: attr(price);
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-family: 'Open Sans Condensed', sans-serif;
+        font-weight: bold;
+        font-size: 23px;
+        line-height: 1;
+        background: white;
+        padding: 5px 10px;
+      }
+    }
+
+    .thumbs {
+      width: 160px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      border-left: 1px solid #b0adad;
+      overflow: auto;
+    }
+
+    i {
+      display: block;
+      width: 130px;
+      height: 100px;
+      margin: 11px auto;
+      border: 1px solid #e1e1e1;
+      cursor: pointer;
+      background: 50% 50% no-repeat;
+      @include background-size(contain);
+      position: relative;
+
+      &:before {
+        content: attr(price);
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-family: 'Open Sans Condensed', sans-serif;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 1;
+        background: white;
+        padding: 3px 6px;
+      }
+
+      &.active { border-color: #b0adad; }
+    }
+  }
+
+  .info {
+    background: white;
+    width: calc(100% - 430px - 40px);
+    padding: 40px;
+    margin-bottom: 60px;
+    position: relative;
+    font-family: 'Open Sans Condensed', sans-serif;
+    float: left;
+
+    .tab-info {
+      font-size: 23px;
+      display: none;
+      text-transform: none;
+      line-height: 1;
+
+      &.active { display: block; }
+    }
+
+    .tab-bid {
+      li:not(:first-child) { margin-top: 10px; }
+      tr:first-child td { padding-bottom: 5px; }
+      tr:not(:first-child) td { font-weight: bold; }
+
+      span {
+        width: 360px;
+        float: left;
+      }
+
+      b {
+        display: table;
+        white-space: nowrap;
+        width: 100px;
+      }
+    }
+
+    .tab-payment {
+      letter-spacing: 1px;
+
+      h4 {
+        margin: 0;
+        line-height: 1;
+        margin-bottom: 15px;
+
+        &:not(:first-child) { margin-top: 30px; }
+      }
+
+      ul { padding-left: 25px; }
+    }
+
+    .info-buttons {
+      height: 60px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -60px;
+      background: #b0b0b0;
+      padding: 6px;
+
+      a {
+        border: 2px solid transparent;
+        font-size: 26px;
+        line-height: 1;
+        float: left;
+        margin-right: 20px;
+        padding: 9px;
+        background-repeat: no-repeat;
+        color: black;
+        text-transform: uppercase;
+        text-decoration: none;
+        word-spacing: 2px;
+
+        &.btn-bid-info {
+          background-image: image-url('projects/icon-bid-info.png');
+          background-position: 10px 50%;
+          padding-left: 57px;
+        }
+
+        &.btn-payment-info {
+          background-image: image-url('projects/icon-payment-info.png');
+          background-position: 5px 50%;
+          padding-left: 40px;
+        }
+
+        &.active { border-color: black; }
+      }
+    }
+  }
+
+  .chat {
+    width: 430px;
+    position: absolute;
+    top: 159px;
+    right: 0;
+    bottom: 0;
+
+    .header {
+      background: #b0b0b0;
+      height: 65px;
+      padding: 8px 15px;
+      font-size: 20px;
+      line-height: 1.2;
+      text-transform: none;
+
+      img {
+        float: left;
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        margin-right: 15px;
+      }
+
+      b {
+        display: block;
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      span {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:before {
+          content: '';
+          background: image-url('projects/icon-location.png');
+          @include background-size(cover);
+          display: inline-block;
+          margin-right: 7px;
+          width: 12px;
+          height: 18px;
+          float: left;
+          margin-top: 3px;
+        }
+      }
+    }
+
+    .messages {
+      overflow: auto;
+      background: #ebebeb;
+      position: absolute;
+      top: 65px;
+      left: 0;
+      right: 0;
+      bottom: 65px;
+      padding: 20px 15px 0;
+      text-transform: none;
+
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        position: absolute;
+        top: 50%;
+        margin-top: -15px;
+      }
+
+      .date {
+        font-size: 13px;
+        display: block;
+        text-align: center;
+        margin-bottom: 20px;
+        clear: both;
+      }
+
+      .shipment-photos {
+        margin: 5px 0;
+        @include clearfix;
+
+        img {
+          float: left;
+        }
+      }
+
+      .message {
+        background: white;
+        border-radius: 10px;
+        padding: 5px 10px;
+        position: relative;
+        max-width: calc(100% - 45px - 70px);
+        margin: 0 60px 20px 45px;
+        clear: both;
+        font-size: 18px;
+        line-height: 1.3;
+        float: left;
+
+        &:before {
+          content: attr(time);
+          font-size: 12px;
+          position: absolute;
+          right: -65px;
+          top: 50%;
+          margin-top: -8.5px;
+        }
+
+        .avatar { left: -45px; }
+      }
+
+      .sender {
+        background: #fbfc5a;
+        margin: 0 45px 20px 60px;
+        float: right;
+
+        &:before {
+          right: auto;
+          left: -65px;
+        }
+
+        .avatar {
+          left: auto;
+          right: -45px;
+        }
+      }
+    }
+
+    .footer {
+      height: 65px;
+      background: white;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      &.deliver-p {
+        bottom: 80px;
+      }
+
+      input {
+        font-size: 20px;
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        bottom: 10px;
+        width: calc(100% - 85px);
+      }
+
+      .btn-post {
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        cursor: pointer;
+      }
+    }
+
+    .btn-deliver-project {
+      display: none;
+    }
+
+    &.with-modal-deliver {
+      .messages {
+        height: calc(100% - 210px);
+      }
+
+      .footer {
+        bottom: 80px;
+      }
+
+      .btn-deliver-project {
+        position: absolute;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        bottom: 0;
+        font-weight: 500;
+        font-size: 26px;
+        color: black;
+        background-color: #fbfc5a;
+      }
+    }
+  }
+  
+  .btn-hire,
+  .bid-gallery,
+  .info,
+  .chat { display: none; }
+
+  .bid-options {
+    background: white;
+    float: left;
+    clear: both;
+    width: 100%;
+    height: 100px;
+    margin-top: 40px;
+    padding: 20px 40px;
+
+    .btn {
+      font-size: 18px;
+      height: 60px;
+      line-height: 35px;
+      border-width: 4px;
+      margin-left: 20px;
+
+      &:first-child { width: 300px; }
+      &:last-child  { width: 200px; }
+    }
+
+    .time,
+    .price-range {
+      font-size: 22px;
+      font-weight: bold;
+      font-style: italic;
+      display: inline-block;
+      margin: 16px 30px 0 0;
+    }
+
+    .time {
+      padding-left: 30px;
+      background: image-url('projects/icon-clock.png') 0 50% no-repeat;
+    }
+
+    ~ .chat {
+      bottom: 140px;
+    }
+  }
+
+  // Bid is opened
+  &.opened {
+    background: #cdcdcd;
+    border-color: #29d6b9;
+
+    .price { background: #b0b0b0; }
+
+    .open {
+      background-position: 0 0;
+      top: 15px;
+    }
+
+    &:not(.bid-in-list) .open,
+    .additional-info { display: none; }
+
+    .bid-action-buttons,
+    .btn-hire,
+    .bid-gallery,
+    .info,
+    .chat { display: block; }
+  }
+  
+  @media (max-width: 480px) {
+    .price {
+      float: none;
+      width: 100%;
+      height: auto;
+      text-align: center;
+      margin-bottom: 15px;
+      padding: 12px 15px;
+
+      .resource-id {
+        float: left;
+        margin-right: 15px;
+      }
+
+      .time {
+        float: left;
+        clear: left;
+        margin-bottom: 0;
+      }
+
+      .price-range {
+        clear: left;
+        float: left;
+        margin: -60px 0 0 110px;
+      }
+
+      .open {
+        right: 15px;
+        top: 35px;
+      }
+
+      .btn-hire {
+        margin: 0;
+        width: 24%;
+        font-size: 100%;
+        padding: 5px 3px 5px 0;
+        position: absolute;
+        right: 15px;
+        top: 24px;
+        z-index: 2;
+      }
+    }
+
+    .additional-info {
+      margin-top: -15px;
+      padding: 12px 15px;
+    }
+
+    .bid-gallery {
+      width: 100%;
+      margin-bottom: 15px;
+
+      .big-image { right: 110px; }
+      .thumbs { width: 110px; }
+      i { width: 95px; }
+    }
+
+    .info {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: calc(54px + 450px + 15px);
+
+      .tab-bid {
+        span {
+          width: 100%;
+          float: none;
+          display: block;
+          font-size: 21px;
+        }
+
+        b {
+          display: block;
+          font-size: 20px;
+        }
+      }
+
+      .tab-payment {
+        h4 {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+
+        ul {
+          line-height: 1.2;
+          font-size: 18px;
+          padding-left: 0;
+        }
+      }
+
+      .info-buttons {
+        height: 54px;
+        bottom: -54px;
+        padding: 6px 3px;
+
+        a {
+          margin-right: 0;
+          font-size: 21px;
+          padding: 9px;
+          word-spacing: 1px;
+          @include background-size(25px 50%);
+
+          &:first-child { margin-right: 5px; }
+          &.btn-bid-info { padding-left: 45px; }
+          &.btn-payment-info { padding-left: 33px; }
+        }
+      }
+    }
+
+    .chat {
+      height: 450px;
+      width: auto;
+      top: auto;
+      left: 0;
+    }
+  }
+}

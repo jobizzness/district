@@ -1,0 +1,179 @@
+@import "compass";
+@import "bootstrap-sprockets";
+@import "admins/variables";
+@import "bootstrap";
+@import "bootsy";
+@import "admins/bootswatch";
+@import "font-awesome";
+
+@import "components/datepicker";
+
+*:focus {
+  outline: none !important;
+}
+
+body {
+  padding-top: 70px;
+}
+
+table {
+  max-width: 100%;
+
+  &.table-vcenter > tbody > tr > td {
+    vertical-align: middle;
+  }
+}
+
+fieldset {
+  legend {
+    margin-bottom: 0;
+  }
+  
+  h4 {
+    margin-top: 0;
+  }
+}
+
+textarea {
+  resize: vertical;
+} 
+
+// Notices
+$notice-width: 400px;
+
+.notice {
+  width: $notice-width;
+  padding: 15px 40px 15px 15px;
+  position: fixed;
+  top: 70px;
+  right: 8px;
+  z-index: 100;
+  @include transition(0.2s);
+
+  &.hide-notice {
+    right: -$notice-width;
+  }
+
+  .times {
+    float: right;
+    cursor: pointer;
+    padding: 3px 10px;
+    margin: -4px -35px -4px 0;
+  }
+
+  @media (max-width: 480px) {
+    width: auto;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 10px 25px 10px 10px;
+    font-size: 16px;
+
+    &.hide-notice {
+      right: 15px;
+      top: -200px;
+      opacity: 0;
+    }
+
+    .times {
+      margin: -4px -25px -4px 0;
+    }
+  }
+}
+
+// Navbar
+.navbar-brand {
+  margin-top: -10px;
+}
+
+// Devise forms
+.devise {
+  > div {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .panel { margin: 0; }
+}
+
+// Form errors
+.field_with_errors {
+  @extend .has-error;
+}
+
+// Help block
+.help-block {
+  margin-top: 2px;
+}
+
+// Panel
+.panel-body {
+  .form-group,
+  .checkbox, 
+  .radio {
+    &:last-child { margin-bottom: 0; }
+  }
+}
+
+// Projects
+.project-edit {
+  .attachments {
+    margin-bottom: 10px;
+  }
+
+  .attachment {
+    @include clearfix;
+  }
+
+  .img {
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 10px;
+    background-position: 50% 40%;
+    @include background-size(cover);
+  }
+
+  .checkbox {
+    margin: 0 0 5px;
+  }
+
+  .form-group {
+    overflow: hidden;
+  }
+}
+
+// Datepicker
+.datepicker {
+  + button {
+    left: auto !important;
+    top: 2;
+    right: 0;
+    padding: 13px;
+    border: none;
+    background: $brand-success;
+    color: white;
+    @include border-right-radius(2px);
+  }
+}
+
+// Text Editor
+a.btn.wysihtml5-command-active {
+  -webkit-box-shadow: none !important;
+     -moz-box-shadow: none !important;
+          box-shadow: none !important;
+  background-color: #18BC9C !important;
+  border-color: #18BC9C !important;
+}
+
+.form-group > iframe {
+  padding: 0 !important;
+}
+
+.wysihtml5-editor {
+  h1, h2, h3, h4, h5 {
+    margin-top: 0;
+  }
+}
+
+@import "admins/pages";

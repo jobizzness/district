@@ -1,0 +1,57 @@
+<% @max = getTxt('tag_articles').to_i %>
+
+<div class="c_body blog">  
+  <script>
+    var articles_count  = <%= @count %>;
+    var articles_shown  = <%= @max %>;
+    var anchor          = "<%= params[:tag] %>";
+  </script>
+
+  <%= render '/shared/breadcrumbs' %>
+
+  <div class="wrap">
+    <section class="row news top_news">
+    </section>
+
+    <section class="news sm_news">
+      <div class="bigloader hidden">
+        <%= image_tag 'loader.gif' %>
+      </div>
+
+      <div class="news-cont">
+        <% if @articles.present? %>
+          <% @articles.each do |article| %>
+            <article class="shown" data-id="<%= article.id %>">
+              <%= link_to image_tag(article.pic(:small), alt: article.title, title: article.title),
+                          blog_section_article_path(article.article_cat, article.anchor),
+                          class: 'pic' %>
+              <time>
+                <%= article.date.strftime('%m %d, %Y AT %I:%M %p') %>
+              </time>
+              <h4 class="title">
+                <%= link_to article.title, blog_section_article_path(article.article_cat, article.anchor) %>
+              </h4>
+              <div class="txt">
+                <%= article.text_short.html_safe %>
+              </div>
+            </article>
+          <% end %>
+        <% else %>
+          <div class="nonews">
+            NO ARTICLES
+          </div>
+        <% end %>
+
+      </div>
+      <% if @count > @max %>
+        <div class="row">
+          <a href="#" class="load_more" id="articles" data-limit="<%= @max %>" data-link="moreArticlesByTag">
+            <div class='content'>load more</div>
+            <div class='loader hidden'><img class="loader" src="/assets/i/loader.gif"></div>
+          </a>
+        </div>
+      <% end %>
+    </section>
+
+  </div>
+</div>

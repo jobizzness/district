@@ -1,0 +1,51 @@
+<div class="c_body contacts screen">
+  <%= render '/shared/breadcrumbs' %>
+
+  <div class="wrap">
+    <div class="half lft">
+      <div class="cont">
+        <h1>Lets Talk</h1>
+        <hr>
+        <div class="social-info">
+          <a href="" class="ph" data-val="<%= @data['phone'] %>"></a>
+          <a href="mailto:<%= @data['email'] %>" class="mail"></a>
+          <a href="<%= @data['facebook'] %>" class="fb" target="_blank"></a>
+          <a href="<%= @data['twitter'] %>" class="tw" target="_blank"></a>
+          <a href="<%= @data['pinterest'] %>" class="pint" target="_blank"></a>
+          <a href="<%= @data['instagram'] %>" class="inst" target="_blank"></a>
+          <a href="<%= @data['gp'] %>" class="gp" target="_blank"></a>
+          <a href="<%= @data['linkedin'] %>" class="in" target="_blank"></a>
+        </div>
+        <div class="details">
+          <div class="val"></div>
+        </div>
+        <div class="success hidden"></div>
+        <div class="inputs">
+          <form>
+            <div class="field"><input type="text" name="cemail" placeholder="email"></div>
+            <div class="error" id="cemail-error"></div>
+
+            <div class="field"><input type="text" name="cname" placeholder="name"></div>
+            <div class="field"><textarea name="cmessage" id="cmessage" cols="30" rows="10"></textarea></div>
+            <div class="error" id="cmessage-error"></div>
+
+            <div class="row">
+              <button type="submit" class="btn-black big sendhello">say hello</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?sensor=false', 'map' %>
+    <script>
+      $(document).ready(function(){
+        initialize()
+      });
+    </script>
+    <div class="half">
+      <div class="map">
+        <div id="map_canvas"></div>
+      </div>
+    </div>
+  </div>
+</div>

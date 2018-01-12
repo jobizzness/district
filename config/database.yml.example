@@ -1,0 +1,27 @@
+default: &defaults
+  username: root
+  password: ''
+  adapter: mysql2
+#  host: localhost
+  host: '127.0.0.1'
+#  min_messages: WARNING
+#  encoding: unicode
+  encoding: utf8
+  pool: 5
+  port: 4506
+
+development:
+  <<: *defaults
+  database: district
+
+test:
+  <<: *defaults
+  database: districtcomain_test
+
+production:
+  <<: *defaults
+  database: districtcomain_production
+
+staging:
+  <<: *defaults
+  database: districtcomain_staging
